@@ -1,0 +1,1541 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/amberwest.github.io/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/amberwest.github.io/css/main.css?v=6.2.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/amberwest.github.io/images/apple-touch-icon-next.png?v=6.2.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/amberwest.github.io/images/favicon-32x32-next.png?v=6.2.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/amberwest.github.io/images/favicon-16x16-next.png?v=6.2.0">
+
+
+  <link rel="mask-icon" href="/amberwest.github.io/images/logo.svg?v=6.2.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/amberwest.github.io/',
+    scheme: 'Mist',
+    version: '6.2.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="python中常用的字符串格式化方法有：%操作符、str.format()格式，还有python3.6新增的f-strings。不过要尽量使用format方式和f-strings，而不是%操作符。 %操作符基本形式为：%[(name)][flags][width].[precision]typecode flags是格式化字符串转换标记。">
+<meta name="keywords" content="格式化">
+<meta property="og:type" content="article">
+<meta property="og:title" content="python：字符串格式化方法">
+<meta property="og:url" content="http://amberwest.github.io/2018/07/22/python：字符串格式化方法/index.html">
+<meta property="og:site_name" content="Amberwest&#39;s Note">
+<meta property="og:description" content="python中常用的字符串格式化方法有：%操作符、str.format()格式，还有python3.6新增的f-strings。不过要尽量使用format方式和f-strings，而不是%操作符。 %操作符基本形式为：%[(name)][flags][width].[precision]typecode flags是格式化字符串转换标记。">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-07-24T04:02:57.620Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="python：字符串格式化方法">
+<meta name="twitter:description" content="python中常用的字符串格式化方法有：%操作符、str.format()格式，还有python3.6新增的f-strings。不过要尽量使用format方式和f-strings，而不是%操作符。 %操作符基本形式为：%[(name)][flags][width].[precision]typecode flags是格式化字符串转换标记。">
+
+
+
+
+
+
+  <link rel="canonical" href="http://amberwest.github.io/2018/07/22/python：字符串格式化方法/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>python：字符串格式化方法 | Amberwest's Note</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/amberwest.github.io/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Amberwest's Note</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/amberwest.github.io/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />Home</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/amberwest.github.io/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />Tags</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/amberwest.github.io/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />Categories</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/amberwest.github.io/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />Archives</a>
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />Search</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="Searching..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://amberwest.github.io/amberwest.github.io/2018/07/22/python：字符串格式化方法/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="amberwest">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/amberwest.github.io/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Amberwest's Note">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">python：字符串格式化方法
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2018-07-22 22:19:08" itemprop="dateCreated datePublished" datetime="2018-07-22T22:19:08+08:00">2018-07-22</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2018-07-24 12:02:57" itemprop="dateModified" datetime="2018-07-24T12:02:57+08:00">2018-07-24</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>python中常用的字符串格式化方法有：<code>%</code>操作符、<code>str.format()</code>格式，还有python3.6新增的<code>f-strings</code>。不过要尽量使用format方式和f-strings，而不是%操作符。</p>
+<h4 id="操作符"><a href="#操作符" class="headerlink" title="%操作符"></a>%操作符</h4><p>基本形式为：<code>%[(name)][flags][width].[precision]typecode</code></p>
+<p>flags是格式化字符串转换标记。</p>
+<a id="more"></a>
+<table>
+<thead>
+<tr>
+<th>转换标记</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-</td>
+<td>表示左对齐</td>
+</tr>
+<tr>
+<td>+</td>
+<td>在正数前面加上+</td>
+</tr>
+<tr>
+<td>‘ ’(a space)</td>
+<td>表示正数前面保留空格</td>
+</tr>
+<tr>
+<td>#</td>
+<td>在八进制树前显示零(‘0’)，在十六进制前显示Ox或者OX</td>
+</tr>
+<tr>
+<td>0</td>
+<td>表示转换值若位数不够用0填充而非默认的空格</td>
+</tr>
+</tbody>
+</table>
+<p>typecode是格式化字符串转换类型。</p>
+<table>
+<thead>
+<tr>
+<th>转换类型</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>s</td>
+<td>字符串（采用str()的显示）</td>
+</tr>
+<tr>
+<td>r</td>
+<td>字符串（采用repr()的显示）</td>
+</tr>
+<tr>
+<td>c</td>
+<td>单个字符</td>
+</tr>
+<tr>
+<td>b</td>
+<td>二进制整数</td>
+</tr>
+<tr>
+<td>i、d</td>
+<td>十进制整数</td>
+</tr>
+<tr>
+<td>o</td>
+<td>八进制整数</td>
+</tr>
+<tr>
+<td>x、X</td>
+<td>十六进制整数</td>
+</tr>
+<tr>
+<td>e、E</td>
+<td>指数（基底写为e/E）</td>
+</tr>
+<tr>
+<td>f、F</td>
+<td>浮点数</td>
+</tr>
+<tr>
+<td>g、G</td>
+<td>如果指数大于-4或者小于精度值则和e/E相同，其他情况和f/F相同</td>
+</tr>
+</tbody>
+</table>
+<p>%操作符格式化字符串有以下几种常见用法：</p>
+<ul>
+<li>直接格式化字符或者数值</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; price = 99</span><br><span class="line">&gt;&gt;&gt; s = <span class="string">'the price is %+10.2f'</span> % price</span><br><span class="line"></span><br><span class="line"><span class="string">'the price is     +99.00'</span></span><br></pre></td></tr></table></figure>
+<p><code>%+10.2f</code>也可以写为<code>%(price)+10.2f</code>，根据基本形式<code>%[(name)][flags][width].[precision]typecode</code>，其中name为price，flages为+，width为10，precision为2，即保留两位小数，typecode为f，即浮点数。</p>
+<ul>
+<li>以元组的形式格式化</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; s = <span class="string">'His name is %s, his age is %d'</span> % (<span class="string">'Adam'</span>, 22)</span><br><span class="line"></span><br><span class="line"><span class="string">'His name is Adam, his age is 22'</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>以字典的形式格式化</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; data = &#123;<span class="string">'name'</span>:<span class="string">'Adam'</span>, <span class="string">'age'</span>: 22 &#125;</span><br><span class="line">&gt;&gt;&gt; s = <span class="string">'His name is %(name)s, his age is %(age)d'</span> % data</span><br><span class="line"></span><br><span class="line"><span class="string">'His name is Adam, his age is 22'</span></span><br></pre></td></tr></table></figure>
+<h4 id="format格式化"><a href="#format格式化" class="headerlink" title=".format格式化"></a>.format格式化</h4><p><code>str.format()</code>的基本格式：<code>[[填充符]对齐方式][符号][#][0][宽度][,][.精确度][转换类型]</code>。填充符可以是除了”{“和”}”之外的任意符号，转换类型跟%操作符的转换类型类似。</p>
+<p>对齐方式</p>
+<table>
+<thead>
+<tr>
+<th>对齐方式</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>&lt;</td>
+<td>左对齐，是大多数对象默认的对齐方式</td>
+</tr>
+<tr>
+<td>&gt;</td>
+<td>右对齐，数值默认的对齐方式</td>
+</tr>
+<tr>
+<td>=</td>
+<td>仅对数值类型又小，如果有符号的话，在符号后数值前进行填充，如-000029</td>
+</tr>
+<tr>
+<td>^</td>
+<td>居中对齐，用空格进行填充</td>
+</tr>
+</tbody>
+</table>
+<p>符号列表</p>
+<table>
+<thead>
+<tr>
+<th>符号</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>+</td>
+<td>正数前加+，负数前加-</td>
+</tr>
+<tr>
+<td>-</td>
+<td>正数前不加符号，负数前加-，为数值的默认形式</td>
+</tr>
+<tr>
+<td>‘ ‘(空格)</td>
+<td>正数前加空格，负数前加-</td>
+</tr>
+</tbody>
+</table>
+<p>跟%操作符不同的一点是，有些转换类型是不同的</p>
+<table>
+<thead>
+<tr>
+<th>转换类型</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>!s</td>
+<td>字符串，调用str()方法</td>
+</tr>
+<tr>
+<td>!r</td>
+<td>字符串，调用repr()方法</td>
+</tr>
+<tr>
+<td>!a</td>
+<td>ascii()</td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; <span class="string">"&#123;0!r:&gt;20&#125;"</span>.format(<span class="string">"Hello"</span>)  <span class="comment"># '%+20r' % 'Hello'</span></span><br><span class="line"></span><br><span class="line"><span class="string">"             'Hello'"</span></span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; <span class="string">"&#123;0:&gt;20&#125;"</span>.format(<span class="string">"Hello"</span>)</span><br><span class="line"><span class="string">'               Hello'</span></span><br></pre></td></tr></table></figure>
+<p>.format方法常见用法如下：</p>
+<ul>
+<li>使用位置符号</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; <span class="string">"The number &#123;0:,&#125; in hex is: &#123;0:#x&#125;, the number &#123;1&#125; in oct is &#123;1:#0&#125;"</span>.format(4746, 45)</span><br><span class="line"></span><br><span class="line"><span class="string">'The number 4,746 in hex is: 0x128a, the number 45 in oct is 45'</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>使用名称</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; <span class="string">"the max number is &#123;max&#125;, the min number is &#123;min&#125;, the average number is &#123;average:0.3f&#125;"</span>.format(max=189, min=12.6, average=23.5)</span><br><span class="line"></span><br><span class="line"><span class="string">'the max number is 189, the min number is 12.6, the average number is 23.500'</span></span><br></pre></td></tr></table></figure>
+<p>如果需要进行更多的格式处理，就在<code>:</code>后面添加即可。如<code>&quot;{0:^20}&quot;.format(&quot;Hello&quot;)</code>.</p>
+<ul>
+<li>通过属性</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; class Customer(object):</span><br><span class="line">&gt;&gt;&gt;     def __init__(self, name, gender):</span><br><span class="line">...         self.name = name</span><br><span class="line">...         self.gender = gender</span><br><span class="line">        </span><br><span class="line">&gt;&gt;&gt;     def __str__(self):</span><br><span class="line">...         <span class="built_in">return</span> <span class="string">"Customer (&#123;self.name&#125;, &#123;self.gender&#125;)"</span>.format(self=self)</span><br><span class="line">    </span><br><span class="line">&gt;&gt;&gt; str(Customer(<span class="string">'Lisa'</span>, <span class="string">'Female'</span>))</span><br><span class="line"></span><br><span class="line"><span class="string">'Customer(Lisa, Female)'</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>格式化元组的具体项</li>
+</ul>
+<p>使用这种方式，参数的顺序与格式化的顺序不必完全相同</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; point = (1, 3)</span><br><span class="line">&gt;&gt;&gt; <span class="built_in">print</span>(<span class="string">'X:&#123;0[0]&#125;; Y:&#123;0[1]&#125;'</span>.format(point))</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; w = [(<span class="string">'a'</span>, 10), (<span class="string">'b'</span>, 20), (<span class="string">'c'</span>, 30)]</span><br><span class="line">&gt;&gt;&gt; f = <span class="string">'this is &#123;0[0]&#125;, this is &#123;0[1]&#125;'</span>.format</span><br><span class="line">&gt;&gt;&gt; <span class="keyword">for</span> i <span class="keyword">in</span> map(f, w):</span><br><span class="line">... 	<span class="built_in">print</span>(i)</span><br><span class="line">    </span><br><span class="line">this is a, this is 10</span><br><span class="line">this is b, this is 20</span><br><span class="line">this is c, this is 30</span><br></pre></td></tr></table></figure>
+<h4 id="f-strings"><a href="#f-strings" class="headerlink" title="f-strings"></a>f-strings</h4><p>python3.6之后新增了f-strings格式化语法，格式如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">f &apos; &lt;text&gt; &#123; &lt;expression&gt; &lt;optional !s, !r, or !a&gt; &lt;optional : format specifier&gt; &#125; &lt;text&gt; ... &apos;</span><br></pre></td></tr></table></figure>
+<p>基本用法：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; import datetime</span><br><span class="line">&gt;&gt;&gt; name = <span class="string">'Fred'</span></span><br><span class="line">&gt;&gt;&gt; age = 50</span><br><span class="line">&gt;&gt;&gt; anniversary = datetime.date(1991, 10, 12)</span><br><span class="line">&gt;&gt;&gt; f<span class="string">'My name is &#123;name&#125;, my age next year is &#123;age+1&#125;, my anniversary is &#123;anniversary:%A, %B %d, %Y&#125;.'</span></span><br><span class="line"><span class="string">'My name is Fred, my age next year is 51, my anniversary is Saturday, October 12, 1991.'</span></span><br></pre></td></tr></table></figure>
+<p>支持表达式：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; def foo():</span><br><span class="line">...   <span class="built_in">return</span> 20</span><br><span class="line">&gt;&gt;&gt; f<span class="string">'result=&#123;foo()&#125;'</span></span><br><span class="line"><span class="string">'result=20'</span></span><br></pre></td></tr></table></figure>
+<p>格式符：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; width = 10</span><br><span class="line">&gt;&gt;&gt; precision = 4</span><br><span class="line">&gt;&gt;&gt; value = decimal.Decimal(<span class="string">'12.34567'</span>)</span><br><span class="line">&gt;&gt;&gt; f<span class="string">'result: &#123;value:&#123;width&#125;.&#123;precision&#125;&#125;'</span></span><br><span class="line"><span class="string">'result:      12.35'</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 如果是整数的话，则不能传递精确度</span></span><br><span class="line">age = 50</span><br><span class="line">f<span class="string">'&#123;age:^10&#125;'</span></span><br></pre></td></tr></table></figure>
+<p>与原始字符串使用：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; header = <span class="string">'Subject'</span></span><br><span class="line">&gt;&gt;&gt; fr<span class="string">'&#123;header&#125;:\s+'</span></span><br><span class="line"><span class="string">'Subject:\\s+'</span></span><br></pre></td></tr></table></figure>
+<p>使用花括号：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; f<span class="string">"&#123;&#123; &#123;10 * 8&#125; &#125;&#125;"</span>  <span class="comment"># 注意空格</span></span><br><span class="line"><span class="string">'&#123; 80 &#125;'</span></span><br><span class="line">&gt;&gt;&gt; f<span class="string">"&#123;&#123; 10 * 8 &#125;&#125;"</span></span><br><span class="line"><span class="string">'&#123; 10 * 8 &#125;'</span></span><br></pre></td></tr></table></figure>
+<p>与匿名函数使用：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; f<span class="string">'&#123;(lambda x: x*2)(3)&#125;'</span> </span><br><span class="line"><span class="string">'6'</span></span><br></pre></td></tr></table></figure>
+<p>在f-strings中不能使用<code>\</code>，可以用单双引号进行区分，如果需要跨行，则使用三个单引号。</p>
+<h4 id="参考文章："><a href="#参考文章：" class="headerlink" title="参考文章："></a>参考文章：</h4><p>提高python代码编写质量的91个建议</p>
+<p><a href="https://docs.python.org/3/library/string.html#formatstrings" target="_blank" rel="noopener">common string operations</a></p>
+<p><a href="https://www.python.org/dev/peps/pep-0498/#similar-support-in-other-languages" target="_blank" rel="noopener">Literal String Interpolation</a></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/amberwest.github.io/tags/格式化/" rel="tag"># 格式化</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/amberwest.github.io/2018/07/19/python3-代理设置/" rel="next" title="python3：代理设置">
+                <i class="fa fa-chevron-left"></i> python3：代理设置
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/amberwest.github.io/2018/07/24/supervisor：配置及使用/" rel="prev" title="supervisor：配置及使用">
+                supervisor：配置及使用 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">amberwest</p>
+              <p class="site-description motion-element" itemprop="description">学习笔记</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/amberwest.github.io/archives/">
+                
+                    <span class="site-state-item-count">61</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/amberwest.github.io/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">7</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/amberwest.github.io/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">93</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:1006441720@qq.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-globe"></i>E-Mail</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#操作符"><span class="nav-number">1.</span> <span class="nav-text">%操作符</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#format格式化"><span class="nav-number">2.</span> <span class="nav-text">.format格式化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#f-strings"><span class="nav-number">3.</span> <span class="nav-text">f-strings</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#参考文章："><span class="nav-number">4.</span> <span class="nav-text">参考文章：</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">amberwest</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/theme-next/hexo-theme-next">NexT.Mist</a> v6.2.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/amberwest.github.io/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/amberwest.github.io/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/amberwest.github.io/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/amberwest.github.io/js/src/utils.js?v=6.2.0"></script>
+
+  <script type="text/javascript" src="/amberwest.github.io/js/src/motion.js?v=6.2.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/amberwest.github.io/js/src/scrollspy.js?v=6.2.0"></script>
+<script type="text/javascript" src="/amberwest.github.io/js/src/post-details.js?v=6.2.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/amberwest.github.io/js/src/bootstrap.js?v=6.2.0"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/amberwest.github.io/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('-1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

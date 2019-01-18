@@ -1,0 +1,1419 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/amberwest.github.io/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/amberwest.github.io/css/main.css?v=6.2.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/amberwest.github.io/images/apple-touch-icon-next.png?v=6.2.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/amberwest.github.io/images/favicon-32x32-next.png?v=6.2.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/amberwest.github.io/images/favicon-16x16-next.png?v=6.2.0">
+
+
+  <link rel="mask-icon" href="/amberwest.github.io/images/logo.svg?v=6.2.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/amberwest.github.io/',
+    scheme: 'Mist',
+    version: '6.2.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="标准颜色缩写 b： 蓝色 g： 绿 r： 红 c： 青 m： 品红 y： 黄 k： 黑 w： 白">
+<meta name="keywords" content="matplotlib, text,">
+<meta property="og:type" content="article">
+<meta property="og:title" content="matplotlib：图像元素">
+<meta property="og:url" content="http://amberwest.github.io/2018/12/12/matplotlib：图像元素/index.html">
+<meta property="og:site_name" content="Amberwest&#39;s Note">
+<meta property="og:description" content="标准颜色缩写 b： 蓝色 g： 绿 r： 红 c： 青 m： 品红 y： 黄 k： 黑 w： 白">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://amberwest.github.io/amberwest.github.io/2018/12/12/matplotlib：图像元素/图片1.png">
+<meta property="og:image" content="http://amberwest.github.io/amberwest.github.io/2018/12/12/matplotlib：图像元素/图片2.png">
+<meta property="og:image" content="http://amberwest.github.io/amberwest.github.io/2018/12/12/matplotlib：图像元素/图片3.png">
+<meta property="og:image" content="http://amberwest.github.io/amberwest.github.io/2018/12/12/matplotlib：图像元素/图片4.png">
+<meta property="og:image" content="http://amberwest.github.io/amberwest.github.io/2018/12/12/matplotlib：图像元素/图片5.png">
+<meta property="og:updated_time" content="2018-12-12T14:52:44.806Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="matplotlib：图像元素">
+<meta name="twitter:description" content="标准颜色缩写 b： 蓝色 g： 绿 r： 红 c： 青 m： 品红 y： 黄 k： 黑 w： 白">
+<meta name="twitter:image" content="http://amberwest.github.io/amberwest.github.io/2018/12/12/matplotlib：图像元素/图片1.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://amberwest.github.io/2018/12/12/matplotlib：图像元素/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>matplotlib：图像元素 | Amberwest's Note</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/amberwest.github.io/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Amberwest's Note</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/amberwest.github.io/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />Home</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/amberwest.github.io/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />Tags</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/amberwest.github.io/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />Categories</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/amberwest.github.io/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />Archives</a>
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />Search</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="Searching..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://amberwest.github.io/amberwest.github.io/2018/12/12/matplotlib：图像元素/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="amberwest">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/amberwest.github.io/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Amberwest's Note">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">matplotlib：图像元素
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2018-12-12 17:28:45 / Modified: 22:52:44" itemprop="dateCreated datePublished" datetime="2018-12-12T17:28:45+08:00">2018-12-12</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/amberwest.github.io/categories/matplotlib/" itemprop="url" rel="index"><span itemprop="name">matplotlib</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id="标准颜色缩写"><a href="#标准颜色缩写" class="headerlink" title="标准颜色缩写"></a>标准颜色缩写</h4><ul>
+<li>b： 蓝色</li>
+<li>g： 绿</li>
+<li>r： 红</li>
+<li>c： 青</li>
+<li>m： 品红</li>
+<li>y： 黄</li>
+<li>k： 黑</li>
+<li>w： 白<a id="more"></a></li>
+</ul>
+<h4 id="标准样式字符"><a href="#标准样式字符" class="headerlink" title="标准样式字符"></a>标准样式字符</h4><ul>
+<li><ul>
+<li>实线样式 </li>
+</ul>
+</li>
+<li>– 短划线样式</li>
+<li>-. 点实线样式</li>
+<li>:   虚线样式</li>
+<li>.  点标记</li>
+<li>,  像素标记</li>
+<li>o  圆标记</li>
+<li>v  向下三角形标记</li>
+<li>^  向上三角形标记</li>
+<li>&lt;  向左三角形标记</li>
+<li><code>&gt;</code>  向右三角形标记</li>
+<li>1  Tri_down标记</li>
+<li>2  Tri_up标记</li>
+<li>3  Tri_left标记</li>
+<li>4  Tri_right标记</li>
+<li>s  方形标记</li>
+<li>p  五边形标记</li>
+<li><code>*</code>  星号</li>
+<li>h  六角形标记1</li>
+<li>H  六角形标记2</li>
+<li><code>+</code>  加号</li>
+<li><code>x</code>  X标记</li>
+<li>D  菱形标记</li>
+<li>d  细菱形标记</li>
+<li>|  垂直标记</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> matplotlib <span class="keyword">as</span> mpl</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"></span><br><span class="line">np.random.seed(<span class="number">1000</span>)</span><br><span class="line">y = np.random.standard_normal(<span class="number">20</span>)</span><br><span class="line">x = range(len(y))</span><br><span class="line"></span><br><span class="line">plt.figure(figsize=(<span class="number">7</span>,<span class="number">4</span>))</span><br><span class="line">plt.plot(y.cumsum(), <span class="string">'b'</span>, lw=<span class="number">1.5</span>)</span><br><span class="line">plt.plot(y.cumsum(), <span class="string">'ms'</span>)</span><br><span class="line">plt.grid(<span class="keyword">True</span>)</span><br><span class="line">plt.axis(<span class="string">'tight'</span>)</span><br><span class="line">plt.xlabel(<span class="string">'index'</span>)</span><br><span class="line">plt.ylabel(<span class="string">'value'</span>)</span><br><span class="line">plt.title(<span class="string">'A simple plot'</span>)</span><br></pre></td></tr></table></figure>
+<img src="/amberwest.github.io/2018/12/12/matplotlib：图像元素/图片1.png">
+<h4 id="图例loc参数"><a href="#图例loc参数" class="headerlink" title="图例loc参数"></a>图例loc参数</h4><p>plt.legend(*args,**kwargs)有很多参数，常用的就是loc参数，可以是数字，也可以是英文，还可以直接用表示位置的元组。如：<code>plt.legend(loc=&#39;best&#39;) or plt.legend(loc=(0.5, 0.8))</code></p>
+<ul>
+<li>空白 自动</li>
+<li>0  最佳 best</li>
+<li>1  右上 upper right</li>
+<li>2  左上 upper left</li>
+<li>3  左下 lower left</li>
+<li>4  右下 lower right</li>
+<li>5  右 right</li>
+<li>6  中左  center left</li>
+<li>7  中右  center right</li>
+<li>8  中下  lower center</li>
+<li>9  中上  upper center</li>
+<li>10 中  center</li>
+</ul>
+<p>例子中除了常用的loc参数，还设置了其他的样式，具体的使用指南可以参考<a href="https://matplotlib.org/tutorials/intermediate/legend_guide.html" target="_blank" rel="noopener">官网</a></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">ax = plt.subplot(<span class="number">111</span>)</span><br><span class="line">t1 = np.arange(<span class="number">0.0</span>, <span class="number">1.0</span>, <span class="number">0.01</span>)</span><br><span class="line"><span class="keyword">for</span> n <span class="keyword">in</span> [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>]:</span><br><span class="line">    plt.plot(t1, t1**n, label=<span class="string">"n=%d"</span>%(n,)) <span class="comment"># 设置每个plot对应的图例</span></span><br><span class="line"></span><br><span class="line">leg = plt.legend(loc=<span class="string">'best'</span>,  </span><br><span class="line">                 ncol=<span class="number">2</span>,  <span class="comment"># 两行</span></span><br><span class="line">                 mode=<span class="string">"expand"</span>, <span class="comment"># 水平填充整个Axes区域，默认为none。如果bbox_to_anchor设置了legend的size则会覆盖mode</span></span><br><span class="line">                 shadow=<span class="keyword">True</span>,  <span class="comment"># 设置legend框的阴影</span></span><br><span class="line">                 fancybox=<span class="keyword">True</span>  <span class="comment"># 设置为False变化不大</span></span><br><span class="line">                )</span><br><span class="line">leg.get_frame().set_alpha(<span class="number">0.5</span>) <span class="comment"># 获取legend框并设置透明度</span></span><br><span class="line"></span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+<img src="/amberwest.github.io/2018/12/12/matplotlib：图像元素/图片2.png">
+<h4 id="text方法"><a href="#text方法" class="headerlink" title="text方法"></a>text方法</h4><p>给plot添加文本可以使用<code>plt.text()</code>方法，完整参数查看<a href="https://matplotlib.org/api/text_api.html#matplotlib.text.Text" target="_blank" rel="noopener">Text类</a></p>
+<blockquote>
+<p>matplotlib.text.Text(<em>x=0</em>, <em>y=0</em>, <em>text=’’</em>, <em>color=None</em>, <em>verticalalignment=’baseline’</em>, <em>horizontalalignment=’left’</em>, <em>multialignment=None</em>, <em>fontproperties=None</em>, <em>rotation=None</em>, <em>linespacing=None</em>, <em>rotation_mode=None</em>, <em>usetex=None</em>, <em>wrap=False</em>, *<em>\</em>kwargs*)</p>
+</blockquote>
+<p>常用参数：</p>
+<ul>
+<li>x，y：是文本s放置位置</li>
+<li>s：要添加的文本信息</li>
+<li>fontdict：设置文本样式，使用该参数是dict形式<code>fontdict={&#39;fontsize&#39;: 12}</code>，也可以直接用关键字参数如：<code>fontsize=12</code></li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"></span><br><span class="line">fig = plt.figure()</span><br><span class="line"><span class="comment"># 这里是suptitle，而不是subtitle</span></span><br><span class="line">fig.suptitle(<span class="string">'bold figure suptitle'</span>, fontsize=<span class="number">14</span>, fontweight=<span class="string">'bold'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 给Figure添加Axes对象</span></span><br><span class="line">ax = fig.add_subplot(<span class="number">111</span>)</span><br><span class="line"><span class="comment"># 调整ax的位置，参数有left=None, bottom=None, right=None, top=None,wspace=None, hspace=None</span></span><br><span class="line">fig.subplots_adjust(top=<span class="number">0.85</span>) </span><br><span class="line">ax.set_title(<span class="string">'axes title'</span>)</span><br><span class="line"></span><br><span class="line">ax.set_xlabel(<span class="string">'xlabel'</span>)</span><br><span class="line">ax.set_ylabel(<span class="string">'ylabel'</span>)</span><br><span class="line"></span><br><span class="line">ax.text(<span class="number">3</span>, <span class="number">8</span>, <span class="string">'boxed italics text in data coords'</span>, </span><br><span class="line">        style=<span class="string">'italic'</span>, <span class="comment"># style有三种选择，'normal', 'italic', 'oblique'</span></span><br><span class="line">        bbox=&#123;<span class="string">'facecolor'</span>:<span class="string">'red'</span>, <span class="string">'alpha'</span>:<span class="number">0.5</span>, <span class="string">'pad'</span>:<span class="number">10</span>&#125;  <span class="comment"># 给文本加上边框，并设置样式</span></span><br><span class="line">       )</span><br><span class="line"></span><br><span class="line">ax.text(<span class="number">2</span>, <span class="number">6</span>, <span class="string">r'an equation: $E=mc^2$'</span>, <span class="comment"># 记得带上r</span></span><br><span class="line">        fontdict=&#123;<span class="string">'fontsize'</span>: <span class="number">15</span>&#125;  <span class="comment"># 也可以直接用fontsize=15</span></span><br><span class="line">       )</span><br><span class="line"></span><br><span class="line"><span class="comment"># unicode也能识别</span></span><br><span class="line">ax.text(<span class="number">3</span>, <span class="number">2</span>, <span class="string">'unicode: Institut f\374r Festk\366rperphysik'</span>)</span><br><span class="line"></span><br><span class="line">ax.text(<span class="number">0.95</span>, <span class="number">0.01</span>, <span class="string">'colored text in axes coords'</span>,</span><br><span class="line">        verticalalignment=<span class="string">'bottom'</span>, horizontalalignment=<span class="string">'right'</span>,</span><br><span class="line">        transform=ax.transAxes,</span><br><span class="line">        color=<span class="string">'green'</span>, fontsize=<span class="number">15</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">ax.plot([<span class="number">2</span>], [<span class="number">1</span>], <span class="string">'o'</span>) <span class="comment"># 默认颜色为b</span></span><br><span class="line">ax.annotate(<span class="string">'annotate'</span>, xy=(<span class="number">2</span>, <span class="number">1</span>), xytext=(<span class="number">3</span>, <span class="number">4</span>),</span><br><span class="line">            arrowprops=dict(facecolor=<span class="string">'black'</span>, shrink=<span class="number">0.05</span>))</span><br><span class="line"></span><br><span class="line">ax.axis([<span class="number">0</span>, <span class="number">10</span>, <span class="number">0</span>, <span class="number">10</span>]) <span class="comment"># 设置x轴和y轴的范围[xmin, xmax, ymin, ymax]</span></span><br><span class="line"></span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+<img src="/amberwest.github.io/2018/12/12/matplotlib：图像元素/图片3.png">
+<p>对于数学表达式，可以用LaTeX语法直接编辑</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line">t = np.arange(<span class="number">0.0</span>, <span class="number">2.0</span>, <span class="number">0.01</span>)</span><br><span class="line">s = np.sin(<span class="number">2</span>*np.pi*t)</span><br><span class="line"></span><br><span class="line">plt.plot(t,s)</span><br><span class="line">plt.title(<span class="string">r'$\alpha_i &gt; \beta_i$'</span>, fontsize=<span class="number">20</span>)</span><br><span class="line">plt.text(<span class="number">1</span>, <span class="number">-0.6</span>, <span class="string">r'$\sum_&#123;i=0&#125;^\infty x_i$'</span>, fontsize=<span class="number">20</span>)</span><br><span class="line">plt.text(<span class="number">0.6</span>, <span class="number">0.6</span>, <span class="string">r'$\mathcal&#123;A&#125;\mathrm&#123;sin&#125;(2 \omega t)$'</span>,</span><br><span class="line">         fontsize=<span class="number">20</span>)</span><br><span class="line">plt.text(<span class="number">0.3</span>, <span class="number">0.98</span>, <span class="string">r'$local\ max$'</span>, fontsize=<span class="number">12</span>, horizontalalignment=<span class="string">'left'</span>, verticalalignment=<span class="string">'center'</span>, )</span><br><span class="line">plt.xlabel(<span class="string">'time (s)'</span>)</span><br><span class="line">plt.ylabel(<span class="string">'volts (mV)'</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+<img src="/amberwest.github.io/2018/12/12/matplotlib：图像元素/图片4.png">
+<h4 id="scales"><a href="#scales" class="headerlink" title="scales"></a>scales</h4><p>直接看例子</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> matplotlib.ticker <span class="keyword">import</span> NullFormatter  <span class="comment"># useful for `logit` scale</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Fixing random state for reproducibility</span></span><br><span class="line">np.random.seed(<span class="number">19680801</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># make up some data in the interval ]0, 1[</span></span><br><span class="line">y = np.random.normal(loc=<span class="number">0.5</span>, scale=<span class="number">0.4</span>, size=<span class="number">1000</span>)</span><br><span class="line">y = y[(y &gt; <span class="number">0</span>) &amp; (y &lt; <span class="number">1</span>)]</span><br><span class="line">y.sort()</span><br><span class="line">x = np.arange(len(y))</span><br><span class="line"></span><br><span class="line"><span class="comment"># plot with various axes scales</span></span><br><span class="line">plt.figure(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># linear</span></span><br><span class="line">plt.subplot(<span class="number">221</span>)</span><br><span class="line">plt.plot(x, y)</span><br><span class="line">plt.yscale(<span class="string">'linear'</span>)</span><br><span class="line">plt.title(<span class="string">'linear'</span>)</span><br><span class="line">plt.grid(<span class="keyword">True</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># log</span></span><br><span class="line">plt.subplot(<span class="number">222</span>)</span><br><span class="line">plt.plot(x, y)</span><br><span class="line">plt.yscale(<span class="string">'log'</span>)</span><br><span class="line">plt.title(<span class="string">'log'</span>)</span><br><span class="line">plt.grid(<span class="keyword">True</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># symmetric log</span></span><br><span class="line">plt.subplot(<span class="number">223</span>)</span><br><span class="line">plt.plot(x, y - y.mean())</span><br><span class="line">plt.yscale(<span class="string">'symlog'</span>, linthreshy=<span class="number">0.01</span>)</span><br><span class="line">plt.title(<span class="string">'symlog'</span>)</span><br><span class="line">plt.grid(<span class="keyword">True</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># logit</span></span><br><span class="line">plt.subplot(<span class="number">224</span>)</span><br><span class="line">plt.plot(x, y)</span><br><span class="line">plt.yscale(<span class="string">'logit'</span>)</span><br><span class="line">plt.title(<span class="string">'logit'</span>)</span><br><span class="line">plt.grid(<span class="keyword">True</span>)</span><br><span class="line"><span class="comment"># Format the minor tick labels of the y-axis into empty strings with</span></span><br><span class="line"><span class="comment"># `NullFormatter`, to avoid cumbering the axis with too many labels.</span></span><br><span class="line">plt.gca().yaxis.set_minor_formatter(NullFormatter())</span><br><span class="line"><span class="comment"># Adjust the subplot layout, because the logit one may take more space</span></span><br><span class="line"><span class="comment"># than usual, due to y-tick labels like "1 - 10^&#123;-3&#125;"</span></span><br><span class="line">plt.subplots_adjust(top=<span class="number">0.92</span>, bottom=<span class="number">0.08</span>, left=<span class="number">0.10</span>, right=<span class="number">0.90</span>, <span class="comment"># 调整子图的布局</span></span><br><span class="line">                    hspace=<span class="number">0.35</span>, wspace=<span class="number">0.35</span> <span class="comment"># 设置子图之间的距离</span></span><br><span class="line">                   )</span><br><span class="line"></span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+<img src="/amberwest.github.io/2018/12/12/matplotlib：图像元素/图片5.png">
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/amberwest.github.io/tags/matplotlib-text/" rel="tag"># matplotlib, text,</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/amberwest.github.io/2018/12/12/matplotlib：boxplot箱形图/" rel="next" title="matplotlib：boxplot箱线图">
+                <i class="fa fa-chevron-left"></i> matplotlib：boxplot箱线图
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/amberwest.github.io/2019/01/18/解决matplotlib中文乱码/" rel="prev" title="解决matplotlib中文乱码">
+                解决matplotlib中文乱码 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">amberwest</p>
+              <p class="site-description motion-element" itemprop="description">学习笔记</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/amberwest.github.io/archives/">
+                
+                    <span class="site-state-item-count">61</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/amberwest.github.io/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">7</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/amberwest.github.io/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">93</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:1006441720@qq.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-globe"></i>E-Mail</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#标准颜色缩写"><span class="nav-number">1.</span> <span class="nav-text">标准颜色缩写</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#标准样式字符"><span class="nav-number">2.</span> <span class="nav-text">标准样式字符</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#图例loc参数"><span class="nav-number">3.</span> <span class="nav-text">图例loc参数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#text方法"><span class="nav-number">4.</span> <span class="nav-text">text方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#scales"><span class="nav-number">5.</span> <span class="nav-text">scales</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">amberwest</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/theme-next/hexo-theme-next">NexT.Mist</a> v6.2.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/amberwest.github.io/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/amberwest.github.io/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/amberwest.github.io/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/amberwest.github.io/js/src/utils.js?v=6.2.0"></script>
+
+  <script type="text/javascript" src="/amberwest.github.io/js/src/motion.js?v=6.2.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/amberwest.github.io/js/src/scrollspy.js?v=6.2.0"></script>
+<script type="text/javascript" src="/amberwest.github.io/js/src/post-details.js?v=6.2.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/amberwest.github.io/js/src/bootstrap.js?v=6.2.0"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/amberwest.github.io/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('-1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

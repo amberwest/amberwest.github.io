@@ -1,0 +1,1849 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/amberwest.github.io/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/amberwest.github.io/css/main.css?v=6.2.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/amberwest.github.io/images/apple-touch-icon-next.png?v=6.2.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/amberwest.github.io/images/favicon-32x32-next.png?v=6.2.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/amberwest.github.io/images/favicon-16x16-next.png?v=6.2.0">
+
+
+  <link rel="mask-icon" href="/amberwest.github.io/images/logo.svg?v=6.2.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/amberwest.github.io/',
+    scheme: 'Mist',
+    version: '6.2.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="在终端登录到redis数据库的步骤如下：  登录redis-server  1redis-server /path/to/the/config/file  登录redis-cli  1234567# 如果没有密码就直接redis-cliredis-cli -a your-password# 也可以进入到redis之后再使用auth your-password进行验证# 如果是远程访问redis服务">
+<meta name="keywords" content="redis">
+<meta property="og:type" content="article">
+<meta property="og:title" content="redis基本数据结构和基本操作">
+<meta property="og:url" content="http://amberwest.github.io/2018/07/12/redis常用API/index.html">
+<meta property="og:site_name" content="Amberwest&#39;s Note">
+<meta property="og:description" content="在终端登录到redis数据库的步骤如下：  登录redis-server  1redis-server /path/to/the/config/file  登录redis-cli  1234567# 如果没有密码就直接redis-cliredis-cli -a your-password# 也可以进入到redis之后再使用auth your-password进行验证# 如果是远程访问redis服务">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://amberwest.github.io/amberwest.github.io/2018/07/12/redis常用API/cli.png">
+<meta property="og:image" content="http://amberwest.github.io/amberwest.github.io/2018/07/12/redis常用API/user.png">
+<meta property="og:updated_time" content="2018-10-07T09:27:21.114Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="redis基本数据结构和基本操作">
+<meta name="twitter:description" content="在终端登录到redis数据库的步骤如下：  登录redis-server  1redis-server /path/to/the/config/file  登录redis-cli  1234567# 如果没有密码就直接redis-cliredis-cli -a your-password# 也可以进入到redis之后再使用auth your-password进行验证# 如果是远程访问redis服务">
+<meta name="twitter:image" content="http://amberwest.github.io/amberwest.github.io/2018/07/12/redis常用API/cli.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://amberwest.github.io/2018/07/12/redis常用API/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>redis基本数据结构和基本操作 | Amberwest's Note</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/amberwest.github.io/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Amberwest's Note</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/amberwest.github.io/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />Home</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/amberwest.github.io/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />Tags</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/amberwest.github.io/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />Categories</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/amberwest.github.io/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />Archives</a>
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />Search</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="Searching..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://amberwest.github.io/amberwest.github.io/2018/07/12/redis常用API/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="amberwest">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/amberwest.github.io/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Amberwest's Note">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">redis基本数据结构和基本操作
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2018-07-12 18:42:31" itemprop="dateCreated datePublished" datetime="2018-07-12T18:42:31+08:00">2018-07-12</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2018-10-07 17:27:21" itemprop="dateModified" datetime="2018-10-07T17:27:21+08:00">2018-10-07</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>在终端登录到redis数据库的步骤如下：</p>
+<ol>
+<li>登录redis-server</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">redis-server /path/to/the/config/file</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>登录redis-cli</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># 如果没有密码就直接redis-cli</span><br><span class="line">redis-cli -a your-password</span><br><span class="line"></span><br><span class="line"># 也可以进入到redis之后再使用auth your-password进行验证</span><br><span class="line"></span><br><span class="line"># 如果是远程访问redis服务，前提是，远程redis服务也已经开启，方式如上所示</span><br><span class="line">redis-cli -h remote_ip -p port</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>选择数据库</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select 1</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<img src="/amberwest.github.io/2018/07/12/redis常用API/cli.png">
+<h4 id="通用命令"><a href="#通用命令" class="headerlink" title="通用命令"></a>通用命令</h4><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>说明</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>keys [pattern]</td>
+<td>遍历符合条件的所有键</td>
+<td>该命令一般不在生产环境中使用</td>
+</tr>
+<tr>
+<td>dbsize</td>
+<td>显示 当前库的key数目</td>
+<td></td>
+</tr>
+<tr>
+<td>exists key</td>
+<td>查看某个key是否存在</td>
+<td></td>
+</tr>
+<tr>
+<td>ttl key</td>
+<td>查看key还有多少时间才过期</td>
+<td>结果&gt;0说明还有对应的秒数才过期；<br> -1说明key存在，并且没有过期时间   <br>-2说明key已经不存在了</td>
+</tr>
+<tr>
+<td>persist key</td>
+<td>去掉key的过期时间</td>
+<td></td>
+</tr>
+<tr>
+<td>del key1 key2</td>
+<td>删除key-value</td>
+<td>可以删除多个key，以空格隔开</td>
+</tr>
+<tr>
+<td>expire key seconds（具体秒数）</td>
+<td>key在seconds秒之后过期</td>
+<td></td>
+</tr>
+<tr>
+<td>type key</td>
+<td>返回key的类型</td>
+<td></td>
+</tr>
+<tr>
+<td>flushdb</td>
+<td>删除当前数据库中所有key</td>
+<td></td>
+</tr>
+<tr>
+<td>flushall</td>
+<td>删除所有数据库的所有key</td>
+<td></td>
+</tr>
+<tr>
+<td>config key *</td>
+<td>查看所有的可配置选项</td>
+<td></td>
+</tr>
+<tr>
+<td>rename key newkey</td>
+<td>修改key的名字</td>
+<td></td>
+</tr>
+<tr>
+<td>renamenx key newkey</td>
+<td>仅当newkey不存在时，将key修改为newkey</td>
+<td></td>
+</tr>
+<tr>
+<td>move key db</td>
+<td>将当前数据库的key移动到给定的数据库db当中</td>
+<td></td>
+</tr>
+<tr>
+<td>dump key</td>
+<td>序列化key，并返回被序列化的值</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h4 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h4><h5 id="字符串（string）"><a href="#字符串（string）" class="headerlink" title="字符串（string）"></a>字符串（string）</h5><p>mget、mset时间复杂度为O(n)，其他的操作都为O(1)</p>
+<table>
+<thead>
+<tr>
+<th>API</th>
+<th>说明</th>
+<th>例子</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>set</td>
+<td>设置/修改数据</td>
+<td>set hello world</td>
+<td>只能对单个操作，get和del也是</td>
+</tr>
+<tr>
+<td>get</td>
+<td>获取</td>
+<td>get hello</td>
+<td></td>
+</tr>
+<tr>
+<td>del</td>
+<td>删除</td>
+<td>del hello</td>
+<td></td>
+</tr>
+<tr>
+<td>incr、decr</td>
+<td>自增、自减</td>
+<td>incr count</td>
+<td>key不存在那么执行之后key为1/-1</td>
+</tr>
+<tr>
+<td>incrby、decrby</td>
+<td>按指定数值进行增加(减少)</td>
+<td>incrby count 10</td>
+<td>incrby/decrby key num</td>
+</tr>
+<tr>
+<td>setnx</td>
+<td>key不存在时才能设置成功</td>
+<td>setnx php best</td>
+<td>setnx key value</td>
+</tr>
+<tr>
+<td>getset</td>
+<td>更新并返回旧key</td>
+<td>getset count 99</td>
+<td>getset key newvalue</td>
+</tr>
+<tr>
+<td>mset、mget</td>
+<td>批量操作</td>
+<td>mset k1 v1 k2 v2</td>
+<td>mset / mget key1 value1 key2 value2</td>
+</tr>
+<tr>
+<td>append</td>
+<td>将value追加到旧的value后面</td>
+<td>append k1 v3</td>
+<td>append key value，类似字符串拼接</td>
+</tr>
+<tr>
+<td>strlen</td>
+<td>返回key的字节长度</td>
+<td>strlen k1</td>
+<td>strlen key</td>
+</tr>
+<tr>
+<td>incrbyfloat</td>
+<td>给key增加浮点数</td>
+<td>incrbyfloat num 3.5</td>
+<td>incrbyfloat key num(float)</td>
+</tr>
+<tr>
+<td>getrange</td>
+<td>获取字符串指定下标的所有值</td>
+<td>getrange hello 1 3</td>
+<td>getrange key start end，包括end</td>
+</tr>
+<tr>
+<td>setrange</td>
+<td>设置指定下标对应的值</td>
+<td>setrange hello 1 h</td>
+<td>setrange key index vale</td>
+</tr>
+</tbody>
+</table>
+<h5 id="列表（list）"><a href="#列表（list）" class="headerlink" title="列表（list）"></a>列表（list）</h5><table>
+<thead>
+<tr>
+<th>API</th>
+<th>说明</th>
+<th>例子</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>rpush</td>
+<td>从列表右边插入多个值</td>
+<td>rpush listkey c b a</td>
+<td>rpush key value1 value2 value3</td>
+</tr>
+<tr>
+<td>lpush</td>
+<td>从列表左边插入多个值</td>
+<td>lpush listkey c b a</td>
+<td>lpush key value1 value2 value3</td>
+</tr>
+<tr>
+<td>linsert</td>
+<td>在指定的value前面/后面插入newvalue</td>
+<td>linsert listkey before a java</td>
+<td>linsert key before / after value newvalue</td>
+</tr>
+<tr>
+<td>lpop</td>
+<td>从列表左边弹出一个item</td>
+<td>lpop listkey</td>
+<td>lpop key</td>
+</tr>
+<tr>
+<td>rpop</td>
+<td>从列表右边弹出一个item</td>
+<td>rpop listkey</td>
+<td>rpop key</td>
+</tr>
+<tr>
+<td>lrem</td>
+<td>删除count个与value相同的项<br>count&gt;0：<br>从左到右最多删除count个value相等的项 ；<br>count&lt;0：<br>从右到左最多删除count个value相等的项 ；<br> count=0：<br>删除列表中所有等于value的项</td>
+<td>lrem listkey -1 c <br> lrem listkey 0 b</td>
+<td>lrem key count value</td>
+</tr>
+<tr>
+<td>lrange</td>
+<td>获取列表指定索引范围所有item</td>
+<td>lrange listkey 2 5 <br> lrange listkey -6 -1</td>
+<td>lrange key start end(包含end）</td>
+</tr>
+<tr>
+<td>ltrim</td>
+<td>按照索引范围修剪列表</td>
+<td>ltrim listkey 0 6</td>
+<td>ltrim key start end</td>
+</tr>
+<tr>
+<td>lindex</td>
+<td>根据指定的index来获取对应的item</td>
+<td>lindex listkey 2</td>
+<td>lindex key index</td>
+</tr>
+<tr>
+<td>llen</td>
+<td>获取列表长度</td>
+<td>llen listkey</td>
+<td>llen key</td>
+</tr>
+<tr>
+<td>lset</td>
+<td>设置列表指定索引值为newvalue</td>
+<td>lset listkey 3 java</td>
+<td>lset key index newvalue</td>
+</tr>
+<tr>
+<td>blpop</td>
+<td>blpop的阻塞版本，指定阻塞时间，timeout=0为永不阻塞，O(1)</td>
+<td>blpop listkey 3</td>
+<td>blpop key timeout</td>
+</tr>
+<tr>
+<td>brpop</td>
+<td>brpop的阻塞版本，指定阻塞时间，timeout=0为永不阻塞，O(1)</td>
+<td>brpop listkey 3</td>
+<td>brpop key timeout</td>
+</tr>
+</tbody>
+</table>
+<p>可以利用列表的一些特征实现一些功能：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">lpush+lpop=stack</span><br><span class="line"></span><br><span class="line">lpush+rpop=queue</span><br><span class="line"></span><br><span class="line">lpush+ltrim=capped collection</span><br><span class="line"></span><br><span class="line">lpush+brpop=message queue</span><br></pre></td></tr></table></figure>
+<h5 id="集合（set）"><a href="#集合（set）" class="headerlink" title="集合（set）"></a>集合（set）</h5><table>
+<thead>
+<tr>
+<th>API</th>
+<th>说明</th>
+<th>例子</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>sadd</td>
+<td>向集合key添加element，只有当element不存在才能成功添加</td>
+<td>sadd user:1:follow it music his sports</td>
+<td>sadd key element1 element2 …</td>
+</tr>
+<tr>
+<td>srem</td>
+<td>将集合key中的element剔除</td>
+<td>srem user:1:follow his</td>
+<td>seem key element</td>
+</tr>
+<tr>
+<td>scard</td>
+<td>获取集合key的长度</td>
+<td>scard user:1:follow</td>
+<td>scard key</td>
+</tr>
+<tr>
+<td>sismember</td>
+<td>判断element是否存在于集合key</td>
+<td>sismember user:1:follow it</td>
+<td>sismember key element</td>
+</tr>
+<tr>
+<td>srandmember</td>
+<td>从集合key中随机取出一个item<br>（与spop不同的是，该方法不删除element）</td>
+<td>srandmember user:1:follow</td>
+<td>srandmember key</td>
+</tr>
+<tr>
+<td>smembers</td>
+<td>获取集合key中的所有item</td>
+<td>smembers user:1:follow</td>
+<td>smembers key</td>
+</tr>
+<tr>
+<td>spop</td>
+<td>随机弹出一个元素（删除）</td>
+<td>spop user:1:follow</td>
+<td>spop key</td>
+</tr>
+<tr>
+<td>sdiff</td>
+<td>差集</td>
+<td>sdiff user:2:follow user:1:follow</td>
+<td>sdiff key1 key2</td>
+</tr>
+<tr>
+<td>sinter</td>
+<td>交集</td>
+<td>sinter user:1:follow user:2:follow</td>
+<td>sinter key1 key2</td>
+</tr>
+<tr>
+<td>sunion</td>
+<td>并集</td>
+<td>sunion user:1:follow user:2:follow</td>
+<td>sunion key1 key2</td>
+</tr>
+</tbody>
+</table>
+<p>集合的一些应用：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sadd = tagging（标签管理）</span><br><span class="line"></span><br><span class="line">spop/srandmember = random item（随机数）</span><br><span class="line"></span><br><span class="line">sadd + sinter = social graph（社交，如关注）</span><br></pre></td></tr></table></figure>
+<h5 id="散列表（hash）"><a href="#散列表（hash）" class="headerlink" title="散列表（hash）"></a>散列表（hash）</h5><p>所有api都是h开头的，hgetall、hvals、hkeys、hmget、hmset时间复杂度都是O(n)</p>
+<table>
+<thead>
+<tr>
+<th>API</th>
+<th>说明</th>
+<th>例子</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>hget、hset、hdel</td>
+<td>获取、添加、删除单个filed的值</td>
+<td>hset user:1:info age 23    <br>hset user:1:info name Tom  <br> hget user:1:info age</td>
+<td>hset key filed1 value1<br>hget key   filed<br>del key field    <br>这个例子的key比较复杂，<br>代表user中1号的信息，<br>一般就是hset info name Tom</td>
+</tr>
+<tr>
+<td>hsetnx</td>
+<td>field不存在才能设置</td>
+<td>hsetnx user:1:info hobby football</td>
+<td>hsetnx key field value</td>
+</tr>
+<tr>
+<td>hexists</td>
+<td>判断hash key是否含有filed</td>
+<td>hexists user:1:info age</td>
+<td>hexists key field</td>
+</tr>
+<tr>
+<td>hlen</td>
+<td>判断hash key filed的数量</td>
+<td>hlen user:1:info</td>
+<td>hlen key</td>
+</tr>
+<tr>
+<td>hmget、hmset</td>
+<td>批量操作</td>
+<td>hmset user:2:info age 30 name kaka page   50   <br> hmget user:2:info age name</td>
+<td>hmset key field1 value1 filed2   value2   <br> hmget key field1 field2</td>
+</tr>
+<tr>
+<td>hincrby</td>
+<td>按指定的数量增加</td>
+<td>hincrby user:1:info pageview 1</td>
+<td>hincrby key field num<br>没有hdecrby</td>
+</tr>
+<tr>
+<td>hincrbyfloat</td>
+<td>增加浮点数</td>
+<td>hincrbyfloat user:1:info pageview 3.5</td>
+<td>hincrbyfloat key field num(float)</td>
+</tr>
+<tr>
+<td>hgetall</td>
+<td>获取全部的fields</td>
+<td>hgetall user:1:info</td>
+<td>hgetall key</td>
+</tr>
+<tr>
+<td>hvals</td>
+<td>获取全部的values</td>
+<td>hvals user:1:info</td>
+<td>hvals key</td>
+</tr>
+<tr>
+<td>hkeys</td>
+<td>获取全部的keys</td>
+<td>hkeys user:1:info</td>
+<td>hkeys key</td>
+</tr>
+</tbody>
+</table>
+<h5 id="有序集合（zset）"><a href="#有序集合（zset）" class="headerlink" title="有序集合（zset）"></a>有序集合（zset）</h5><table>
+<thead>
+<tr>
+<th>API</th>
+<th>说明</th>
+<th>例子</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>zadd</td>
+<td>添加score和elemen</td>
+<td>zadd user:1:ranking 2 kris</td>
+<td>zadd key score element(可以多对)</td>
+</tr>
+<tr>
+<td>zrem</td>
+<td>删除元素</td>
+<td>zrem user:1:ranking amber</td>
+<td>zrem key element (可以多对)</td>
+</tr>
+<tr>
+<td>zscore</td>
+<td>返回元素的分数</td>
+<td>zscore user:1:ranking tom</td>
+<td>zscore key element</td>
+</tr>
+<tr>
+<td>zincrby</td>
+<td>对element增加/减少incrScore分数，inrcScore为负数表示减少</td>
+<td>zincrby user:1:ranking 60 amber</td>
+<td>zincrby key incrScore element</td>
+</tr>
+<tr>
+<td>zcard</td>
+<td>返回key的元素个数</td>
+<td>zcard user:1:ranking</td>
+<td>zcard key</td>
+</tr>
+<tr>
+<td>zrank</td>
+<td>返回元素在key中的排名</td>
+<td>zrank user:1:ranking amber</td>
+<td>zrank key element</td>
+</tr>
+<tr>
+<td>zrange</td>
+<td>列出key中元素指定范围的升序元素（分数）</td>
+<td>zrange user:1:ranking 0 -1 withscores <br>例子表示对全部的数据排名</td>
+<td>zrange key start end [withscores]</td>
+</tr>
+<tr>
+<td>zrangebyscore</td>
+<td>返回指定分数范围内的升序元素（分数）</td>
+<td>zrangebyscore user:1:ranking 15 25 withscores</td>
+<td>zrangebyscore key minScore maxScore [withscores]</td>
+</tr>
+<tr>
+<td>zcount</td>
+<td>返回指定分数范围内的元素个数</td>
+<td>zcount user:1:ranking 100 180</td>
+<td>zcount key minScore maxScore</td>
+</tr>
+<tr>
+<td>zremrangebyrank</td>
+<td>删除指定排名内的升序元素</td>
+<td>zremrangebyrank user:1:ranking 0 1</td>
+<td>zremrangebyrank key start end(包括end)</td>
+</tr>
+<tr>
+<td>zrevrange</td>
+<td>反向排序，与zrange相反</td>
+<td>zrevrange user:1:ranking 0 -1</td>
+<td>zrevrange key start end</td>
+</tr>
+<tr>
+<td>zunionscore/zinterscore</td>
+<td>集合间操作</td>
+<td></td>
+<td>zunionstore/zinterstore</td>
+</tr>
+</tbody>
+</table>
+<p>关于key user:1:info和users:1的区别：</p>
+<img src="/amberwest.github.io/2018/07/12/redis常用API/user.png">
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/amberwest.github.io/tags/redis/" rel="tag"># redis</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/amberwest.github.io/2018/07/12/自定义异常/" rel="next" title="自定义异常">
+                <i class="fa fa-chevron-left"></i> 自定义异常
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/amberwest.github.io/2018/07/19/python3-代理设置/" rel="prev" title="python3：代理设置">
+                python3：代理设置 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">amberwest</p>
+              <p class="site-description motion-element" itemprop="description">学习笔记</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/amberwest.github.io/archives/">
+                
+                    <span class="site-state-item-count">61</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/amberwest.github.io/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">7</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/amberwest.github.io/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">93</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:1006441720@qq.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-globe"></i>E-Mail</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#通用命令"><span class="nav-number">1.</span> <span class="nav-text">通用命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数据结构"><span class="nav-number">2.</span> <span class="nav-text">数据结构</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#字符串（string）"><span class="nav-number">2.1.</span> <span class="nav-text">字符串（string）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#列表（list）"><span class="nav-number">2.2.</span> <span class="nav-text">列表（list）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#集合（set）"><span class="nav-number">2.3.</span> <span class="nav-text">集合（set）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#散列表（hash）"><span class="nav-number">2.4.</span> <span class="nav-text">散列表（hash）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#有序集合（zset）"><span class="nav-number">2.5.</span> <span class="nav-text">有序集合（zset）</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">amberwest</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/theme-next/hexo-theme-next">NexT.Mist</a> v6.2.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/amberwest.github.io/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/amberwest.github.io/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/amberwest.github.io/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/amberwest.github.io/js/src/utils.js?v=6.2.0"></script>
+
+  <script type="text/javascript" src="/amberwest.github.io/js/src/motion.js?v=6.2.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/amberwest.github.io/js/src/scrollspy.js?v=6.2.0"></script>
+<script type="text/javascript" src="/amberwest.github.io/js/src/post-details.js?v=6.2.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/amberwest.github.io/js/src/bootstrap.js?v=6.2.0"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/amberwest.github.io/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('-1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

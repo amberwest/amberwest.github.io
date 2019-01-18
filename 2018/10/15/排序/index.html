@@ -1,0 +1,1416 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/amberwest.github.io/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/amberwest.github.io/css/main.css?v=6.2.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/amberwest.github.io/images/apple-touch-icon-next.png?v=6.2.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/amberwest.github.io/images/favicon-32x32-next.png?v=6.2.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/amberwest.github.io/images/favicon-16x16-next.png?v=6.2.0">
+
+
+  <link rel="mask-icon" href="/amberwest.github.io/images/logo.svg?v=6.2.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/amberwest.github.io/',
+    scheme: 'Mist',
+    version: '6.2.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="如何分析一个“算法”排序算法的执行效率1）最好情况、最坏情况、平均情况时间复杂度 在分析排序算法的时候，要分别给出最好情况、最坏情况、平均情况下的时间复杂度，以及对应情况下要排序的原始数据是什么样的（有序或者无序）。 2）时间复杂度的系数、常数、低阶 实际开发中，需要排序的数据可能是10个、100个、1000个这种小规模的数据，所以需要将时间复杂度的系数、常数、低阶都考虑到。">
+<meta name="keywords" content="排序,冒泡排序,插入排序,选择排序">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【数据结构与算法笔记七】排序（上）">
+<meta property="og:url" content="http://amberwest.github.io/2018/10/15/排序/index.html">
+<meta property="og:site_name" content="Amberwest&#39;s Note">
+<meta property="og:description" content="如何分析一个“算法”排序算法的执行效率1）最好情况、最坏情况、平均情况时间复杂度 在分析排序算法的时候，要分别给出最好情况、最坏情况、平均情况下的时间复杂度，以及对应情况下要排序的原始数据是什么样的（有序或者无序）。 2）时间复杂度的系数、常数、低阶 实际开发中，需要排序的数据可能是10个、100个、1000个这种小规模的数据，所以需要将时间复杂度的系数、常数、低阶都考虑到。">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-10-18T06:14:53.762Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【数据结构与算法笔记七】排序（上）">
+<meta name="twitter:description" content="如何分析一个“算法”排序算法的执行效率1）最好情况、最坏情况、平均情况时间复杂度 在分析排序算法的时候，要分别给出最好情况、最坏情况、平均情况下的时间复杂度，以及对应情况下要排序的原始数据是什么样的（有序或者无序）。 2）时间复杂度的系数、常数、低阶 实际开发中，需要排序的数据可能是10个、100个、1000个这种小规模的数据，所以需要将时间复杂度的系数、常数、低阶都考虑到。">
+
+
+
+
+
+
+  <link rel="canonical" href="http://amberwest.github.io/2018/10/15/排序/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>【数据结构与算法笔记七】排序（上） | Amberwest's Note</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/amberwest.github.io/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Amberwest's Note</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/amberwest.github.io/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />Home</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/amberwest.github.io/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />Tags</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/amberwest.github.io/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />Categories</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/amberwest.github.io/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />Archives</a>
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />Search</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="Searching..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://amberwest.github.io/amberwest.github.io/2018/10/15/排序/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="amberwest">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/amberwest.github.io/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Amberwest's Note">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">【数据结构与算法笔记七】排序（上）
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2018-10-15 22:31:17" itemprop="dateCreated datePublished" datetime="2018-10-15T22:31:17+08:00">2018-10-15</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2018-10-18 14:14:53" itemprop="dateModified" datetime="2018-10-18T14:14:53+08:00">2018-10-18</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/amberwest.github.io/categories/数据结构与算法/" itemprop="url" rel="index"><span itemprop="name">数据结构与算法</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id="如何分析一个“算法”"><a href="#如何分析一个“算法”" class="headerlink" title="如何分析一个“算法”"></a>如何分析一个“算法”</h4><h5 id="排序算法的执行效率"><a href="#排序算法的执行效率" class="headerlink" title="排序算法的执行效率"></a>排序算法的执行效率</h5><p>1）最好情况、最坏情况、平均情况时间复杂度</p>
+<p>在分析排序算法的时候，要分别给出最好情况、最坏情况、平均情况下的时间复杂度，以及对应情况下要排序的原始数据是什么样的（有序或者无序）。</p>
+<p>2）时间复杂度的系数、常数、低阶</p>
+<p>实际开发中，需要排序的数据可能是10个、100个、1000个这种小规模的数据，所以需要将时间复杂度的系数、常数、低阶都考虑到。<br><a id="more"></a></p>
+<p>3）比较次数和交换/移动次数</p>
+<p>基于比较的排序算法在执行过程中，会涉及到两种操作，一是元素比较大小，二是元素交换/移动。因此需要将比较次数和交换/移动次数也考虑进去。</p>
+<h5 id="排序算法的内存消耗"><a href="#排序算法的内存消耗" class="headerlink" title="排序算法的内存消耗"></a>排序算法的内存消耗</h5><p>算法的内存消耗可以通过空间复杂度来衡量，排序算法也是。本文涉及到的三种排序算法都是空间复杂度为O(1)，也称为原地排序算法。原地排序算法是特指空间复杂度是O(1)的排序算法，也就是常量阶的时间复杂度。</p>
+<h5 id="排序算法的稳定性"><a href="#排序算法的稳定性" class="headerlink" title="排序算法的稳定性"></a>排序算法的稳定性</h5><p>排序算法的稳定性是指，如果待排序的序列中存在值相等的元素，经过排序之后，相等元素之间原有的先后顺序不变。如果排序之后，原本的前后顺序发生变化，那么对应的排序算法就叫做不稳定的排序算法。</p>
+<p>应用：我们要给电商平台的订单数据进行排序，按照金额从小到大对订单数据进行排序。如果金额相同，那么就按照下单时间来排序。这时候就可以用到稳定的排序算法，先将订单都下单时间排序，排完序之后再对金额相同的订单从小到大排序。因为使用的是稳定的排序算法，所以第二次排序之后，相同金额的订单仍然保持下单时间从早到晚。</p>
+<h4 id="有序度、无序度、满有序度"><a href="#有序度、无序度、满有序度" class="headerlink" title="有序度、无序度、满有序度"></a>有序度、无序度、满有序度</h4><p>一个长度为n的数组，有n！种排序方式，如果要计算排序算法的平均时间复杂度，涉及到的概率计算会非常复杂，所以使用“有序度”和“无序度”这两个概念来进行分析。这个方法并不严格，但是在很多时候很实用。</p>
+<p><strong>有序度</strong>是数组中具有有序关系的元素对的个数，用公式表示如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">有序元素对：如果i &lt; j，有a[i] &lt;= a[j]</span><br></pre></td></tr></table></figure>
+<p>如数组[2, 4, 3, 1, 5, 6]的有序度为11，因为有序元素对有以下11个：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(2, 4), (2, 3), (4, 5), (4, 6), (2, 5), (2, 6), (3, 5), (3, 6), (1, 5), (1, 6), (5, 6)</span><br></pre></td></tr></table></figure>
+<p>对于一个倒序的数组来说，有序度就是0；如果是一个完全有序的数组，有序度是<code>n(n-1)/2</code>，也称为<strong>满有序度</strong>。那么，<strong>逆序度</strong>则与有序度的定义相反（默认从小到大为有序）。公式如下：</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">逆序元素对：如果i &gt; j,有a[i] &lt; a[j]</span><br></pre></td></tr></table></figure>
+<p>根据有序度和无序度的定义，可以得到这么一个公式：<strong>逆序度=满有序度-有序度</strong>。</p>
+<p>对元素进行排序，就是一个不断增加有序度、减少逆序度的过程，直到达到满有序度，排序完成。</p>
+<h4 id="冒泡排序（Bubble-Sort）"><a href="#冒泡排序（Bubble-Sort）" class="headerlink" title="冒泡排序（Bubble Sort）"></a>冒泡排序（Bubble Sort）</h4><p>冒泡算法每次都只操作相邻的两个数据。如果不满足大小要求，就将其互换。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 冒泡算法</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">bubble_sort</span><span class="params">(a)</span>:</span></span><br><span class="line">    <span class="string">"""a是数组，返回从小到大排序的数组"""</span></span><br><span class="line">    n = len(a)</span><br><span class="line">    <span class="comment"># 只有一个元素就直接返回</span></span><br><span class="line">    <span class="keyword">if</span> n &lt;= <span class="number">1</span>:</span><br><span class="line">        <span class="keyword">return</span> a</span><br><span class="line">    <span class="comment"># 循环，将每个元素与下一个元素进行比较</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(n):</span><br><span class="line">        flag = <span class="keyword">False</span></span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(n-i<span class="number">-1</span>):</span><br><span class="line">            <span class="comment"># 如果当前元素比下一个元素大，互换位置</span></span><br><span class="line">            <span class="keyword">if</span> a[j] &gt; a[j+<span class="number">1</span>]:</span><br><span class="line">                a[j], a[j+<span class="number">1</span>] = a[j+<span class="number">1</span>], a[j]</span><br><span class="line">                flag = <span class="keyword">True</span></span><br><span class="line">        <span class="comment"># 优化：没有数据交换，提前退出</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> flag:</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">    <span class="keyword">return</span> a</span><br><span class="line"></span><br><span class="line">a=[<span class="number">3</span>,<span class="number">5</span>,<span class="number">4</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">6</span>,<span class="number">2</span>,<span class="number">55</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">6</span>,<span class="number">4</span>]</span><br><span class="line">bubble_sort(a)</span><br></pre></td></tr></table></figure>
+<h5 id="分析冒泡算法"><a href="#分析冒泡算法" class="headerlink" title="分析冒泡算法"></a>分析冒泡算法</h5><ol>
+<li><p>冒泡算法是原地排序算法吗</p>
+<p>因为只涉及到相邻数据的交换操作，需要的空间复杂度为O(1)，所以是原地排序算法。</p>
+</li>
+<li><p>冒泡算法是稳定的排序算法吗</p>
+<p>冒泡排序中只有交换才会改变两个元素的前后顺序。当相邻两个元素相等时，我们不做交换，所以大小相等的元素在排序前后顺序不改变，是稳定的排序算法。</p>
+</li>
+<li><p>冒泡排序的时间复杂度是多少</p>
+<p>最好情况下，要排序的数据已经是有序的了，只需要一次冒泡操作，所以最好情况时间复杂度为O(n)（遍历数组）。最坏情况则是，要排序的数据是倒序的，需要进行n次冒泡，所以最坏时间复杂度为O(n^2)。平均情况复杂度的计算，我们则可以根据有序度来计算。</p>
+<p>最坏情况下，初始状态的有序度是0，要进行<em>n(n-1)/2</em>次交换。最好情况情况下，初始状态的有序度是<em>n(n-1)/2</em>，不需要进行交换。我们可以取两者的中间值作为平均情况下的时间复杂度，也就是<em>n(n-1)/4</em>，所以复杂度为O(n^2)。</p>
+</li>
+</ol>
+<h4 id="插入排序-Insertion-Sort"><a href="#插入排序-Insertion-Sort" class="headerlink" title="插入排序(Insertion Sort)"></a>插入排序(Insertion Sort)</h4><p>插入排序是在有序数组中插入新数据之后，仍然保持数据的有序性。所以需要遍历数组，找到数据应该插入的位置将其插入即可。</p>
+<p>插入排序也只涉及到两种操作，一种是元素比较，另一种是元素的移动。</p>
+<p>过程：我们需要将待排序数组分为<strong>已排序区</strong>和<strong>未排序区</strong>，一开始，已排序区只有一个元素，也就是数组的第一个元素。之后就不断在未排序区中取出元素，然后在已排序区遍历查找合适的位置插入新元素，同时将插入点之后的元素都顺序往后移动一位，并保证已排序区的数据一直有序。重复整个过程，直到未排序区的元素为空。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 插入排序</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">insert_sort</span><span class="params">(a)</span>:</span></span><br><span class="line">    n = len(a)</span><br><span class="line">    <span class="keyword">if</span> n &lt;= <span class="number">1</span>:</span><br><span class="line">        <span class="keyword">return</span> </span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, n):</span><br><span class="line">        <span class="comment"># 当前元素</span></span><br><span class="line">        value = a[i]</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(i, <span class="number">0</span>, <span class="number">-1</span>):</span><br><span class="line">            <span class="keyword">if</span> a[j<span class="number">-1</span>] &gt; value:</span><br><span class="line">                a[j<span class="number">-1</span>], a[j] = value, a[j<span class="number">-1</span>]</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">    <span class="keyword">return</span> a</span><br><span class="line"></span><br><span class="line">b = [<span class="number">3</span>,<span class="number">2</span>,<span class="number">1</span>,<span class="number">6</span>,<span class="number">5</span>,<span class="number">9</span>,<span class="number">6</span>,<span class="number">1</span>]</span><br><span class="line">insert_sort(b)</span><br></pre></td></tr></table></figure>
+<h5 id="分析插入算法"><a href="#分析插入算法" class="headerlink" title="分析插入算法"></a>分析插入算法</h5><ol>
+<li><p>插入排序是原地排序算法吗</p>
+<p>插入排序并不需要额外的储存空间，所以空间复杂度是O(1)，是原地排序算法。</p>
+</li>
+<li><p>插入排序是稳定的排序算法吗</p>
+<p>对于值相同的元素，我们可以将后面出现的元素插入到前面出现元素的后面，这样就保持了原本的前后顺序，从代码实现中也可以看出来。所以是稳定的排序算法。</p>
+</li>
+<li><p>插入排序的时间复杂度是多少</p>
+<p>最好情况下，待排序数组已经是有序的了，插入排序算法只是循环比较了一遍，并没有插入操作，所以最好情况时间复杂度为O(n)（遍历数组）。最坏情况下，待排序数组是倒序的，那么循环比较时，还需要移动数据，所以最坏情况时间复杂度为O(n^2)。插入排序类似于在数组中插入一个数据，只不过要循环执行n次插入操作，类比后者的平均时间复杂度是O(n)，插入排序算法的平均时间复杂度为O(n^2)。</p>
+</li>
+</ol>
+<h4 id="选择排序-Selection-Sort"><a href="#选择排序-Selection-Sort" class="headerlink" title="选择排序(Selection Sort)"></a>选择排序(Selection Sort)</h4><p>选择排序思路跟插入排序类似，也分未排序区和已排序区。不同的是，选择排序每次都从未排序区选择最小值插入到已排序区的尾部，也就是将两者互换。（打破了原有数组元素的前后顺序）</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 选择排序</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">select_sort</span><span class="params">(a)</span>:</span></span><br><span class="line">    n = len(a)</span><br><span class="line">    <span class="keyword">if</span> n == <span class="number">1</span>:</span><br><span class="line">        <span class="keyword">return</span> a</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(n):</span><br><span class="line">        <span class="comment"># 最小元素的下标</span></span><br><span class="line">        flag = i</span><br><span class="line">        <span class="comment"># 在未排序区选择最小元素</span></span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(i, n):</span><br><span class="line">            <span class="comment"># 不断更新最小值</span></span><br><span class="line">            <span class="keyword">if</span> a[j] &lt; a[flag]:</span><br><span class="line">                <span class="comment"># 如果元素小于最小元素，更新下标</span></span><br><span class="line">                flag = j</span><br><span class="line">        <span class="comment"># 将最小元素与下标为i互换</span></span><br><span class="line">        a[flag], a[i] = a[i], a[flag]</span><br><span class="line">    <span class="keyword">return</span> a</span><br><span class="line"></span><br><span class="line">select_sort(a)</span><br></pre></td></tr></table></figure>
+<h5 id="分析选择排序算法"><a href="#分析选择排序算法" class="headerlink" title="分析选择排序算法"></a>分析选择排序算法</h5><ol>
+<li><p>选择排序是原地排序算法吗</p>
+<p> 选择排序的空间复杂度为O(1)，所以是原地排序算法。</p>
+</li>
+<li><p>选择排序是稳定的排序算法吗</p>
+<p>每次选择元素都是在未排序区选择最小值然后与已排序区的末尾(未排序的第一位元素)元素进行交换，会打破原有元素的前后顺序。</p>
+</li>
+<li><p>选择排序的时间复杂度是多少</p>
+<p>不管待排序数组是有序还是倒序，每次选择最小元素的时候都会循环比较，执行n次这样的操作，所以不管最好情况时间复杂度、最坏情况时间复杂度和平均时间复杂度都是O(n^2)。</p>
+</li>
+</ol>
+<h4 id="为什么插入排序要比冒泡排序更受欢迎"><a href="#为什么插入排序要比冒泡排序更受欢迎" class="headerlink" title="为什么插入排序要比冒泡排序更受欢迎"></a>为什么插入排序要比冒泡排序更受欢迎</h4><p>从上文可以得知，这两个算法的时间复杂度都是O(n^2)，都是原地排序算法，唯一的区别就在于数据交换部分。冒泡排序交换操作有三个操作语句，而插入排序的元素移动操作只有一行代码，所以从理论上来说，插入排序更优。</p>
+<h4 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h4><p>数据结构与算法之美</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/amberwest.github.io/tags/排序/" rel="tag"># 排序</a>
+          
+            <a href="/amberwest.github.io/tags/冒泡排序/" rel="tag"># 冒泡排序</a>
+          
+            <a href="/amberwest.github.io/tags/插入排序/" rel="tag"># 插入排序</a>
+          
+            <a href="/amberwest.github.io/tags/选择排序/" rel="tag"># 选择排序</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/amberwest.github.io/2018/10/15/递归/" rel="next" title="【数据结构与算法笔记六】递归">
+                <i class="fa fa-chevron-left"></i> 【数据结构与算法笔记六】递归
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/amberwest.github.io/2018/10/16/browsercookie使用/" rel="prev" title="browsercookie使用">
+                browsercookie使用 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">amberwest</p>
+              <p class="site-description motion-element" itemprop="description">学习笔记</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/amberwest.github.io/archives/">
+                
+                    <span class="site-state-item-count">61</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/amberwest.github.io/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">7</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/amberwest.github.io/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">93</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:1006441720@qq.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-globe"></i>E-Mail</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#如何分析一个“算法”"><span class="nav-number">1.</span> <span class="nav-text">如何分析一个“算法”</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#排序算法的执行效率"><span class="nav-number">1.1.</span> <span class="nav-text">排序算法的执行效率</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#排序算法的内存消耗"><span class="nav-number">1.2.</span> <span class="nav-text">排序算法的内存消耗</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#排序算法的稳定性"><span class="nav-number">1.3.</span> <span class="nav-text">排序算法的稳定性</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#有序度、无序度、满有序度"><span class="nav-number">2.</span> <span class="nav-text">有序度、无序度、满有序度</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#冒泡排序（Bubble-Sort）"><span class="nav-number">3.</span> <span class="nav-text">冒泡排序（Bubble Sort）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#分析冒泡算法"><span class="nav-number">3.1.</span> <span class="nav-text">分析冒泡算法</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#插入排序-Insertion-Sort"><span class="nav-number">4.</span> <span class="nav-text">插入排序(Insertion Sort)</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#分析插入算法"><span class="nav-number">4.1.</span> <span class="nav-text">分析插入算法</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#选择排序-Selection-Sort"><span class="nav-number">5.</span> <span class="nav-text">选择排序(Selection Sort)</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#分析选择排序算法"><span class="nav-number">5.1.</span> <span class="nav-text">分析选择排序算法</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#为什么插入排序要比冒泡排序更受欢迎"><span class="nav-number">6.</span> <span class="nav-text">为什么插入排序要比冒泡排序更受欢迎</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#参考文章"><span class="nav-number">7.</span> <span class="nav-text">参考文章</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">amberwest</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/theme-next/hexo-theme-next">NexT.Mist</a> v6.2.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/amberwest.github.io/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/amberwest.github.io/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/amberwest.github.io/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/amberwest.github.io/js/src/utils.js?v=6.2.0"></script>
+
+  <script type="text/javascript" src="/amberwest.github.io/js/src/motion.js?v=6.2.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/amberwest.github.io/js/src/scrollspy.js?v=6.2.0"></script>
+<script type="text/javascript" src="/amberwest.github.io/js/src/post-details.js?v=6.2.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/amberwest.github.io/js/src/bootstrap.js?v=6.2.0"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/amberwest.github.io/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('-1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

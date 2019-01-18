@@ -1,0 +1,1600 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/amberwest.github.io/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/amberwest.github.io/css/main.css?v=6.2.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/amberwest.github.io/images/apple-touch-icon-next.png?v=6.2.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/amberwest.github.io/images/favicon-32x32-next.png?v=6.2.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/amberwest.github.io/images/favicon-16x16-next.png?v=6.2.0">
+
+
+  <link rel="mask-icon" href="/amberwest.github.io/images/logo.svg?v=6.2.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/amberwest.github.io/',
+    scheme: 'Mist',
+    version: '6.2.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="原文链接  刚开始接触sqlalchemy，以为很方便很好用，结果在各种关系中被打击到不行。无意间在网上看到这篇文章，写得挺通俗易懂的，还有个小例子，良心教程啊！忍不住转载到自己的笔记中，有时间再用自己渣渣的英语简单翻译一下，方便查阅。 In this article, we will learn how to use SQLAlchemy as the ORM (Object Relationa">
+<meta name="keywords" content="sqlalchemy">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【转】SQLAlchemy ORM Tutorial for Python Developers">
+<meta property="og:url" content="http://amberwest.github.io/2018/09/19/转-SQLAlchemy-ORM-Tutorial-for-Python-Developers/index.html">
+<meta property="og:site_name" content="Amberwest&#39;s Note">
+<meta property="og:description" content="原文链接  刚开始接触sqlalchemy，以为很方便很好用，结果在各种关系中被打击到不行。无意间在网上看到这篇文章，写得挺通俗易懂的，还有个小例子，良心教程啊！忍不住转载到自己的笔记中，有时间再用自己渣渣的英语简单翻译一下，方便查阅。 In this article, we will learn how to use SQLAlchemy as the ORM (Object Relationa">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://cdn.auth0.com/blog/sqlalchemy-tutorial/class_diagram_tuto.jpg">
+<meta property="og:image" content="https://cdn.auth0.com/blog/resources/twitter.svg">
+<meta property="og:updated_time" content="2018-12-11T13:47:36.301Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【转】SQLAlchemy ORM Tutorial for Python Developers">
+<meta name="twitter:description" content="原文链接  刚开始接触sqlalchemy，以为很方便很好用，结果在各种关系中被打击到不行。无意间在网上看到这篇文章，写得挺通俗易懂的，还有个小例子，良心教程啊！忍不住转载到自己的笔记中，有时间再用自己渣渣的英语简单翻译一下，方便查阅。 In this article, we will learn how to use SQLAlchemy as the ORM (Object Relationa">
+<meta name="twitter:image" content="https://cdn.auth0.com/blog/sqlalchemy-tutorial/class_diagram_tuto.jpg">
+
+
+
+
+
+
+  <link rel="canonical" href="http://amberwest.github.io/2018/09/19/转-SQLAlchemy-ORM-Tutorial-for-Python-Developers/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>【转】SQLAlchemy ORM Tutorial for Python Developers | Amberwest's Note</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/amberwest.github.io/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Amberwest's Note</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/amberwest.github.io/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />Home</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/amberwest.github.io/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />Tags</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/amberwest.github.io/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />Categories</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/amberwest.github.io/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />Archives</a>
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />Search</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="Searching..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://amberwest.github.io/amberwest.github.io/2018/09/19/转-SQLAlchemy-ORM-Tutorial-for-Python-Developers/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="amberwest">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/amberwest.github.io/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Amberwest's Note">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">【转】SQLAlchemy ORM Tutorial for Python Developers
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2018-09-19 17:35:13" itemprop="dateCreated datePublished" datetime="2018-09-19T17:35:13+08:00">2018-09-19</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2018-12-11 21:47:36" itemprop="dateModified" datetime="2018-12-11T21:47:36+08:00">2018-12-11</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/amberwest.github.io/categories/数据库/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><a href="https://auth0.com/blog/sqlalchemy-orm-tutorial-for-python-developers/" target="_blank" rel="noopener">原文链接</a> </p>
+<p>刚开始接触sqlalchemy，以为很方便很好用，结果在各种关系中被打击到不行。无意间在网上看到这篇文章，写得挺通俗易懂的，还有个小例子，良心教程啊！忍不住转载到自己的笔记中，有时间再用自己渣渣的英语简单翻译一下，方便查阅。</p>
+<p>In this article, we will learn how to use SQLAlchemy as the ORM (Object Relational Database) library to communicate with relational database engines. First, we will learn about some core concepts of SQLAlchemy (like engines and connection pools), then we will learn how to map Python classes and its relationships to database tables, and finally we will learn how to retrieve (query) data from these tables. <a href="https://github.com/auth0-blog/sqlalchemy-orm-tutorial" target="_blank" rel="noopener">The code snippets used in this article can be found in this GitHub repository</a>.</p>
+<a id="more"></a>
+<h3 id="SQLAlchemy-Introduction"><a href="#SQLAlchemy-Introduction" class="headerlink" title="SQLAlchemy Introduction"></a>SQLAlchemy Introduction</h3><p><a href="https://www.sqlalchemy.org/" target="_blank" rel="noopener">SQLAlchemy</a> is a library that facilitates the communication between Python programs and databases. Most of the times, this library is used as an <a href="https://en.wikipedia.org/wiki/Object-relational_mapping" target="_blank" rel="noopener">Object Relational Mapper (ORM)</a> tool that translates Python classes to tables on relational databases and automatically converts function calls to SQL statements. SQLAlchemy provides a standard interface that allows developers to create database-agnostic code to communicate with a wide variety of database engines.</p>
+<p>As we will see in this article, SQLAlchemy relies on common design patterns (like <a href="https://sourcemaking.com/design_patterns/object_pool" target="_blank" rel="noopener">Object Pools</a>) to allow developers to create and ship enterprise-grade, production-ready applications easily. Besides that, with SQLAlchemy, boilerplate code to handle tasks like database connections is abstracted away to let developers focus on business logic.</p>
+<p>Before diving into the ORM features provided by SQLAlchemy, we need to learn how the core works. The following sections will introduce important concepts that every Python developer needs to understand before dealing with SQLAlchemy applications.</p>
+<h3 id="Python-DBAPI"><a href="#Python-DBAPI" class="headerlink" title="Python DBAPI"></a>Python DBAPI</h3><p>The <a href="https://www.python.org/dev/peps/pep-0249/" target="_blank" rel="noopener">Python DBAPI (an acronym for DataBase API)</a> was created to specify how Python modules that integrate with databases should expose their interfaces. Although we won’t interact with this API directly—we will use SQLAlchemy as a facade to it—it’s good to know that it defines how common functions like <code>connect</code>, <code>close</code>, <code>commit</code>, and <code>rollback</code> must behave. Consequently, whenever we use a Python module that adheres to the specification, we can rest assured that we will find these functions and that they will behave as expected.</p>
+<p>In this article, we are going to install and use the most popular PostgreSQL DBAPI implementation available: <a href="http://initd.org/psycopg/" target="_blank" rel="noopener"><code>psycopg</code></a>. <a href="https://wiki.python.org/moin/PostgreSQL" target="_blank" rel="noopener">Other Python drivers communicate with PostgreSQL</a> as well, but <code>psycopg</code> is the best candidate since it fully implements the DBAPI specification and has great support from the community.</p>
+<p>To better understand the DBAPI specification, what functions it requires, and how these functions behave, take a look <a href="https://www.python.org/dev/peps/pep-0249/" target="_blank" rel="noopener">into the Python Enhancement Proposal that introduced it</a>. Also, to learn about what other database engines we can use (like MySQL or Oracle), <a href="https://wiki.python.org/moin/DatabaseInterfaces" target="_blank" rel="noopener">take a look at the official list of database interfaces available</a>.</p>
+<h3 id="SQLAlchemy-Engines"><a href="#SQLAlchemy-Engines" class="headerlink" title="SQLAlchemy Engines"></a>SQLAlchemy Engines</h3><p>Whenever we want to use SQLAlchemy to interact with a database, we need to create an <em>Engine</em>. Engines, on SQLAlchemy, are used to manage two crucial factors: <em>Pools</em> and <em>Dialects</em>. The following two sections will explain what these two concepts are, but for now it suffices to say that SQLAlchemy uses them to interact with DBAPI functions.</p>
+<p>任何时候，只要我们想用SQLAlchemy去连接数据库，都必须先创建engine。在SQLAlchemy中，engine是用来管理两大重要部分：Pools和Dialects。接下来两小节将会解释这两个概念，现在只要明白SQLAlchemy是用他们跟DBAPI交互的函数就够了。</p>
+<p>To create an engine and start interacting with databases, we have to import the <code>create_engine</code> function from the <code>sqlalchemy</code> library and issue a call to it:</p>
+<p>为了创建engine并与数据库交互，我们必须从<code>sqlalchemy</code>库中导入<code>create_engine</code>并且调用该方法。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sqlalchemy <span class="keyword">import</span> create_engine</span><br><span class="line">engine = create_engine(<span class="string">'postgresql://usr:pass@localhost:5432/sqlalchemy'</span>)</span><br></pre></td></tr></table></figure>
+<p>This example creates a PostgreSQL engine to communicate with an instance running locally on port <code>5432</code> (the default one). It also defines that it will use <code>usr</code> and <code>pass</code> as the credentials to interact with the <code>sqlalchemy</code> database. Note that, creating an engine does <em>not</em> connect to the database instantly. This process is postponed to when it’s needed (like when we submit a query, or when create/update a row in a table).</p>
+<p>这个例子在本地5432（默认端口）端口创建了一个<code>PostgreSQL engine</code>。同时也定义了该engie会使用<code>usr</code>和<code>pass</code>作为与<code>sqlalchemy</code>数据库链接的凭证。需要注意的是，创建了<code>engine</code>并不会马上连接到数据库，而是直到我们需要的时候才连接。（比如，当我们执行查询操作，或者插入/更新表记录）。</p>
+<p>Since SQLAlchemy relies on the DBAPI specification to interact with databases, the most common database management systems available are supported. PostgreSQL, MySQL, Oracle, Microsoft SQL Server, and SQLite are all examples of engines that we can use alongside with SQLAlchemy. <a href="http://docs.sqlalchemy.org/en/rel_1_1/core/engines.html" target="_blank" rel="noopener">To learn more about the options available to create SQLAlchemy engines, take a look at the official documentation</a>.</p>
+<p>sqlalchemy所支持的一些常见数据库管理系统。</p>
+<h3 id="SQLAlchemy-Connection-Pools"><a href="#SQLAlchemy-Connection-Pools" class="headerlink" title="SQLAlchemy Connection Pools"></a>SQLAlchemy Connection Pools</h3><p>Connection pooling is one of the most traditional implementations of the <a href="https://sourcemaking.com/design_patterns/object_pool" target="_blank" rel="noopener">object pool pattern</a>. Object pools are used as caches of pre-initialized objects ready to use. That is, instead of spending time to create objects that are frequently needed (like connections to databases) the program fetches an existing object from the pool, uses it as desired, and puts back when done.</p>
+<p>链接池是<code>object pool pattern</code>最传统的实践。对象池被用作预初始化对象准备使用时的缓存。也就是说，程序在需要的时候直接从池中获取一个已存在的对象，用完再放回去，而不是需要链接时再花时间去创建对象（比如链接到数据库）。</p>
+<p>The main reason why programs take advantage of this design pattern is to improve performance. In the case of database connections, opening and maintaining new ones is expensive, time-consuming, and wastes resources. Besides that, this pattern allows easier management of the number of connections that an application might use simultaneously.</p>
+<p>程序这么设计主要是为了提高性能。在数据库链接的例子中，创建并维持新的对象成本很高，耗时也浪费资源。除此之外，这个设计模式能够更好地控制应用在同一时间能够使用的链接数。</p>
+<p><a href="http://docs.sqlalchemy.org/en/rel_1_1/core/pooling.html#api-documentation-available-pool-implementations" target="_blank" rel="noopener">There are various implementations of the connection pool pattern available on SQLAlchemy </a>. For example, creating an <code>Engine</code> through the <code>create_engine()</code>function usually generates a <a href="http://docs.sqlalchemy.org/en/rel_1_1/core/pooling.html#sqlalchemy.pool.QueuePool" target="_blank" rel="noopener">QueuePool</a>. This kind of pool comes configured with some reasonable defaults, like a maximum pool size of 5 connections.</p>
+<p>sqlalchemy的链接池模式还有很多可用的实践。比如，通过<code>create_engine()</code>方法创建的engine通常会生成一个<code>QueuePool</code>。这类池会有默认的设置，比如最大链接池数为5.</p>
+<p>As usual production-ready programs need to override these defaults (to fine-tune pools to their needs), most of the different implementations of connection pools provide a similar set of configuration options. The following list shows the most common options with their descriptions:</p>
+<p>一般来说，上线程序需要重写默认配置（微调已至符合需求），大部分链接池的不同实现都提供了一系列类似的设置选项(???)。以下是一些常见选项及其描述：</p>
+<ul>
+<li><code>pool_size</code>: Sets the number of connections that the pool will handle.设置最大链接池数<ul>
+<li><code>max_overflow</code>: Specifies how many exceeding connections (relative to <code>pool_size</code>) the pool supports.指定链接池支持的超出连接数（相对于<code>pool_size</code>）</li>
+</ul>
+</li>
+<li><code>pool_recycle</code>: Configures the maximum age (in seconds) of connections in the pool.设置链接池中最长链接时间（秒）</li>
+<li><code>pool_timeout</code>: Identifies how many seconds the program will wait before giving up on getting a connection from the pool.标注程序在放弃从池中获取链接所等待的秒数</li>
+</ul>
+<p><a href="http://docs.sqlalchemy.org/en/rel_1_1/core/pooling.html" target="_blank" rel="noopener">To learn more about connection pools on SQLAlchemy, check out the official documentation</a>.</p>
+<h3 id="SQLAlchemy-Dialects"><a href="#SQLAlchemy-Dialects" class="headerlink" title="SQLAlchemy Dialects"></a>SQLAlchemy Dialects</h3><p>As SQLAlchemy is a facade that enables Python developers to create applications that communicate to different database engines through the same API, we need to make use of <em>Dialects</em>. Most of the popular relational databases available out there adhere to the SQL (Structured Query Language) standard, but they also introduce proprietary variations. These variations are the solely responsible for the existence of dialects.</p>
+<p>因为SQLAlchemy能够让python开发者开发出通过同样的API连接到不同的数据库引擎的应用，我们需要使用Dialects。目前主流的关系数据库都遵循SQL（结构化查询语言）标准，但也有各自的变化。这些变化是dialects存在的原因（dialects？？）</p>
+<p>For example, let’s say that we want to fetch the first ten rows of a table called <code>people</code>. If our data was being held by a Microsoft SQL Server database engine, SQLAlchemy would need to issue the following query:</p>
+<p>例如，我们想要获取people表的前十行。如果我们的数据是保存在<code>Microsoft SQL Server</code>数据库引擎，sqlalchemy需要作出以下查询：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT TOP 10 * FROM people;</span><br></pre></td></tr></table></figure>
+<p>But, if our data was persisted on MySQL instance, then SQLAlchemy would need to issue:</p>
+<p>但是，如果我们的数据持久化为MySQL实例，那么SQLAlchemy则需要这样写：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT * FROM people LIMIT 10;</span><br></pre></td></tr></table></figure>
+<p>Therefore, to know precisely what query to issue, SQLAlchemy needs to be aware of the type of the database that it is dealing with. This is exactly what <em>Dialects</em> do. They make SQLAlchemy aware of the dialect it needs to talk.</p>
+<p>因此，为了准确知道要做出何种查询，SQLAlchemy需要知道它正在处理的数据库类型。这就是dialects所做的。</p>
+<p>On its core, SQLAlchemy includes the following list of dialects:</p>
+<ul>
+<li><a href="http://docs.sqlalchemy.org/en/latest/dialects/firebird.html" target="_blank" rel="noopener">Firebird</a></li>
+<li><a href="http://docs.sqlalchemy.org/en/latest/dialects/mssql.html" target="_blank" rel="noopener">Microsoft SQL Server</a></li>
+<li><a href="http://docs.sqlalchemy.org/en/latest/dialects/mysql.html" target="_blank" rel="noopener">MySQL</a></li>
+<li><a href="http://docs.sqlalchemy.org/en/latest/dialects/oracle.html" target="_blank" rel="noopener">Oracle</a></li>
+<li><a href="http://docs.sqlalchemy.org/en/latest/dialects/postgresql.html" target="_blank" rel="noopener">PostgreSQL</a></li>
+<li><a href="http://docs.sqlalchemy.org/en/latest/dialects/sqlite.html" target="_blank" rel="noopener">SQLite</a></li>
+<li><a href="http://docs.sqlalchemy.org/en/latest/dialects/sybase.html" target="_blank" rel="noopener">Sybase</a></li>
+</ul>
+<p>Dialects for other database engines, like <a href="https://pypi.python.org/pypi/sqlalchemy-redshift" target="_blank" rel="noopener">Amazon Redshift</a>, are supported as external projects but can be easily installed. <a href="http://docs.sqlalchemy.org/en/latest/dialects/" target="_blank" rel="noopener">Check out the official documentation on SQLAlchemy Dialects to learn more</a>.</p>
+<h2 id="SQLAlchemy-ORM"><a href="#SQLAlchemy-ORM" class="headerlink" title="SQLAlchemy ORM"></a>SQLAlchemy ORM</h2><p>ORM, which stands for <em>Object Relational Mapper</em>, is the specialization of the <a href="https://martinfowler.com/eaaCatalog/dataMapper.html" target="_blank" rel="noopener"><em>Data Mapper</em> design pattern</a> that addresses relational databases like MySQL, Oracle, and PostgreSQL. As explained by Martin Fowler in the article, <em>Mappers</em>are responsible for moving data between objects and a database while keeping them independent of each other. As object-oriented programming languages and relational databases structure data on different ways, we need specific code to translate from one schema to the other.</p>
+<p>ORM，也就是关系对象映射，是关系数据库如MYSQL，Oracle等的数据映射设计模式的专业化。正如<code>Martin Fowler</code>在文章中所解释的那样，<code>Mappers</code>（映射器？）负责在对象和数据库之间移动数据，同时保证它们彼此独立。对于面对对象的编程语言和关系数据库以不同的方式构造数据，我们需要特定的代码将一个模式转换到另一个模式。</p>
+<p>For example, in a programming language like Python, we can create a <code>Product</code>class and an <code>Order</code> class to relate as many instances as needed from one class to another (i.e. <code>Product</code> can contain a list of instances of <code>Order</code> and vice-versa). Though, on relational databases, we need three entities (tables), one to persist products, another one to persist orders, and a third one to relate (through foreign key) products and orders.</p>
+<p>例如，在像python这样的编程语言中，我们可以创建一个Product类和一个Order类，以便根据需要将一个类与另一个类相关联（即Product可以包含Order实例列表，反之亦然）。然而，在关系数据库，我们需要三个实体（表），一个保存products，另一个保存orders，第三个链接（通过外键）products和orders。</p>
+<p>As we will see in the following sections, <a href="http://docs.sqlalchemy.org/en/latest/orm/" target="_blank" rel="noopener">SQLAlchemy ORM</a> is an excellent <em>Data Mapper</em> solution to translate Python classes into/from tables and to move data between instances of these classes and rows of these tables.</p>
+<p>在接下里的章节里我们将会看到，SQLAlchemy是一个很赞的数据映射解决方法，嗯，翻不下去了。。。</p>
+<h3 id="SQLAlchemy-Data-Types"><a href="#SQLAlchemy-Data-Types" class="headerlink" title="SQLAlchemy Data Types"></a>SQLAlchemy Data Types</h3><p>While using SQLAlchemy, we can rest assured that we will get support for the most common data types found in relational databases. <a href="http://docs.sqlalchemy.org/en/latest/core/type_basics.html#generic-types" target="_blank" rel="noopener">For example, booleans, dates, times, strings, and numeric values are a just a subset of the types that SQLAlchemy provides abstractions for</a>. Besides these basic types, <a href="http://docs.sqlalchemy.org/en/latest/core/type_basics.html#sql-standard-and-multiple-vendor-types" target="_blank" rel="noopener">SQLAlchemy includes support for a few vendor-specific types (like JSON)</a> and also allows developers to <a href="http://docs.sqlalchemy.org/en/latest/core/custom_types.html" target="_blank" rel="noopener">create custom types and redefine existing ones</a>.</p>
+<p>To understand how we use SQLAlchemy data types to map properties of Python classes into columns on a relation database table, let’s analyze the following example:</p>
+<p>为了理解我们是如何使用SQLAlchemy数据类型去映射python类属性到关系数据库表的列的，让我们来分析下面这个例子吧：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Product</span><span class="params">(Base)</span>:</span></span><br><span class="line">    __tablename__ = <span class="string">'products'</span></span><br><span class="line">    id=Column(Integer, primary_key=<span class="keyword">True</span>)</span><br><span class="line">    title=Column(<span class="string">'title'</span>, String(<span class="number">32</span>))</span><br><span class="line">    in_stock=Column(<span class="string">'in_stock'</span>, Boolean)</span><br><span class="line">    quantity=Column(<span class="string">'quantity'</span>, Integer)</span><br><span class="line">    price=Column(<span class="string">'price'</span>, Numeric)</span><br></pre></td></tr></table></figure>
+<p>In the code snippet above, we are defining a class called <code>Product</code> that has six properties. Let’s take a look at what these properties do:</p>
+<p>在上面的代码片段中，我们定义了一个带有6个属性的Product类。接下来看下这些属性都有什么作用：</p>
+<ul>
+<li>The <code>__tablename__</code> property tells SQLAlchemy that rows of the <code>products</code>table must be mapped to this class.<ul>
+<li><code>__tablename__</code>属性告诉SQLAlchemy products表的行都必须映射到这个类。</li>
+</ul>
+</li>
+<li>The <code>id</code> property identifies that this is the <code>primary_key</code> in the table and that its type is <code>Integer</code>.<ul>
+<li><code>id</code> 属性是表的<code>primary_key</code>，类型为<code>Integer</code>。</li>
+</ul>
+</li>
+<li>The <code>title</code> property indicates that a column in the table has the same name of the property and that its type is <code>String</code>.<ul>
+<li><code>title</code>属性指示表中有一个与该属性（title）同名的列，列的类型是 <code>String</code>。</li>
+</ul>
+</li>
+<li>The <code>in_stock</code> property indicates that a column in the table has the same name of the property and that its type is <code>Boolean</code>.<ul>
+<li><code>in_stock</code> 属性说明表中也有同名的列，列的类型为 <code>Boolean</code></li>
+</ul>
+</li>
+<li>The <code>quantity</code> property indicates that a column in the table has the same name of the property and that its type is <code>Integer</code>.</li>
+<li>The <code>price</code> property indicates that a column in the table has the same name of the property and that its type is <code>Numeric</code>.</li>
+</ul>
+<p>Seasoned developers will notice that (usually) relational databases do not have data types with these exact names. SQLAlchemy uses these types as generic representations to what databases support and use the dialect configured to understand what types they translate to. For example, on a PostgreSQL database, the title would be mapped to a <code>varchar</code> column.</p>
+<p>经验丰富的开发者通常会注意到关系型数据库不会有这些确切名称的数据类型。SQLAlchemy使用这些类型作为通用表示形式，以支持和使用配置的方言来理解它们转换为的类型。比如在PostgreSQL数据库里，title将会被映射为<code>varchar</code>列。</p>
+<h3 id="SQLAlchemy-Relationship-Patterns"><a href="#SQLAlchemy-Relationship-Patterns" class="headerlink" title="SQLAlchemy Relationship Patterns"></a>SQLAlchemy Relationship Patterns</h3><p>Now that we know what ORM is and have look into data types, let’s learn how to use SQLAlchemy to map relationships between classes to relationships between tables. SQLAlchemy supports four types of relationships: <a href="http://docs.sqlalchemy.org/en/latest/orm/basic_relationships.html#one-to-many" target="_blank" rel="noopener">One To Many</a>, <a href="http://docs.sqlalchemy.org/en/latest/orm/basic_relationships.html#many-to-one" target="_blank" rel="noopener">Many To One</a>, <a href="http://docs.sqlalchemy.org/en/latest/orm/basic_relationships.html#one-to-one" target="_blank" rel="noopener">One To One</a>, and <a href="http://docs.sqlalchemy.org/en/latest/orm/basic_relationships.html#many-to-many" target="_blank" rel="noopener">Many To Many</a>.</p>
+<p>现在我们了解到什么是ORM和各种数据类型，接下来让我们学习怎么使用SQLAlchemy将类中的关系映射到表之间的关系。SQLAlchemy支持四种关系：一对多，多对一，一对一和多对多。</p>
+<blockquote>
+<p>Note that this section will be an overview of all these types, but in the <em>SQLAlchemy ORM in Practice</em> action we will do a hands-on to practice mapping classes into tables and to learn how to insert, extract, and remove data from these tables.</p>
+</blockquote>
+<p>The first type, <em>One To Many</em>, is used to mark that an instance of a class can be associated with many instances of another class. For example, on a blog engine, an instance of the <code>Article</code> class could be associated with many instances of the <code>Comment</code> class. In this case, we would map the mentioned classes and its relation as follows:</p>
+<p>第一种，一对多，用来标注一个类的实例能够与另一个类的多个实例相关联。例如，在一个博客上， <code>Article</code>类的一个实例可以对应到 <code>Comment</code> 类的多个实例。在这个例子中，我们像下面这样对刚刚提到的类和关系进行映射：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Article</span><span class="params">(Base)</span>:</span></span><br><span class="line">    __tablename__ = <span class="string">'articles'</span></span><br><span class="line">    id = Column(Integer, primary_key=<span class="keyword">True</span>)</span><br><span class="line">    comments = relationship(<span class="string">"Comment"</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Comment</span><span class="params">(Base)</span>:</span></span><br><span class="line">    __tablename__ = <span class="string">'comments'</span></span><br><span class="line">    id = Column(Integer, primary_key=<span class="keyword">True</span>)</span><br><span class="line">    <span class="comment"># 多的一方设置了外键</span></span><br><span class="line">    article_id = Column(Integer, ForeignKey(<span class="string">'articles.id'</span>))</span><br></pre></td></tr></table></figure>
+<p>The second type, <em>Many To One</em>, refers to the same relationship described above but from the other perspective. To give a different example, let’s say that we want to map the relationship between instances of <code>Tire</code> to an instance of a <code>Car</code>. As many tires belong to one car and this car contains many tires, we would map this relation as follows:</p>
+<p>第二种类型，多对一，跟上面提到的关系一样，但从反方来说。举个不同的例子，假设我们想要映射<code>Tire</code>多个实例（多个轮胎）和一个<code>Car</code>实例的关系。因为很多条轮胎属于同一辆车并且这辆车拥有多条轮胎，我们可能会这样来映射：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Tire</span><span class="params">(Base)</span>:</span></span><br><span class="line">    __tablename__ = <span class="string">'tires'</span></span><br><span class="line">    id = Column(Integer, primary_key=<span class="keyword">True</span>)</span><br><span class="line">    <span class="comment"># 跟一对多不同的是，这次relationship也是在多的一方，跟外键一起</span></span><br><span class="line">    car_id = Column(Integer, ForeignKey(<span class="string">'cars.id'</span>))</span><br><span class="line">    car = relationship(<span class="string">"Car"</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Car</span><span class="params">(Base)</span>:</span></span><br><span class="line">    __tablename__ = <span class="string">'cars'</span></span><br><span class="line">    id = Column(Integer, primary_key=<span class="keyword">True</span>)</span><br></pre></td></tr></table></figure>
+<p>The third type, <em>One To One</em>, refers to relationships where an instance of a particular class may only be associated with one instance of another class, and vice versa. As an example, consider the relationship between a <code>Person</code> and a <code>MobilePhone</code>. Usually, one person possesses one mobile phone and this mobile phone belongs to this person only. To map this relationship on SQLAlchemy, we would create the following code:</p>
+<p>第三种类型，一对一是指一个特定类的实例只能关联到另一个类的一个实例这样的关系，反之亦然。举个例子，想象一个人和一个手机之间的关系。通常来说，一个人拥有一个手机，同时这个手机也只属于这个人。在SQLAlchemy映射这样的关系，我们可以来写：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span><span class="params">(Base)</span>:</span></span><br><span class="line">    __tablename__ = <span class="string">'people'</span></span><br><span class="line">    id = Column(Integer, primary_key=<span class="keyword">True</span>)</span><br><span class="line">    <span class="comment"># back_populates的值是属性的字符串名称，必须在mapper的另一端中显式定义（MobilePhone）</span></span><br><span class="line">    <span class="comment"># uselist为False，标量。在一对多和多对多中为True，对应是列表（forms a list），在多对一则是scalar</span></span><br><span class="line">    mobile_phone = relationship(<span class="string">"MobilePhone"</span>, uselist=<span class="keyword">False</span>, back_populates=<span class="string">"person"</span>)</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MobilePhone</span><span class="params">(Base)</span>:</span></span><br><span class="line">    __tablename__ = <span class="string">'mobile_phones'</span></span><br><span class="line">    id = Column(Integer, primary_key=<span class="keyword">True</span>)</span><br><span class="line">    person_id = Column(Integer, ForeignKey(<span class="string">'people.id'</span>))</span><br><span class="line">    <span class="comment"># 同样的，back_populates="mobile_phone"中的mobile_phone也是在Person中定义的了</span></span><br><span class="line">    person = relationship(<span class="string">"Person"</span>, back_populates=<span class="string">"mobile_phone"</span>)</span><br></pre></td></tr></table></figure>
+<p>In this example, we pass two extra parameters to the <code>relationship</code> function. The first one, <code>uselist=False</code>, makes SQLAlchemy understand that <code>mobile_phone</code> will hold only a single instance and not an array (multiple) of instances. The second one, <code>back_populates</code>, instructs SQLAlchemy to populate the other side of the mapping. The <a href="http://docs.sqlalchemy.org/en/latest/orm/relationship_api.html" target="_blank" rel="noopener">official Relationships API documentation</a>provides a complete explanation of these parameters and also covers other parameters not mentioned here.</p>
+<p>在这里例子中，我们传递两个参数给relationship函数。第一个参数<code>uselist=False</code>，告知SQLAlchemy <code>mobile_phone</code>列仅包含单个实例，而不是实例列表（多个实例）。第二个参数， <code>back_populates</code>，指示SQLAlchemy填充到映射的另一端。official Realtionships API documentation提供了这些参数的完整解释，也包括了这里没提到的参数。</p>
+<p>The last type supported by SQLAlchemy, <em>Many To Many</em>, is used when instances of a particular class can have zero or more associations to instances of another class. For example, let’s say that we are mapping the relationship of instances of <code>Student</code> and instances of <code>Class</code> in a system that manages a school. As many students can participate in many classes, we would map the relationship as follows:</p>
+<p>SQLAlchemy所支持的最后一种类型，多对多，被用在当一个特定类的实例（多个）与另一个类的实例有零个或者多个联系的时候。例如，假设我们在学校管理系统中映射 <code>Student</code> 实例和 <code>Class</code>实例。因为很多学生可以参加多个课程，我们可以这样映射：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">students_classes_association = Table(<span class="string">'students_classes'</span>, Base.metadata,</span><br><span class="line">    Column(<span class="string">'student_id'</span>, Integer, ForeignKey(<span class="string">'students.id'</span>)),</span><br><span class="line">    Column(<span class="string">'class_id'</span>, Integer, ForeignKey(<span class="string">'classes.id'</span>))</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span><span class="params">(Base)</span>:</span></span><br><span class="line">    __tablename__ = <span class="string">'students'</span></span><br><span class="line">    id = Column(Integer, primary_key=<span class="keyword">True</span>)</span><br><span class="line">    <span class="comment"># 为什么只在这边写</span></span><br><span class="line">    classes = relationship(<span class="string">"Class"</span>, secondary=students_classes_association)</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Class</span><span class="params">(Base)</span>:</span></span><br><span class="line">    __tablename__ = <span class="string">'classes'</span></span><br><span class="line">    id = Column(Integer, primary_key=<span class="keyword">True</span>)</span><br></pre></td></tr></table></figure>
+<p>In this case, we had to create a helper table to persist the association between instances of <code>Student</code> and instances of <code>Class</code>, as this wouldn’t be possible without an extra table. Note that, to make SQLAlchemy aware of the helper table, we passed it in the <code>secondary</code> parameter of the <code>relationship</code> function.</p>
+<p>在这种情况下，我们必须创建一个中间表来持久化<code>Student</code> 实例和 <code>Class</code>实例之间的关联，因为如果没有另一张表是没办法实现的。需要注意的是，为了让SQLAlchemy知道中间表的存在，我们将它传递给relationship函数的<code>secondary</code>参数。</p>
+<p>The above code snippets show just a subset of the mapping options supported by SQLAlchemy. In the following sections, we are going to take a more in-depth look into each one of the available relationship patterns. Besides that, <a href="http://docs.sqlalchemy.org/en/latest/orm/basic_relationships.html" target="_blank" rel="noopener">the official documentation is a great reference to learn more about relationship patterns on SQLAlchemy</a>.</p>
+<h3 id="SQLAlchemy-ORM-Cascade"><a href="#SQLAlchemy-ORM-Cascade" class="headerlink" title="SQLAlchemy ORM Cascade"></a>SQLAlchemy ORM Cascade</h3><p>Whenever rows in a particular table are updated or deleted, rows in other tables might need to suffer changes as well. These changes can be simple updates, which are called cascade updates, or full deletes, known as cascade deletes. For example, let’s say that we have a table called <code>shopping_carts</code>, a table called <code>products</code>, and a third one called <code>shopping_carts_products</code> that connects the first two tables. If, for some reason, we need to delete rows from <code>shopping_carts</code> we will need to delete the related rows from <code>shopping_carts_products</code> as well. Otherwise we will end up with a lot of garbage and unfulfilled references in our database.</p>
+<p>任何时候，某个表中的行被更新了或者删除，其他表格中的行也应该要有相应的变动。这些变化可以是简单的更新，称为级联更新，也可以是完全删除，称为级联删除。例如，假设我们有三张表，分别是<code>shopping_carts</code>表、<code>products</code>表和<code>shopping_carts_products</code>表，第三张表是用来连接前两张表的。如果，因为某些原因，我们从<code>shopping_carts</code>表中删除一些行，我们同样需要在<code>shopping_carts_products</code>表删除与之相关的行。否则，我们的数据库可能会有大量垃圾或者未完成的引用。</p>
+<p>To make this kind of operation easy to maintain, SQLAlchemy ORM enables developers to map cascade behavior when using <code>relationship()</code> constructs. Like that, when operations are performed on <em>parent</em> objects, <em>child</em> objects get updated/deleted as well. The following list provides a brief explanation of the most used cascade strategies on SQLAlchemy ORM:</p>
+<p>为了让这类操作更易维护，SQLAlchemy ORM允许开发者通过<code>relationship()</code>来映射级联行为。这样一来，在父类上的操作生效后，子类也会跟着更新/删除。以下列表简要说明了SQLAlchemy ORM上最常用的级联策略：</p>
+<ul>
+<li><code>save-update</code>: Indicates that when a parent object is saved/updated, child objects are saved/updated as well.<ul>
+<li>当父对象保存/更新时，子对象也会跟着保存/更新</li>
+</ul>
+</li>
+<li><code>delete</code>: Indicates that when a parent object is deleted, children of this object will be deleted as well.<ul>
+<li>当父对象被删除时，该对象的后代也会被删除</li>
+</ul>
+</li>
+<li><code>delete-orphan</code>: Indicates that when a child object loses reference to a parent, it will get deleted.<ul>
+<li>当子对象失去对父对象的引用时，就会被删除</li>
+</ul>
+</li>
+<li><code>merge</code>: Indicates that <code>merge()</code> operations propagate from parent to children.<ul>
+<li><code>merge()</code>操作从父级传播到子级</li>
+</ul>
+</li>
+</ul>
+<p>If more information about this feature is needed, the <a href="http://docs.sqlalchemy.org/en/latest/orm/cascades.html" target="_blank" rel="noopener">SQLAlchemy documentation provides an excellent chapter about Cascades</a>.</p>
+<h3 id="SQLAlchemy-Sessions"><a href="#SQLAlchemy-Sessions" class="headerlink" title="SQLAlchemy Sessions"></a>SQLAlchemy Sessions</h3><p>Sessions, on SQLAlchemy ORM, are the implementation of the <a href="https://martinfowler.com/eaaCatalog/unitOfWork.html" target="_blank" rel="noopener">Unit of Work</a>design pattern. As explained by Martin Fowler, a Unit of Work is used to maintain a list of objects affected by a business transaction and to coordinate the writing out of these changes. This means that all modifications tracked by Sessions (Units of Works) will be applied to the underlying database together, or none of them will. In other words, Sessions are used to guarantee the database consistency.</p>
+<p><a href="http://docs.sqlalchemy.org/en/rel_1_1/orm/session_basics.html" target="_blank" rel="noopener">The official SQLAlchemy ORM documentation about Sessions</a> gives a great explanation how changes are tracked, how to get sessions, and how to create ad-hoc sessions. However, in this article, we will use the most basic form of session creation:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sqlalchemy <span class="keyword">import</span> create_engine</span><br><span class="line"><span class="keyword">from</span> sqlalchemy.orm <span class="keyword">import</span> sessionmaker</span><br><span class="line"></span><br><span class="line"><span class="comment"># create an engine</span></span><br><span class="line">engine = create_engine(<span class="string">'postgresql://usr:pass@localhost:5432/sqlalchemy'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># create a configured "Session" class</span></span><br><span class="line">Session = sessionmaker(bind=engine)</span><br><span class="line"></span><br><span class="line"><span class="comment"># create a Session</span></span><br><span class="line">session = Session()</span><br></pre></td></tr></table></figure>
+<p>As we can see from the code snippet above, we only need one step to get sessions. We need to create a session factory that is bound to the SQLAlchemy engine. After that, we can just issue calls to this session factory to get our sessions.</p>
+<h2 id="SQLAlchemy-in-Practice"><a href="#SQLAlchemy-in-Practice" class="headerlink" title="SQLAlchemy in Practice"></a>SQLAlchemy in Practice</h2><p>Now that we got a better understanding of the most important pieces of SQLAlchemy, it’s time to start practicing it. In the following sections, we will create a small project based on <a href="https://github.com/kennethreitz/pipenv" target="_blank" rel="noopener"><code>pipenv</code></a>—a Python dependency manager—and add some classes to it. Then we will map these classes to tables persisted to a PostgreSQL database and learn how to query data.</p>
+<h3 id="Starting-the-Tutorial-Project"><a href="#Starting-the-Tutorial-Project" class="headerlink" title="Starting the Tutorial Project"></a>Starting the Tutorial Project</h3><p>To create our tutorial project, we have to have Python installed on our machine and <code>pipenv</code> installed as a global Python package. The following commands will install <code>pipenv</code> and set up the project. These commands are dependent on Python, so be <a href="https://www.python.org/downloads/" target="_blank" rel="noopener">sure to have it installed before proceeding</a>:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># install pipenv globally</span></span><br><span class="line">pip install pipenv</span><br><span class="line"></span><br><span class="line"><span class="comment"># create a new directory for our project</span></span><br><span class="line">mkdir sqlalchemy-tutorial</span><br><span class="line"></span><br><span class="line"><span class="comment"># change working directory to it</span></span><br><span class="line">cd sqlalchemy-tutorial</span><br><span class="line"></span><br><span class="line"><span class="comment"># create a Python 3 project</span></span><br><span class="line">pipenv --three</span><br></pre></td></tr></table></figure>
+<h3 id="Running-PostgreSQL"><a href="#Running-PostgreSQL" class="headerlink" title="Running PostgreSQL"></a>Running PostgreSQL</h3><p>To be able to practice our new skills and to learn how to query data on SQLAlchemy, we will need a database to support our examples. As already mentioned, SQLAlchemy provides support for many different databases engines, but the instructions that follow will focus on PostgreSQL. There are many ways to get an instance of PostgreSQL. One of them is to use some cloud provider like <a href="https://www.heroku.com/" target="_blank" rel="noopener">Heroku</a> or <a href="https://www.elephantsql.com/" target="_blank" rel="noopener">ElephantSQL</a> (both of them have free tiers). Another possibility is to <a href="https://wiki.postgresql.org/wiki/Detailed_installation_guides" target="_blank" rel="noopener">install PostgreSQL locally on our current environment</a>. A third option is to run a PostgreSQL instance inside a Docker container.</p>
+<p>The third option is probably the best choice because it has the performance of an instance running locally, it’s free forever, and because it’s easy to create and destroy Docker instances. The only (small) disadvantage is that we need to <a href="https://docs.docker.com/engine/installation/" target="_blank" rel="noopener">install Docker locally</a>.</p>
+<p>After having Docker installed, we can create and destroy <em>dockerized</em> PostgreSQL instances with the following commands:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># create a PostgreSQL instance</span></span><br><span class="line">docker run --name sqlalchemy-orm-psql \</span><br><span class="line">    -e POSTGRES_PASSWORD=<span class="keyword">pass</span> \</span><br><span class="line">    -e POSTGRES_USER=usr \</span><br><span class="line">    -e POSTGRES_DB=sqlalchemy \</span><br><span class="line">    -p <span class="number">5432</span>:<span class="number">5432</span> \</span><br><span class="line">    -d postgres</span><br><span class="line"></span><br><span class="line"><span class="comment"># stop instance</span></span><br><span class="line">docker stop sqlalchemy-orm-psql</span><br><span class="line"></span><br><span class="line"><span class="comment"># destroy instance</span></span><br><span class="line">docker rm sqlalchemy-orm-psql</span><br></pre></td></tr></table></figure>
+<p>The first command, the one that creates the PostgreSQL instance, contains a few parameters that are worth inspecting:</p>
+<ul>
+<li><code>--name</code>: Defines the name of the Docker instance.</li>
+<li><code>-e POSTGRES_PASSWORD</code>: Defines the password to connect to PostgreSQL.</li>
+<li><code>-e POSTGRES_USER</code>: Defines the user to connect to PostgreSQL.</li>
+<li><code>-e POSTGRES_DB</code>: Defines the main (and only) database available in the PostgreSQL instance.</li>
+<li><code>-p 5432:5432</code>: Defines that the local <code>5432</code> port will tunnel connections to the same port in the Docker instance.</li>
+<li><code>-d postgres</code>: Defines that this Docker instance will be created based on the <a href="https://hub.docker.com/_/postgres/" target="_blank" rel="noopener">official PostgreSQL repository</a>.</li>
+</ul>
+<h3 id="Installing-SQLAlchemy-Dependencies"><a href="#Installing-SQLAlchemy-Dependencies" class="headerlink" title="Installing SQLAlchemy Dependencies"></a>Installing SQLAlchemy Dependencies</h3><p>In this tutorial, we will need to install only two packages: <code>sqlalchemy</code> and <code>psycopg2</code>. The first dependency refers to SQLAlchemy itself and the second one, <code>psycopg2</code>, is the PostgreSQL driver that SQLAlchemy will use to communicate with the database. To install these dependencies, we will use <code>pipenv</code> as shown:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> install sqlalchemy and psycopg2</span></span><br><span class="line">pipenv install sqlalchemy psycopg2</span><br></pre></td></tr></table></figure>
+<p>This command will download both libraries and make them available in our <a href="https://github.com/kennethreitz/pipenv#basic-concepts" target="_blank" rel="noopener">Python virtual environment</a>. Note that to run the scripts that we are going to create, we first need to spawn the virtual environment shell. That is, before executing <code>python somescript.py</code>, we need to execute <code>pipenv shell</code>. Otherwise, Python won’t be able to find the installed dependencies, as they are just available in our new virtual environment.</p>
+<h3 id="Mapping-Classes-with-SQLAlchemy"><a href="#Mapping-Classes-with-SQLAlchemy" class="headerlink" title="Mapping Classes with SQLAlchemy"></a>Mapping Classes with SQLAlchemy</h3><p>After starting the <em>dockerized</em> PostgreSQL instance and installing the Python dependencies, we can begin to map Python classes to database tables. In this tutorial, we will map four simple classes that represent movies, actors, stuntmen, and contact details. The following diagram illustrates these entities’ characteristics and their relations.</p>
+<p><img src="https://cdn.auth0.com/blog/sqlalchemy-tutorial/class_diagram_tuto.jpg" alt="Mapping Python classes with SQLAlchemy"></p>
+<p>To start, we will create a file called <code>base.py</code> in the main directory of our project and add the following code to it:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># coding=utf-8</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> sqlalchemy <span class="keyword">import</span> create_engine</span><br><span class="line"><span class="keyword">from</span> sqlalchemy.ext.declarative <span class="keyword">import</span> declarative_base</span><br><span class="line"><span class="keyword">from</span> sqlalchemy.orm <span class="keyword">import</span> sessionmaker</span><br><span class="line"></span><br><span class="line">engine = create_engine(<span class="string">'postgresql://usr:pass@localhost:5432/sqlalchemy'</span>)</span><br><span class="line">Session = sessionmaker(bind=engine)</span><br><span class="line"></span><br><span class="line">Base = declarative_base()</span><br></pre></td></tr></table></figure>
+<p>This code creates:</p>
+<ul>
+<li>a SQLAlchemy Engine that will interact with our <em>dockerized</em> PostgreSQL database,</li>
+<li>a SQLAlchemy ORM session factory bound to this engine,</li>
+<li>and a base class for our classes definitions.</li>
+</ul>
+<p>Now let’s create and map the <code>Movie</code> class. To do this, let’s create a new file called <code>movie.py</code> and add the following code to it:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># coding=utf-8</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> sqlalchemy <span class="keyword">import</span> Column, String, Integer, Date</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> base <span class="keyword">import</span> Base</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Movie</span><span class="params">(Base)</span>:</span></span><br><span class="line">    __tablename__ = <span class="string">'movies'</span></span><br><span class="line"></span><br><span class="line">    id = Column(Integer, primary_key=<span class="keyword">True</span>)</span><br><span class="line">    title = Column(String)</span><br><span class="line">    release_date = Column(Date)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, title, release_date)</span>:</span></span><br><span class="line">        self.title = title</span><br><span class="line">        self.release_date = release_date</span><br></pre></td></tr></table></figure>
+<p>The definition of this class and its mapping characteristics is quite simple. We start by making this class extend the <code>Base</code> class defined in the <code>base.py</code>module and then we add four properties to it:</p>
+<ol>
+<li>A <code>__tablename__</code> to indicate what is the name of the table that will support this class.</li>
+<li>An <code>id</code> to represent the primary key in the table.</li>
+<li>A <code>title</code> of type <code>String</code>.</li>
+<li>A <code>release_date</code> of type <code>Date</code>.</li>
+</ol>
+<p>The next class that we will create and map is the <code>Actor</code> class. Let’s create a file called <code>actor.py</code> and add the following code to it:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># coding=utf-8</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> sqlalchemy <span class="keyword">import</span> Column, String, Integer, Date</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> base <span class="keyword">import</span> Base</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Actor</span><span class="params">(Base)</span>:</span></span><br><span class="line">    __tablename__ = <span class="string">'actors'</span></span><br><span class="line"></span><br><span class="line">    id = Column(Integer, primary_key=<span class="keyword">True</span>)</span><br><span class="line">    name = Column(String)</span><br><span class="line">    birthday = Column(Date)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, name, birthday)</span>:</span></span><br><span class="line">        self.name = name</span><br><span class="line">        self.birthday = birthday</span><br></pre></td></tr></table></figure>
+<p>The definition of this class is pretty similar to the previous one. The differences are that the <code>Actor</code> has a <code>name</code> instead of a <code>title</code>, a <code>birthday</code> instead of a <code>release_date</code>, and that it points to a table called <code>actors</code> instead of <code>movies</code>.</p>
+<p>As many movies can have many actors and vice-versa, we will need to create a <em>Many To Many</em> relationship between these two classes. Let’s create this relationship by updating the <code>movie.py</code> file as follows:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># coding=utf-8</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> sqlalchemy <span class="keyword">import</span> Column, String, Integer, Date, Table, ForeignKey</span><br><span class="line"><span class="keyword">from</span> sqlalchemy.orm <span class="keyword">import</span> relationship</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> base <span class="keyword">import</span> Base</span><br><span class="line"></span><br><span class="line">movies_actors_association = Table(</span><br><span class="line">    <span class="string">'movies_actors'</span>, Base.metadata,</span><br><span class="line">    Column(<span class="string">'movie_id'</span>, Integer, ForeignKey(<span class="string">'movies.id'</span>)),</span><br><span class="line">    Column(<span class="string">'actor_id'</span>, Integer, ForeignKey(<span class="string">'actors.id'</span>))</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Movie</span><span class="params">(Base)</span>:</span></span><br><span class="line">    __tablename__ = <span class="string">'movies'</span></span><br><span class="line"></span><br><span class="line">    id = Column(Integer, primary_key=<span class="keyword">True</span>)</span><br><span class="line">    title = Column(String)</span><br><span class="line">    release_date = Column(Date)</span><br><span class="line">    actors = relationship(<span class="string">"Actor"</span>, secondary=movies_actors_association)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, title, release_date)</span>:</span></span><br><span class="line">        self.title = title</span><br><span class="line">        self.release_date = release_date</span><br></pre></td></tr></table></figure>
+<p>The difference between this version and the previous one is that:</p>
+<ul>
+<li>we imported three new entities: <code>Table</code>, <code>ForeignKey</code>, and <code>relationship</code>;</li>
+<li>we created a <code>movies_actors_association</code> table that connects rows of <code>actors</code> and rows of <code>movies</code>;</li>
+<li>and we added the <code>actors</code> property to <code>Movie</code> and configured the <code>movies_actors_association</code> as the intermediary table.</li>
+</ul>
+<p>The next class that we will create is <code>Stuntman</code>. In our tutorial, a particular <code>Actor</code> will have only one <code>Stuntman</code> and this <code>Stuntman</code> will work only with this <code>Actor</code>. This means that we need to create the <code>Stuntman</code> class and a <em>One To One</em> relationship between these classes. To accomplish that, let’s create a file called <code>stuntman.py</code> and add the following code to it:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># coding=utf-8</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> sqlalchemy <span class="keyword">import</span> Column, String, Integer, Boolean, ForeignKey</span><br><span class="line"><span class="keyword">from</span> sqlalchemy.orm <span class="keyword">import</span> relationship, backref</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> base <span class="keyword">import</span> Base</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Stuntman</span><span class="params">(Base)</span>:</span></span><br><span class="line">    __tablename__ = <span class="string">'stuntmen'</span></span><br><span class="line"></span><br><span class="line">    id = Column(Integer, primary_key=<span class="keyword">True</span>)</span><br><span class="line">    name = Column(String)</span><br><span class="line">    active = Column(Boolean)</span><br><span class="line">    actor_id = Column(Integer, ForeignKey(<span class="string">'actors.id'</span>))</span><br><span class="line">    actor = relationship(<span class="string">"Actor"</span>, backref=backref(<span class="string">"stuntman"</span>, uselist=<span class="keyword">False</span>))</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, name, active, actor)</span>:</span></span><br><span class="line">        self.name = name</span><br><span class="line">        self.active = active</span><br><span class="line">        self.actor = actor</span><br></pre></td></tr></table></figure>
+<p>In this class, we have defined that the <code>actor</code> property references an instance of <code>Actor</code> and that this actor will get a property called <code>stuntman</code> that is not a list (<code>uselist=False</code>). That is, whenever we load an instance of <code>Stuntman</code>, SQLAlchemy will also load and populate the <code>Actor</code> associated with this stuntman.</p>
+<p>The fourth and final class that we will map in our tutorial is <code>ContactDetails</code>. Instances of this class will hold a <code>phone_number</code> and an <code>address</code> of a particular <code>Actor</code>, and one <code>Actor</code> will be able to have many <code>ContactDetails</code> associated. Therefore, we will need to use the <em>Many To One</em> relationship pattern to map this association. To create this class and this association, let’s create a file called <code>contact_details.py</code> and add the following source code to it:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># coding=utf-8</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> sqlalchemy <span class="keyword">import</span> Column, String, Integer, ForeignKey</span><br><span class="line"><span class="keyword">from</span> sqlalchemy.orm <span class="keyword">import</span> relationship</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> base <span class="keyword">import</span> Base</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ContactDetails</span><span class="params">(Base)</span>:</span></span><br><span class="line">    __tablename__ = <span class="string">'contact_details'</span></span><br><span class="line"></span><br><span class="line">    id = Column(Integer, primary_key=<span class="keyword">True</span>)</span><br><span class="line">    phone_number = Column(String)</span><br><span class="line">    address = Column(String)</span><br><span class="line">    actor_id = Column(Integer, ForeignKey(<span class="string">'actors.id'</span>))</span><br><span class="line">    actor = relationship(<span class="string">"Actor"</span>, backref=<span class="string">"contact_details"</span>)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, phone_number, address, actor)</span>:</span></span><br><span class="line">        self.phone_number = phone_number</span><br><span class="line">        self.address = address</span><br><span class="line">        self.actor = actor</span><br></pre></td></tr></table></figure>
+<p>As we can see, creating a <em>Many To One</em> association is kinda similar to creating a <em>One To One</em> association. The difference is that in the latter we instructed SQLAlchemy not to use lists. This instruction ends up restricting the association to a single instance instead of a list of instances.</p>
+<h3 id="Persisting-Data-with-SQLAlchemy-ORM"><a href="#Persisting-Data-with-SQLAlchemy-ORM" class="headerlink" title="Persisting Data with SQLAlchemy ORM"></a>Persisting Data with SQLAlchemy ORM</h3><p>Now that we have created our classes, let’s create a file called <code>inserts.py</code> and generate some instances of these classes to persist to the database. In this file, let’s add the following code:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># coding=utf-8</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 1 - imports</span></span><br><span class="line"><span class="keyword">from</span> datetime <span class="keyword">import</span> date</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> actor <span class="keyword">import</span> Actor</span><br><span class="line"><span class="keyword">from</span> base <span class="keyword">import</span> Session, engine, Base</span><br><span class="line"><span class="keyword">from</span> contact_details <span class="keyword">import</span> ContactDetails</span><br><span class="line"><span class="keyword">from</span> movie <span class="keyword">import</span> Movie</span><br><span class="line"><span class="keyword">from</span> stuntman <span class="keyword">import</span> Stuntman</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2 - generate database schema</span></span><br><span class="line">Base.metadata.create_all(engine)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 3 - create a new session</span></span><br><span class="line">session = Session()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 4 - create movies</span></span><br><span class="line">bourne_identity = Movie(<span class="string">"The Bourne Identity"</span>, date(<span class="number">2002</span>, <span class="number">10</span>, <span class="number">11</span>))</span><br><span class="line">furious_7 = Movie(<span class="string">"Furious 7"</span>, date(<span class="number">2015</span>, <span class="number">4</span>, <span class="number">2</span>))</span><br><span class="line">pain_and_gain = Movie(<span class="string">"Pain &amp; Gain"</span>, date(<span class="number">2013</span>, <span class="number">8</span>, <span class="number">23</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 5 - creates actors</span></span><br><span class="line">matt_damon = Actor(<span class="string">"Matt Damon"</span>, date(<span class="number">1970</span>, <span class="number">10</span>, <span class="number">8</span>))</span><br><span class="line">dwayne_johnson = Actor(<span class="string">"Dwayne Johnson"</span>, date(<span class="number">1972</span>, <span class="number">5</span>, <span class="number">2</span>))</span><br><span class="line">mark_wahlberg = Actor(<span class="string">"Mark Wahlberg"</span>, date(<span class="number">1971</span>, <span class="number">6</span>, <span class="number">5</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 6 - add actors to movies</span></span><br><span class="line">bourne_identity.actors = [matt_damon]</span><br><span class="line">furious_7.actors = [dwayne_johnson]</span><br><span class="line">pain_and_gain.actors = [dwayne_johnson, mark_wahlberg]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 7 - add contact details to actors</span></span><br><span class="line">matt_contact = ContactDetails(<span class="string">"415 555 2671"</span>, <span class="string">"Burbank, CA"</span>, matt_damon)</span><br><span class="line">dwayne_contact = ContactDetails(<span class="string">"423 555 5623"</span>, <span class="string">"Glendale, CA"</span>, dwayne_johnson)</span><br><span class="line">dwayne_contact_2 = ContactDetails(<span class="string">"421 444 2323"</span>, <span class="string">"West Hollywood, CA"</span>, dwayne_johnson)</span><br><span class="line">mark_contact = ContactDetails(<span class="string">"421 333 9428"</span>, <span class="string">"Glendale, CA"</span>, mark_wahlberg)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 8 - create stuntmen</span></span><br><span class="line">matt_stuntman = Stuntman(<span class="string">"John Doe"</span>, <span class="keyword">True</span>, matt_damon)</span><br><span class="line">dwayne_stuntman = Stuntman(<span class="string">"John Roe"</span>, <span class="keyword">True</span>, dwayne_johnson)</span><br><span class="line">mark_stuntman = Stuntman(<span class="string">"Richard Roe"</span>, <span class="keyword">True</span>, mark_wahlberg)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 9 - persists data</span></span><br><span class="line">session.add(bourne_identity)</span><br><span class="line">session.add(furious_7)</span><br><span class="line">session.add(pain_and_gain)</span><br><span class="line"></span><br><span class="line">session.add(matt_contact)</span><br><span class="line">session.add(dwayne_contact)</span><br><span class="line">session.add(dwayne_contact_2)</span><br><span class="line">session.add(mark_contact)</span><br><span class="line"></span><br><span class="line">session.add(matt_stuntman)</span><br><span class="line">session.add(dwayne_stuntman)</span><br><span class="line">session.add(mark_stuntman)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 10 - commit and close session</span></span><br><span class="line">session.commit()</span><br><span class="line">session.close()</span><br></pre></td></tr></table></figure>
+<p>This code is split into 10 sections. Let’s inspect them:</p>
+<ol>
+<li>The first section imports the classes that we created, the SQLAlchemy engine, the Base class, the session factory, and <code>date</code> from the <code>datetime</code>module.</li>
+<li>The second section instructs SQLAlchemy to generate the database schema. This generation occurs based on the declarations that we made while creating the four main classes that compose our tutorial.</li>
+<li>The third section extracts a new session from the session factory.</li>
+<li>The fourth section creates three instances of the <code>Movie</code> class.</li>
+<li>The fifth section creates three instances of the <code>Actor</code> class.</li>
+<li>The sixth section adds actors to movies. Note that the <em>Pain &amp; Gain</em> movie references two actors: <em>Dwayne Johnson</em> and <em>Mark Wahlberg</em>.</li>
+<li>The seventh section creates instances of the <code>ContactDetails</code> class and defines what actors these instances are associated to.</li>
+<li>The eighth section defines three stuntmen and also defines what actors these stuntmen are associated to.</li>
+<li>The ninth section uses the current session to save the movies, actors, contact details, and stuntmen created. Note that we haven’t explicitly saved actors. This is not needed because SQLAlchemy, by default, uses the <a href="http://docs.sqlalchemy.org/en/latest/orm/cascades.html#cascade-save-update" target="_blank" rel="noopener"><code>save-update</code> cascade strategy</a>.</li>
+<li>The tenth section commits the current session to the database and closes it.</li>
+</ol>
+<p>To run this Python script, we can simply issue the <code>python inserts.py</code>command (let’s not to run <code>pipenv shell</code> first) in the main directory of our database. Running it will create five tables in the PostgreSQL database and populate these tables with the data that we created. In the next section, we will learn how to query these tables.</p>
+<h3 id="Querying-Data-with-SQLAlchemy-ORM"><a href="#Querying-Data-with-SQLAlchemy-ORM" class="headerlink" title="Querying Data with SQLAlchemy ORM"></a>Querying Data with SQLAlchemy ORM</h3><p>As we will see, querying data with SQLAlchemy ORM is quite simple. This library provides an intuitive, fluent API that enables developers to write queries that are easy to read and to maintain. On SQLAlchemy ORM, all queries start with a <a href="http://docs.sqlalchemy.org/en/latest/orm/query.html" target="_blank" rel="noopener">Query Object</a> that is extracted from the current session and that is associated with a particular mapped class. To see this API in action, let’s create a file called <code>queries.py</code> and add to it the following source code:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># coding=utf-8</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 1 - imports</span></span><br><span class="line"><span class="keyword">from</span> actor <span class="keyword">import</span> Actor</span><br><span class="line"><span class="keyword">from</span> base <span class="keyword">import</span> Session</span><br><span class="line"><span class="keyword">from</span> contact_details <span class="keyword">import</span> ContactDetails</span><br><span class="line"><span class="keyword">from</span> movie <span class="keyword">import</span> Movie</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2 - extract a session</span></span><br><span class="line">session = Session()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 3 - extract all movies</span></span><br><span class="line">movies = session.query(Movie).all()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 4 - print movies' details</span></span><br><span class="line">print(<span class="string">'\n### All movies:'</span>)</span><br><span class="line"><span class="keyword">for</span> movie <span class="keyword">in</span> movies:</span><br><span class="line">    print(<span class="string">f'<span class="subst">&#123;movie.title&#125;</span> was released on <span class="subst">&#123;movie.release_date&#125;</span>'</span>)</span><br><span class="line">print(<span class="string">''</span>)</span><br></pre></td></tr></table></figure>
+<p>The code snippet above—that can be run with <code>python queries.py</code>,—shows how easy it is to use SQLAlchemy ORM to query data. To retrieve all movies from the database, we just needed to fetch a session from the session factory, use it to get a query associated with <code>Movie</code>, and then call the <code>all()</code> function on this query object. The Query API provides dozens of useful functions like <code>all()</code>. In the following list, we can see a brief explanation about the most important ones:</p>
+<ul>
+<li><code>count()</code>: Returns the total number of rows of a query.</li>
+<li><code>filter()</code>: Filters the query by applying a criteria.</li>
+<li><code>delete()</code>: Removes from the database the rows matched by a query.</li>
+<li><code>distinct()</code>: Applies a <a href="https://www.w3schools.com/sql/sql_distinct.asp" target="_blank" rel="noopener">distinct statement</a> to a query.</li>
+<li><code>exists()</code>: Adds an <a href="https://www.w3schools.com/sql/sql_exists.asp" target="_blank" rel="noopener">exists operator</a> to a subquery.</li>
+<li><code>first()</code>: Returns the first row in a query.</li>
+<li><code>get()</code>: Returns the row referenced by the primary key parameter passed as argument.</li>
+<li><code>join()</code>: Creates a <a href="https://www.w3schools.com/sql/sql_join.asp" target="_blank" rel="noopener">SQL join</a> in a query.</li>
+<li><code>limit()</code>: Limits the number of rows returned by a query.</li>
+<li><code>order_by()</code>: Sets an order in the rows returned by a query.</li>
+</ul>
+<p>To explore the usage of some of these functions, let’s append the following code to the <code>queries.py</code> script:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1 - imports</span></span><br><span class="line"><span class="keyword">from</span> datetime <span class="keyword">import</span> date</span><br><span class="line"></span><br><span class="line"><span class="comment"># other imports and sections...</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 5 - get movies after 15-01-01</span></span><br><span class="line">movies = session.query(Movie) \</span><br><span class="line">    .filter(Movie.release_date &gt; date(<span class="number">2015</span>, <span class="number">1</span>, <span class="number">1</span>)) \</span><br><span class="line">    .all()</span><br><span class="line"></span><br><span class="line">print(<span class="string">'### Recent movies:'</span>)</span><br><span class="line"><span class="keyword">for</span> movie <span class="keyword">in</span> movies:</span><br><span class="line">    print(<span class="string">f'<span class="subst">&#123;movie.title&#125;</span> was released after 2015'</span>)</span><br><span class="line">print(<span class="string">''</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 6 - movies that Dwayne Johnson participated</span></span><br><span class="line">the_rock_movies = session.query(Movie) \</span><br><span class="line">    .join(Actor, Movie.actors) \</span><br><span class="line">    .filter(Actor.name == <span class="string">'Dwayne Johnson'</span>) \</span><br><span class="line">    .all()</span><br><span class="line"></span><br><span class="line">print(<span class="string">'### Dwayne Johnson movies:'</span>)</span><br><span class="line"><span class="keyword">for</span> movie <span class="keyword">in</span> the_rock_movies:</span><br><span class="line">    print(<span class="string">f'The Rock starred in <span class="subst">&#123;movie.title&#125;</span>'</span>)</span><br><span class="line">print(<span class="string">''</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 7 - get actors that have house in Glendale</span></span><br><span class="line">glendale_stars = session.query(Actor) \</span><br><span class="line">    .join(ContactDetails) \</span><br><span class="line">    .filter(ContactDetails.address.ilike(<span class="string">'%glendale%'</span>)) \</span><br><span class="line">    .all()</span><br><span class="line"></span><br><span class="line">print(<span class="string">'### Actors that live in Glendale:'</span>)</span><br><span class="line"><span class="keyword">for</span> actor <span class="keyword">in</span> glendale_stars:</span><br><span class="line">    print(<span class="string">f'<span class="subst">&#123;actor.name&#125;</span> has a house in Glendale'</span>)</span><br><span class="line">print(<span class="string">''</span>)</span><br></pre></td></tr></table></figure>
+<p>The fifth section of the updated script uses the <code>filter()</code> function to fetch only movies that were released after January the first, 2015. The sixth section shows how to use <code>join()</code> to fetch instances of <code>Movie</code> that the <code>Actor</code> Dwayne Johnson participated in. The seventh and last section, shows the usage of <code>join()</code> and <code>ilike()</code> functions to retrieve actors that have houses in Glendale.</p>
+<p>Running the new version of the script (<code>python queries.py</code>) now will result in the following output:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">### All movies:</span></span><br><span class="line">The Bourne Identity was released on <span class="number">2002</span><span class="number">-10</span><span class="number">-11</span></span><br><span class="line">Furious <span class="number">7</span> was released on <span class="number">2015</span><span class="number">-04</span><span class="number">-02</span></span><br><span class="line">No Pain No Gain was released on <span class="number">2013</span><span class="number">-08</span><span class="number">-23</span></span><br><span class="line"></span><br><span class="line"><span class="comment">### Recent movies:</span></span><br><span class="line">Furious <span class="number">7</span> was released after <span class="number">2015</span></span><br><span class="line"></span><br><span class="line"><span class="comment">### Dwayne Johnson movies:</span></span><br><span class="line">The Rock starred <span class="keyword">in</span> No Pain No Gain</span><br><span class="line">The Rock starred <span class="keyword">in</span> Furious <span class="number">7</span></span><br><span class="line"></span><br><span class="line"><span class="comment">### Actors that live in Glendale:</span></span><br><span class="line">Dwayne Johnson has a house <span class="keyword">in</span> Glendale</span><br><span class="line">Mark Wahlberg has a house <span class="keyword">in</span> Glendale</span><br></pre></td></tr></table></figure>
+<p>As we can see, using the API is straightforward and generates a code that is readable. To see other functions supported by the Query API, and their description, take a look at <a href="http://docs.sqlalchemy.org/en/latest/orm/query.html" target="_blank" rel="noopener">the official documentation</a>.</p>
+<blockquote>
+<p><a href="https://twitter.com/intent/tweet?text=%22Querying+data+with+SQLAlchemy+ORM+is+easy+and+intuitive.%22%20via%20@auth0%20http://auth0.com/blog/sqlalchemy-orm-tutorial-for-python-developers/" target="_blank" rel="noopener">“Querying data with SQLAlchemy ORM is easy and intuitive.”TWEET THIS <img src="https://cdn.auth0.com/blog/resources/twitter.svg" alt="img"></a></p>
+</blockquote>
+<h2 id="Securing-Python-APIs-with-Auth0"><a href="#Securing-Python-APIs-with-Auth0" class="headerlink" title="Securing Python APIs with Auth0"></a>Securing Python APIs with Auth0</h2><p>Securing Python APIs with Auth0 is very easy and brings a lot of great features to the table. With Auth0, we only have to write a few lines of code to get:</p>
+<ul>
+<li>A solid <a href="https://auth0.com/user-management" target="_blank" rel="noopener">identity management solution</a>, including <a href="https://auth0.com/docs/sso/single-sign-on" target="_blank" rel="noopener">single sign-on</a></li>
+<li><a href="https://auth0.com/docs/user-profile" target="_blank" rel="noopener">User management</a></li>
+<li>Support for <a href="https://auth0.com/docs/identityproviders" target="_blank" rel="noopener">social identity providers (like Facebook, GitHub, Twitter, etc.)</a></li>
+<li><a href="https://auth0.com/enterprise" target="_blank" rel="noopener">Enterprise identity providers (Active Directory, LDAP, SAML, etc.)</a></li>
+<li>Our <a href="https://auth0.com/docs/connections/database/mysql" target="_blank" rel="noopener">own database of users</a></li>
+</ul>
+<p>For example, to secure Python APIs written with Flask, we can simply create a <code>requires_auth</code> decorator:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Format error response and append status code</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_token_auth_header</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="string">"""Obtains the access token from the Authorization Header</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    auth = request.headers.get(<span class="string">"Authorization"</span>, <span class="keyword">None</span>)</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> auth:</span><br><span class="line">        <span class="keyword">raise</span> AuthError(&#123;<span class="string">"code"</span>: <span class="string">"authorization_header_missing"</span>,</span><br><span class="line">                        <span class="string">"description"</span>:</span><br><span class="line">                            <span class="string">"Authorization header is expected"</span>&#125;, <span class="number">401</span>)</span><br><span class="line"></span><br><span class="line">    parts = auth.split()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> parts[<span class="number">0</span>].lower() != <span class="string">"bearer"</span>:</span><br><span class="line">        <span class="keyword">raise</span> AuthError(&#123;<span class="string">"code"</span>: <span class="string">"invalid_header"</span>,</span><br><span class="line">                        <span class="string">"description"</span>:</span><br><span class="line">                            <span class="string">"Authorization header must start with"</span></span><br><span class="line">                            <span class="string">" Bearer"</span>&#125;, <span class="number">401</span>)</span><br><span class="line">    <span class="keyword">elif</span> len(parts) == <span class="number">1</span>:</span><br><span class="line">        <span class="keyword">raise</span> AuthError(&#123;<span class="string">"code"</span>: <span class="string">"invalid_header"</span>,</span><br><span class="line">                        <span class="string">"description"</span>: <span class="string">"Token not found"</span>&#125;, <span class="number">401</span>)</span><br><span class="line">    <span class="keyword">elif</span> len(parts) &gt; <span class="number">2</span>:</span><br><span class="line">        <span class="keyword">raise</span> AuthError(&#123;<span class="string">"code"</span>: <span class="string">"invalid_header"</span>,</span><br><span class="line">                        <span class="string">"description"</span>:</span><br><span class="line">                            <span class="string">"Authorization header must be"</span></span><br><span class="line">                            <span class="string">" Bearer token"</span>&#125;, <span class="number">401</span>)</span><br><span class="line"></span><br><span class="line">    token = parts[<span class="number">1</span>]</span><br><span class="line">    <span class="keyword">return</span> token</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">requires_auth</span><span class="params">(f)</span>:</span></span><br><span class="line">    <span class="string">"""Determines if the access token is valid</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line"><span class="meta">    @wraps(f)</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">decorated</span><span class="params">(*args, **kwargs)</span>:</span></span><br><span class="line">        token = get_token_auth_header()</span><br><span class="line">        jsonurl = urlopen(<span class="string">"https://"</span>+AUTH0_DOMAIN+<span class="string">"/.well-known/jwks.json"</span>)</span><br><span class="line">        jwks = json.loads(jsonurl.read())</span><br><span class="line">        unverified_header = jwt.get_unverified_header(token)</span><br><span class="line">        rsa_key = &#123;&#125;</span><br><span class="line">        <span class="keyword">for</span> key <span class="keyword">in</span> jwks[<span class="string">"keys"</span>]:</span><br><span class="line">            <span class="keyword">if</span> key[<span class="string">"kid"</span>] == unverified_header[<span class="string">"kid"</span>]:</span><br><span class="line">                rsa_key = &#123;</span><br><span class="line">                    <span class="string">"kty"</span>: key[<span class="string">"kty"</span>],</span><br><span class="line">                    <span class="string">"kid"</span>: key[<span class="string">"kid"</span>],</span><br><span class="line">                    <span class="string">"use"</span>: key[<span class="string">"use"</span>],</span><br><span class="line">                    <span class="string">"n"</span>: key[<span class="string">"n"</span>],</span><br><span class="line">                    <span class="string">"e"</span>: key[<span class="string">"e"</span>]</span><br><span class="line">                &#125;</span><br><span class="line">        <span class="keyword">if</span> rsa_key:</span><br><span class="line">            <span class="keyword">try</span>:</span><br><span class="line">                payload = jwt.decode(</span><br><span class="line">                    token,</span><br><span class="line">                    rsa_key,</span><br><span class="line">                    algorithms=ALGORITHMS,</span><br><span class="line">                    audience=API_AUDIENCE,</span><br><span class="line">                    issuer=<span class="string">"https://"</span>+AUTH0_DOMAIN+<span class="string">"/"</span></span><br><span class="line">                )</span><br><span class="line">            <span class="keyword">except</span> jwt.ExpiredSignatureError:</span><br><span class="line">                <span class="keyword">raise</span> AuthError(&#123;<span class="string">"code"</span>: <span class="string">"token_expired"</span>,</span><br><span class="line">                                <span class="string">"description"</span>: <span class="string">"token is expired"</span>&#125;, <span class="number">401</span>)</span><br><span class="line">            <span class="keyword">except</span> jwt.JWTClaimsError:</span><br><span class="line">                <span class="keyword">raise</span> AuthError(&#123;<span class="string">"code"</span>: <span class="string">"invalid_claims"</span>,</span><br><span class="line">                                <span class="string">"description"</span>:</span><br><span class="line">                                    <span class="string">"incorrect claims,"</span></span><br><span class="line">                                    <span class="string">"please check the audience and issuer"</span>&#125;, <span class="number">401</span>)</span><br><span class="line">            <span class="keyword">except</span> Exception:</span><br><span class="line">                <span class="keyword">raise</span> AuthError(&#123;<span class="string">"code"</span>: <span class="string">"invalid_header"</span>,</span><br><span class="line">                                <span class="string">"description"</span>:</span><br><span class="line">                                    <span class="string">"Unable to parse authentication"</span></span><br><span class="line">                                    <span class="string">" token."</span>&#125;, <span class="number">400</span>)</span><br><span class="line"></span><br><span class="line">            _app_ctx_stack.top.current_user = payload</span><br><span class="line">            <span class="keyword">return</span> f(*args, **kwargs)</span><br><span class="line">        <span class="keyword">raise</span> AuthError(&#123;<span class="string">"code"</span>: <span class="string">"invalid_header"</span>,</span><br><span class="line">                        <span class="string">"description"</span>: <span class="string">"Unable to find appropriate key"</span>&#125;, <span class="number">400</span>)</span><br><span class="line">    <span class="keyword">return</span> decorated</span><br></pre></td></tr></table></figure>
+<p>Then use it in our endpoints:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Controllers API</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># This doesn't need authentication</span></span><br><span class="line"><span class="meta">@app.route("/ping")</span></span><br><span class="line"><span class="meta">@cross_origin(headers=['Content-Type', 'Authorization'])</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">ping</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">"All good. You don't need to be authenticated to call this"</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># This does need authentication</span></span><br><span class="line"><span class="meta">@app.route("/secured/ping")</span></span><br><span class="line"><span class="meta">@cross_origin(headers=['Content-Type', 'Authorization'])</span></span><br><span class="line"><span class="meta">@requires_auth</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">secured_ping</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">"All good. You only get this message if you're authenticated"</span></span><br></pre></td></tr></table></figure>
+<p><a href="https://auth0.com/docs/quickstart/backend/python" target="_blank" rel="noopener">To learn more about securing <em>Python APIs</em> with Auth0, take a look at this tutorial</a>. Alongside with tutorials for backend technologies (like Python, Java, and PHP), <a href="https://auth0.com/docs" target="_blank" rel="noopener">the <em>Auth0 Docs</em> webpage also provides tutorials for <em>Mobile/Native apps</em>and <em>Single-Page applications</em></a>.</p>
+<h2 id="Next-Steps"><a href="#Next-Steps" class="headerlink" title="Next Steps"></a>Next Steps</h2><p>We have covered a lot of ground in this article. We’ve learned about basic SQLAlchemy concepts like Engines, Connection Pools, and Dialects. After that, we’ve learned about how SQLAlchemy addresses ORM topics like Relationship Patterns, Cascade strategies, and the Query API. In the end, we applied this knowledge in a small exercise. In summary, we had the chance to learn and practice the most important pieces of SQLAlchemy and SQLAlchemy ORM. In the next article, we are going to use these new skills to implement RESTful APIs with Flask—the Python microframework for the web. Stay tuned!</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/amberwest.github.io/tags/sqlalchemy/" rel="tag"># sqlalchemy</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/amberwest.github.io/2018/09/17/requests自定义retries/" rel="next" title="requests自定义retries">
+                <i class="fa fa-chevron-left"></i> requests自定义retries
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/amberwest.github.io/2018/09/25/centos7下mysql安装和链接/" rel="prev" title="CentOS7下mysql安装和链接">
+                CentOS7下mysql安装和链接 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">amberwest</p>
+              <p class="site-description motion-element" itemprop="description">学习笔记</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/amberwest.github.io/archives/">
+                
+                    <span class="site-state-item-count">61</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/amberwest.github.io/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">7</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/amberwest.github.io/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">93</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:1006441720@qq.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-globe"></i>E-Mail</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#SQLAlchemy-Introduction"><span class="nav-number">1.</span> <span class="nav-text">SQLAlchemy Introduction</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Python-DBAPI"><span class="nav-number">2.</span> <span class="nav-text">Python DBAPI</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SQLAlchemy-Engines"><span class="nav-number">3.</span> <span class="nav-text">SQLAlchemy Engines</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SQLAlchemy-Connection-Pools"><span class="nav-number">4.</span> <span class="nav-text">SQLAlchemy Connection Pools</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SQLAlchemy-Dialects"><span class="nav-number">5.</span> <span class="nav-text">SQLAlchemy Dialects</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SQLAlchemy-ORM"><span class="nav-number"></span> <span class="nav-text">SQLAlchemy ORM</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#SQLAlchemy-Data-Types"><span class="nav-number">1.</span> <span class="nav-text">SQLAlchemy Data Types</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SQLAlchemy-Relationship-Patterns"><span class="nav-number">2.</span> <span class="nav-text">SQLAlchemy Relationship Patterns</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SQLAlchemy-ORM-Cascade"><span class="nav-number">3.</span> <span class="nav-text">SQLAlchemy ORM Cascade</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SQLAlchemy-Sessions"><span class="nav-number">4.</span> <span class="nav-text">SQLAlchemy Sessions</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SQLAlchemy-in-Practice"><span class="nav-number"></span> <span class="nav-text">SQLAlchemy in Practice</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Starting-the-Tutorial-Project"><span class="nav-number">1.</span> <span class="nav-text">Starting the Tutorial Project</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Running-PostgreSQL"><span class="nav-number">2.</span> <span class="nav-text">Running PostgreSQL</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Installing-SQLAlchemy-Dependencies"><span class="nav-number">3.</span> <span class="nav-text">Installing SQLAlchemy Dependencies</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Mapping-Classes-with-SQLAlchemy"><span class="nav-number">4.</span> <span class="nav-text">Mapping Classes with SQLAlchemy</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Persisting-Data-with-SQLAlchemy-ORM"><span class="nav-number">5.</span> <span class="nav-text">Persisting Data with SQLAlchemy ORM</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Querying-Data-with-SQLAlchemy-ORM"><span class="nav-number">6.</span> <span class="nav-text">Querying Data with SQLAlchemy ORM</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Securing-Python-APIs-with-Auth0"><span class="nav-number"></span> <span class="nav-text">Securing Python APIs with Auth0</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Next-Steps"><span class="nav-number"></span> <span class="nav-text">Next Steps</span></a></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">amberwest</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/theme-next/hexo-theme-next">NexT.Mist</a> v6.2.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/amberwest.github.io/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/amberwest.github.io/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/amberwest.github.io/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/amberwest.github.io/js/src/utils.js?v=6.2.0"></script>
+
+  <script type="text/javascript" src="/amberwest.github.io/js/src/motion.js?v=6.2.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/amberwest.github.io/js/src/scrollspy.js?v=6.2.0"></script>
+<script type="text/javascript" src="/amberwest.github.io/js/src/post-details.js?v=6.2.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/amberwest.github.io/js/src/bootstrap.js?v=6.2.0"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/amberwest.github.io/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('-1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

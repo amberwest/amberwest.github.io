@@ -1,0 +1,1421 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/amberwest.github.io/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/amberwest.github.io/css/main.css?v=6.2.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/amberwest.github.io/images/apple-touch-icon-next.png?v=6.2.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/amberwest.github.io/images/favicon-32x32-next.png?v=6.2.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/amberwest.github.io/images/favicon-16x16-next.png?v=6.2.0">
+
+
+  <link rel="mask-icon" href="/amberwest.github.io/images/logo.svg?v=6.2.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/amberwest.github.io/',
+    scheme: 'Mist',
+    version: '6.2.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="在python中画图肯定少不了matplotlib库，几行代码就可以将画出基本图来，但是大部分时候还是要去查阅文档或者去stackover flow查找，因为这个库真的太庞大了。最近刚好看到一篇文章，对matplotlib的一些概念解释的很好，也有对应的例子，所以根据文章做个简化版翻译，更详细的内容可以查看原文。 matplotlib对象的层次结果使用过matplotlib，应该都用过这行代码pl">
+<meta name="keywords" content="matplotlib, 画图">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【转】matplotlib：使用matplotlib进行python绘图（指南）">
+<meta property="og:url" content="http://amberwest.github.io/2018/12/11/matplotlib：使用matplotlib进行python绘图（指南）/index.html">
+<meta property="og:site_name" content="Amberwest&#39;s Note">
+<meta property="og:description" content="在python中画图肯定少不了matplotlib库，几行代码就可以将画出基本图来，但是大部分时候还是要去查阅文档或者去stackover flow查找，因为这个库真的太庞大了。最近刚好看到一篇文章，对matplotlib的一些概念解释的很好，也有对应的例子，所以根据文章做个简化版翻译，更详细的内容可以查看原文。 matplotlib对象的层次结果使用过matplotlib，应该都用过这行代码pl">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://amberwest.github.io/amberwest.github.io/2018/12/11/matplotlib：使用matplotlib进行python绘图（指南）/figure.png">
+<meta property="og:image" content="http://amberwest.github.io/amberwest.github.io/2018/12/11/matplotlib：使用matplotlib进行python绘图（指南）/ele.png">
+<meta property="og:image" content="http://amberwest.github.io/amberwest.github.io/2018/12/11/matplotlib：使用matplotlib进行python绘图（指南）/flow.webp">
+<meta property="og:image" content="http://amberwest.github.io/amberwest.github.io/2018/12/11/matplotlib：使用matplotlib进行python绘图（指南）/图片1.png">
+<meta property="og:image" content="http://amberwest.github.io/amberwest.github.io/2018/12/11/matplotlib：使用matplotlib进行python绘图（指南）/图片2.png">
+<meta property="og:image" content="http://amberwest.github.io/amberwest.github.io/2018/12/11/matplotlib：使用matplotlib进行python绘图（指南）/图片3.png">
+<meta property="og:image" content="http://amberwest.github.io/amberwest.github.io/2018/12/11/matplotlib：使用matplotlib进行python绘图（指南）/图片4.png">
+<meta property="og:image" content="http://amberwest.github.io/amberwest.github.io/2018/12/11/matplotlib：使用matplotlib进行python绘图（指南）/图片5.png">
+<meta property="og:updated_time" content="2018-12-11T14:45:58.252Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【转】matplotlib：使用matplotlib进行python绘图（指南）">
+<meta name="twitter:description" content="在python中画图肯定少不了matplotlib库，几行代码就可以将画出基本图来，但是大部分时候还是要去查阅文档或者去stackover flow查找，因为这个库真的太庞大了。最近刚好看到一篇文章，对matplotlib的一些概念解释的很好，也有对应的例子，所以根据文章做个简化版翻译，更详细的内容可以查看原文。 matplotlib对象的层次结果使用过matplotlib，应该都用过这行代码pl">
+<meta name="twitter:image" content="http://amberwest.github.io/amberwest.github.io/2018/12/11/matplotlib：使用matplotlib进行python绘图（指南）/figure.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://amberwest.github.io/2018/12/11/matplotlib：使用matplotlib进行python绘图（指南）/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>【转】matplotlib：使用matplotlib进行python绘图（指南） | Amberwest's Note</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/amberwest.github.io/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Amberwest's Note</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/amberwest.github.io/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />Home</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/amberwest.github.io/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />Tags</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/amberwest.github.io/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />Categories</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/amberwest.github.io/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />Archives</a>
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />Search</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="Searching..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://amberwest.github.io/amberwest.github.io/2018/12/11/matplotlib：使用matplotlib进行python绘图（指南）/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="amberwest">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/amberwest.github.io/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Amberwest's Note">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">【转】matplotlib：使用matplotlib进行python绘图（指南）
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2018-12-11 14:56:39 / Modified: 22:45:58" itemprop="dateCreated datePublished" datetime="2018-12-11T14:56:39+08:00">2018-12-11</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/amberwest.github.io/categories/matplotlib/" itemprop="url" rel="index"><span itemprop="name">matplotlib</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>在python中画图肯定少不了matplotlib库，几行代码就可以将画出基本图来，但是大部分时候还是要去查阅文档或者去stackover flow查找，因为这个库真的太庞大了。最近刚好看到一篇<a href="https://realpython.com/python-matplotlib-guide/" target="_blank" rel="noopener">文章</a>，对matplotlib的一些概念解释的很好，也有对应的例子，所以根据文章做个简化版翻译，更详细的内容可以查看原文。</p>
+<h4 id="matplotlib对象的层次结果"><a href="#matplotlib对象的层次结果" class="headerlink" title="matplotlib对象的层次结果"></a>matplotlib对象的层次结果</h4><p>使用过matplotlib，应该都用过这行代码<code>plt.plot([1,2,3])</code>。这一行隐藏了一个事实：一个plot实际上是嵌套python对象的层次结果，也就是说每个图下面都有一个matplotlib对象的树形结构。</p>
+<p>如下图所示，一个Figure对象是matplotlib图像最外层的一个容器，可以包含一个或多个Axes对象(实际绘图的盒状容器)。容易引起混淆的一个原因：Axes实际上是一个独立的plot或者graph，而不是我们所认为的axis/轴的复数。Axes对象之下就是图表的“元素”，例如：刻度线、线条、图例、文本框、刻度、标签等，都是Axes对象可操作的python对象。</p>
+<img src="/amberwest.github.io/2018/12/11/matplotlib：使用matplotlib进行python绘图（指南）/figure.png">
+<a id="more"></a>
+<p><em>文中代码都是在jupyter notebook中运行的，最后的注释内容是输出结果，因为懒得截图了。。。</em></p>
+<p>通过例子来重新认识matplotlib吧：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line">fig, _ = plt.subplots()</span><br><span class="line">type(fig)</span><br><span class="line"></span><br><span class="line"><span class="comment"># matplotlib.figure.Figure</span></span><br></pre></td></tr></table></figure>
+<p>例子中从<code>plt.subplots()</code>中创建了两个变量，一个fig是顶级的Figure对象，另一个是暂时不需要用到的“一次性”变量，用下划线表示。使用属性表示法，可以轻松遍历层级结构并查看第一个Axes对象的y轴的第一个刻度</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">one_tick = fig.axes[<span class="number">0</span>].yaxis.get_major_ticks()[<span class="number">0</span>]</span><br><span class="line">one_tick</span><br><span class="line"></span><br><span class="line"><span class="comment"># &lt;matplotlib.axis.YTick at 0x7f0b569acac8&gt;</span></span><br></pre></td></tr></table></figure>
+<p>例子中，fig（一个Figure类实例）有多个Axes（一个列表，这里取第一个）。每个Axes都有一个yaxis和xaxis，每个都有一个“major ticks”的集合，例子中取第一个。</p>
+<p>各个部分可以参考下图：</p>
+<img src="/amberwest.github.io/2018/12/11/matplotlib：使用matplotlib进行python绘图（指南）/ele.png" title="ele">
+<p><a href="https://matplotlib.org/examples/showcase/anatomy.html" target="_blank" rel="noopener">上图的代码实现</a></p>
+<h4 id="stateful和stateless"><a href="#stateful和stateless" class="headerlink" title="stateful和stateless"></a>stateful和stateless</h4><p>在进一步了解matplotlib之前，需要明白stateful(基于状态，状态机)和无状态(面向对象，OO)接口之间的区别。</p>
+<p>几乎所有来自pyplot的函数，如<code>plt.plot()</code>，要么隐式地指向现有的Figure对象和Axes对象，要么不存在时直接创建新的Figure和Axes对象。matplotlib文档是这样说的：</p>
+<blockquote>
+<p>【使用pyplot】简单的函数是用来为当前Figure对象的Axes图像添加元素的（线条，图片，文本等）【强调添加】</p>
+</blockquote>
+<p>“plt.plot（）是一个隐式跟踪当前数字的状态机界面！”在英语中，这意味着： </p>
+<ol>
+<li>有状态接口使用plt.plot（）和其他顶级pyplot函数进行调用。在给定的时间内只有一个图或轴可以操作，不需要明确地引用它。 </li>
+<li>直接修改底层对象是面向对象的方法。我们通常通过调用Axes对象的方法来做到这一点，Axes对象是表示绘图本身的对象。</li>
+</ol>
+<p>整个过程的流程就像下图所示：</p>
+<img src="/amberwest.github.io/2018/12/11/matplotlib：使用matplotlib进行python绘图（指南）/flow.webp">
+<p>用代码来表示上述流程：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># plt.plot()获取当前轴的一个流程表示，缩简版</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">plot</span><span class="params">(*args, **kwargs)</span>:</span></span><br><span class="line">    ax = plt.gca()</span><br><span class="line">    <span class="keyword">return</span> ax.plot(*args, **kwargs)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">gca</span><span class="params">(**kwargs)</span>:</span></span><br><span class="line">    <span class="string">"""获取当前Figure中的Axes对象"""</span></span><br><span class="line">    <span class="keyword">return</span> plt.gcf().gca(**kwargs)</span><br></pre></td></tr></table></figure>
+<p>调用<code>plt.plot()</code>只是获取当前Figure的当前Axes对象，这也就是有状态接口总是“隐式跟踪”它想要引用的图。</p>
+<p>pyplot是一系列函数的集合，这些函数实际上只是matplotlib面向对象接口的包装器。例如，<code>plt.title()</code>在面对对象方法中有相应的setter和getter方法：<code>ax.set_title()和ax.get_title()</code>。调用<code>plt.title()</code>等同于<code>gca().set_title(s, *args, **kwargs)</code>，这行代码包含了以下操作：</p>
+<ol>
+<li>gca()获取并返回当前Axes</li>
+<li>set_title()是一个setter方法，用于设置该Axes对象的标题。这里我们就不需要明确指定任何对象的<code>plt.title()</code></li>
+</ol>
+<p>类似地，其他顶级函数，如<code>plt.grid()</code>，<code>plt.legend()</code>和<code>plt.ylabels()</code>，都是跟<code>plt.title()</code>一样的操作，先是获取当前Axes，gca()调用当前Axes的一些方法。</p>
+<h4 id="理解plt-subplots"><a href="#理解plt-subplots" class="headerlink" title="理解plt.subplots()"></a>理解plt.subplots()</h4><p>接下来主要是依赖于无状态/面向对象方法，这种方法可定制性更高，图形变得更加复杂更派得上用场。在面向对象使用单个Axes创建对象规定是使用plt.subplots()。这是面向对象使用pyplot创建Figure和Axes的唯一时间。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 没有传递任何参数，默认是调用subplots(nrows=1, ncols=1)，所以返回一个Figure和一个Axes</span></span><br><span class="line">fig, ax = plt.subplots()</span><br><span class="line">type(ax)</span><br><span class="line"></span><br><span class="line"><span class="comment"># matplotlib.axes._subplots.AxesSubplot</span></span><br></pre></td></tr></table></figure>
+<p>我们可以用ax的实例方法来操作绘图，接下来用三个时间序列的堆积面积图来说明</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">rng = np.arange(<span class="number">50</span>)</span><br><span class="line">rnd = np.random.randint(<span class="number">0</span>, <span class="number">10</span>, size=(<span class="number">3</span>, rng.size))</span><br><span class="line">yrs = <span class="number">1950</span> + rng</span><br><span class="line"></span><br><span class="line">fig, ax = plt.subplots(figsize=(<span class="number">5</span>,<span class="number">3</span>))</span><br><span class="line">ax.stackplot(yrs, rng+rnd, labels=[<span class="string">'Eastasia'</span>, <span class="string">'Eurasia'</span>, <span class="string">'Oceania'</span>])</span><br><span class="line">ax.set_title(<span class="string">'Combined debt growth over time'</span>)</span><br><span class="line">ax.legend(loc=<span class="string">'upper left'</span>)</span><br><span class="line">ax.set_ylabel(<span class="string">'Total debt'</span>)</span><br><span class="line">ax.set_xlim(xmin=yrs[<span class="number">0</span>], xmax=yrs[<span class="number">-1</span>])</span><br><span class="line">fig.tight_layout()  <span class="comment"># tight_layout()作为一个整体应用于图形对象来清理空白填充</span></span><br></pre></td></tr></table></figure>
+<img src="/amberwest.github.io/2018/12/11/matplotlib：使用matplotlib进行python绘图（指南）/图片1.png">
+<p>如果是一个Figure中包含多个Axes/子图呢？下面用离散均匀分布绘制两个相关数组，跟上一个例子的不同点可以查看代码里的注释</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">x = np.random.randint(low=<span class="number">1</span>, high=<span class="number">11</span>, size=<span class="number">50</span>)</span><br><span class="line">y = x + np.random.randint(<span class="number">1</span>, <span class="number">5</span>, size=x.size)</span><br><span class="line">data = np.column_stack((x, y))  <span class="comment"># column_stack将多个一维array作为column转为多维数组</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 1.创建一个Figure和两个Axes，也可以用fig, axs = plt.subplots(1, 2, figsize=(8,4))</span></span><br><span class="line"><span class="comment"># 2.分别处理两个子图</span></span><br><span class="line">fig, (ax1, ax2) = plt.subplots(nrows=<span class="number">1</span>, ncols=<span class="number">2</span>, figsize=(<span class="number">8</span>, <span class="number">4</span>))</span><br><span class="line">ax1.scatter(x, y, marker=<span class="string">'o'</span>, c=<span class="string">'r'</span>, edgecolor=<span class="string">'b'</span>) <span class="comment"># edgecolor设置marker边缘颜色</span></span><br><span class="line">ax1.set_xlabel(<span class="string">'$x$'</span>)  <span class="comment"># 加了$符号，x，y会变成斜体</span></span><br><span class="line">ax1.set_ylabel(<span class="string">'$y$'</span>)</span><br><span class="line"></span><br><span class="line"> <span class="comment"># label定义两组数据对应的标签，DataFrame一般不需要，因为有columns</span></span><br><span class="line">ax2.hist(data, bins=np.arange(data.min(), data.max()), label=(<span class="string">'x'</span>, <span class="string">'y'</span>)) </span><br><span class="line">ax2.legend(loc=(<span class="number">0.7</span>, <span class="number">0.8</span>))</span><br><span class="line">ax2.set_title(<span class="string">'Frequencies of $x$ and $y$'</span>)</span><br><span class="line">ax2.yaxis.tick_right()  <span class="comment"># 将ax2的y轴tick设置在右边</span></span><br></pre></td></tr></table></figure>
+<img src="/amberwest.github.io/2018/12/11/matplotlib：使用matplotlib进行python绘图（指南）/图片2.png">
+<p>需要注意的是，多个Axes都是包含在给定的Figure中的。如上面的例子，fig.axes能获取到所有的Axes对象列表</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(fig.axes[<span class="number">0</span>] <span class="keyword">is</span> ax1, fig.axes[<span class="number">1</span>] <span class="keyword">is</span> ax2)  <span class="comment"># 这里的fig.axes中的axes是小写</span></span><br><span class="line"><span class="comment"># (True, True)</span></span><br></pre></td></tr></table></figure>
+<p>我们还可以创建一个包含2*2Axes对象的网格图形Figure</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">fig, ax = plt.subplots(nrows=<span class="number">2</span>, ncols=<span class="number">2</span>, figsize=(<span class="number">7</span>, <span class="number">7</span>))</span><br><span class="line">type(ax) <span class="comment"># 可以看到，ax是numpy的数组类型</span></span><br><span class="line"><span class="comment"># numpy.ndarray</span></span><br><span class="line"></span><br><span class="line">ax</span><br><span class="line"><span class="string">""" array([[&lt;matplotlib.axes._subplots.AxesSubplot object at 0x7f0b541b29b0&gt;,</span></span><br><span class="line"><span class="string">        &lt;matplotlib.axes._subplots.AxesSubplot object at 0x7f0b547d2710&gt;],</span></span><br><span class="line"><span class="string">       [&lt;matplotlib.axes._subplots.AxesSubplot object at 0x7f0b548efc88&gt;,</span></span><br><span class="line"><span class="string">        &lt;matplotlib.axes._subplots.AxesSubplot object at 0x7f0b5451e240&gt;]],</span></span><br><span class="line"><span class="string">      dtype=object)</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"></span><br><span class="line">ax.shape</span><br><span class="line"><span class="comment"># (2, 2)</span></span><br></pre></td></tr></table></figure>
+<p>ax是数组类型，需要使用flatten函数将数组平展为一维的才能使用</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ax1, ax2, ax3, ax4 = ax.flatten()</span><br><span class="line"><span class="comment"># or</span></span><br><span class="line">((ax1, ax2), (ax3, ax4)) = ax</span><br></pre></td></tr></table></figure>
+<p>为了展示更多的用法，接下来使用加利福尼亚州的<a href="http://www.dcc.fc.up.pt/~ltorgo/Regression/cal_housing.tgz" target="_blank" rel="noopener">房价数据</a></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 获取数据。原文是通过代码下载解压数据的</span></span><br><span class="line">housing = np.loadtxt(<span class="string">'CaliforniaHousing/cal_housing.data'</span>, delimiter=<span class="string">','</span>)</span><br><span class="line">y = housing[:, <span class="number">-1</span>]</span><br><span class="line">pop, age = housing[:, [<span class="number">4</span>, <span class="number">7</span>]].T  <span class="comment"># pop地区人口，age是房子的平均屋龄</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">add_titlebox</span><span class="params">(ax, text)</span>:</span></span><br><span class="line">    <span class="string">"""在Axes中添加文本"""</span></span><br><span class="line">    ax.text(<span class="number">.55</span>, <span class="number">.8</span>, text, </span><br><span class="line">           horizontalalignment=<span class="string">'center'</span>,</span><br><span class="line">           transform=ax.transAxes,</span><br><span class="line">           bbox=dict(facecolor=<span class="string">'white'</span>, alpha=<span class="number">0.6</span>),</span><br><span class="line">           fontsize=<span class="number">12.5</span>)</span><br><span class="line">    <span class="keyword">return</span> ax</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建带有多个Axes的Figure网格</span></span><br><span class="line">gridsize = (<span class="number">3</span>, <span class="number">2</span>)</span><br><span class="line">fig = plt.figure(figsize=(<span class="number">12</span>, <span class="number">8</span>))</span><br><span class="line">ax1 = plt.subplot2grid(gridsize, (<span class="number">0</span>, <span class="number">0</span>), colspan=<span class="number">2</span>, rowspan=<span class="number">2</span>) <span class="comment"># ax1占用两行两列</span></span><br><span class="line">ax2 = plt.subplot2grid(gridsize, (<span class="number">2</span>, <span class="number">0</span>)) <span class="comment"># ax2在第三行第一列</span></span><br><span class="line">ax3 = plt.subplot2grid(gridsize, (<span class="number">2</span>, <span class="number">1</span>)) <span class="comment"># ax3在第三行第二列</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># ax1是散点图，并带有colormap，其他两个图为直方图（查看数据分布）</span></span><br><span class="line">ax1.set_title(<span class="string">'Home value as a function of home age and area population'</span>, fontsize=<span class="number">14</span>)</span><br><span class="line"><span class="comment"># c是color，y的序列映射到cmap，这样y的值与cmap的颜色可以一一对应上，cmap选择颜色变化，跟参数c结合使用</span></span><br><span class="line">sctr = ax1.scatter(x=age, y=pop, c=y, cmap=<span class="string">'RdYlGn'</span>)  </span><br><span class="line">plt.colorbar(sctr, ax=ax1, format=<span class="string">'$%d'</span>)</span><br><span class="line">ax2.hist(age, bins=<span class="string">'auto'</span>)  <span class="comment"># bins可以是整数，序列或者‘auto’</span></span><br><span class="line">ax3.hist(pop, bins=<span class="string">'auto'</span>, log=<span class="keyword">True</span>)  <span class="comment"># log标签显示为log形式</span></span><br><span class="line"></span><br><span class="line">add_titlebox(ax2, <span class="string">'Histogram: home age'</span>)</span><br><span class="line">add_titlebox(ax3, <span class="string">'Histogram: area population (log scl.)'</span>)</span><br></pre></td></tr></table></figure>
+<p>跟color map不一样的是，colorbar()是由Figure直接调用，而不是Axes对象，并且第一个参数是散点图的返回结果，它的作用就是将y值映射到color map。在y轴上，房价并没有太大的变化(颜色)，x轴上则由明显变化，说明屋龄是房屋价值的一个更大的决定因素</p>
+<img src="/amberwest.github.io/2018/12/11/matplotlib：使用matplotlib进行python绘图（指南）/图片3.png">
+<h4 id="屏幕后面的“Figures”"><a href="#屏幕后面的“Figures”" class="headerlink" title="屏幕后面的“Figures”"></a>屏幕后面的“Figures”</h4><p>每次调用<code>plt.subplots()</code>或者<code>plt.figure()</code>(只创建Figure，没有Axes)，都会在内存里新建一个Figure对象。在终端运行的结果跟原文一样，如果是在jupyter notebook则每一次返回id都不同。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; fig1, ax1 = plt.subplots()</span><br><span class="line">&gt;&gt;&gt; id(fig1)</span><br><span class="line">4525375272</span><br><span class="line">&gt;&gt;&gt; id(plt.gcf())  <span class="comment"># fig1是当前Figure对象</span></span><br><span class="line">4525375272</span><br><span class="line">&gt;&gt;&gt; fig2, ax2 = plt.subplots()</span><br><span class="line">&gt;&gt;&gt; id(fig2) == id(plt.gcf())  <span class="comment"># 当前Figure对象已经更改为fig2</span></span><br><span class="line">True</span><br><span class="line">&gt;&gt;&gt; plt.get_fignums()</span><br><span class="line">[1, 2]</span><br></pre></td></tr></table></figure>
+<p>可以通过plt.figure()获取到存在内存中的Figure</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_all_figures</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">return</span> [plt.figure(i) <span class="keyword">for</span> i <span class="keyword">in</span> plt.get_fignums()]</span><br><span class="line"></span><br><span class="line">get_all_figures()</span><br><span class="line"><span class="comment"># [&lt;Figure size 640x480 with 1 Axes&gt;, &lt;Figure size 640x480 with 1 Axes&gt;]</span></span><br></pre></td></tr></table></figure>
+<p>使用plt.close()方法则可以关闭对应的figure</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">plt.close(num) <span class="comment"># 关闭序号为num的Figure</span></span><br><span class="line">plt.close(<span class="string">'all'</span>) <span class="comment"># 关闭全部</span></span><br></pre></td></tr></table></figure>
+<h4 id="imshow和matshow"><a href="#imshow和matshow" class="headerlink" title="imshow和matshow"></a>imshow和matshow</h4><p>除了plt.plot()可以绘图之后，还有其他的方法，如：imshow()和matshow()。后者是前者的封装。只要原始数值数组可以显示为彩色网格，就可以使用。</p>
+<p>例子：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 创建两个数组</span></span><br><span class="line">x = np.diag(np.arange(<span class="number">2</span>, <span class="number">12</span>))[::<span class="number">-1</span>]</span><br><span class="line">x[np.diag_indices_from(x[::<span class="number">-1</span>])] = np.arange(<span class="number">2</span>, <span class="number">12</span>)</span><br><span class="line">x2 = np.arange(x.size).reshape(x.shape)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用字典参数，将所有的轴标签和刻度都不显示</span></span><br><span class="line">sides = (<span class="string">'left'</span>, <span class="string">'right'</span>, <span class="string">'top'</span>, <span class="string">'bottom'</span>)</span><br><span class="line">nolabels = &#123;s: <span class="keyword">False</span> <span class="keyword">for</span> s <span class="keyword">in</span> sides&#125;</span><br><span class="line">nolabels.update(&#123;<span class="string">'label%s'</span> % s: <span class="keyword">False</span> <span class="keyword">for</span> s <span class="keyword">in</span> sides&#125;)</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> mpl_toolkits.axes_grid1.axes_divider <span class="keyword">import</span> make_axes_locatable</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用上下文管理器来禁用网格，并在每个Axes上使用matshow()</span></span><br><span class="line"><span class="keyword">with</span> plt.rc_context(rc=&#123;<span class="string">'axes.grid'</span>: <span class="keyword">False</span>&#125;):</span><br><span class="line">    fig, (ax1, ax2) = plt.subplots(<span class="number">1</span>, <span class="number">2</span>, figsize=(<span class="number">8</span>, <span class="number">4</span>))</span><br><span class="line">    ax1.matshow(x)</span><br><span class="line">    img2 = ax2.matshow(x2, cmap=<span class="string">'RdYlGn_r'</span>)  <span class="comment"># 加上_r就是将颜色反转</span></span><br><span class="line">    <span class="keyword">for</span> ax <span class="keyword">in</span> (ax1, ax2):</span><br><span class="line">        ax.tick_params(axis=<span class="string">'both'</span>, which=<span class="string">'both'</span>, **nolabels)</span><br><span class="line">    <span class="keyword">for</span> i, j <span class="keyword">in</span> zip(*x.nonzero()):</span><br><span class="line">        ax1.text(j, i, x[i,j], color=<span class="string">'white'</span>, ha=<span class="string">'center'</span>, va=<span class="string">'center'</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 将colorbar作为图中的新轴</span></span><br><span class="line">    divider = make_axes_locatable(ax2)</span><br><span class="line">    cax = divider.append_axes(<span class="string">'right'</span>, size=<span class="string">'5%'</span>, pad=<span class="number">0</span>)</span><br><span class="line">    plt.colorbar(img2, cax=cax, ax=[ax1, ax2])</span><br><span class="line">    fig.suptitle(<span class="string">'Heatmaps with `Axes.matshow`'</span>, fontsize=<span class="number">16</span>)</span><br></pre></td></tr></table></figure>
+<img src="/amberwest.github.io/2018/12/11/matplotlib：使用matplotlib进行python绘图（指南）/图片4.png">
+<h4 id="pandas中的绘图"><a href="#pandas中的绘图" class="headerlink" title="pandas中的绘图"></a>pandas中的绘图</h4><p>pandas的DataFrame和Series上的plot()是plt.plot()的封装，所以在pandas绘图也是很方便的。如果DataFrame的索引是mdate，pandas调用gcf().autofmt_xdate()来获取当前的图并自动格式化x轴。plt.plot()是基于状态的方法，也就是隐式的知道当前的Figure和Axes，pandas也是遵循这点进行扩展的。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">s = pd.Series(np.arange(<span class="number">5</span>), index=list(<span class="string">'abcde'</span>))</span><br><span class="line">ax = s.plot()</span><br><span class="line"></span><br><span class="line">type(ax)</span><br><span class="line"><span class="comment"># matplotlib.axes._subplots.AxesSubplot</span></span><br><span class="line"></span><br><span class="line">id(plt.gca()) == id(ax)</span><br><span class="line"><span class="comment"># True</span></span><br></pre></td></tr></table></figure>
+<p>接下来用一个<a href="https://fred.stlouisfed.org/graph/fredgraph.csv?id=VIXCLS" target="_blank" rel="noopener">时间序列</a>的例子来看一下pandas中的画图</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> matplotlib.transforms <span class="keyword">as</span> mtransforms</span><br><span class="line"></span><br><span class="line">vix = pd.read_csv(<span class="string">'VIXCLS.csv'</span>, index_col=<span class="number">0</span>, parse_dates=<span class="keyword">True</span>, na_values=<span class="string">'.'</span>,</span><br><span class="line">                 infer_datetime_format=<span class="keyword">True</span>,</span><br><span class="line">                 squeeze=<span class="keyword">True</span>).dropna()</span><br><span class="line"></span><br><span class="line">ma = vix.rolling(<span class="string">'90d'</span>).mean()</span><br><span class="line">state = pd.cut(ma, bins=[-np.inf, <span class="number">14</span>, <span class="number">18</span>, <span class="number">24</span>, np.inf], labels=range(<span class="number">4</span>))</span><br><span class="line">cmap = plt.get_cmap(<span class="string">'RdYlGn_r'</span>)</span><br><span class="line">ma.plot(color=<span class="string">'black'</span>, linewidth=<span class="number">1.5</span>, marker=<span class="string">''</span>, figsize=(<span class="number">8</span>, <span class="number">4</span>), label=<span class="string">'VIX 90d MA'</span>)</span><br><span class="line">ax = plt.gca()</span><br><span class="line">ax.set_xlabel(<span class="string">''</span>)</span><br><span class="line">ax.set_ylabel(<span class="string">'90d moving average: CBOE VIX'</span>)</span><br><span class="line">ax.set_title(<span class="string">'Volatility Regime State'</span>)</span><br><span class="line">ax.grid(<span class="keyword">False</span>)</span><br><span class="line">ax.set_xlim(xmin=ma.index[<span class="number">0</span>], xmax=ma.index[<span class="number">-1</span>])</span><br><span class="line"></span><br><span class="line">trans = mtransforms.blended_transform_factory(ax.transData, ax.transAxes)</span><br><span class="line"><span class="keyword">for</span> i, color <span class="keyword">in</span> enumerate(cmap([<span class="number">0.2</span>, <span class="number">0.4</span>, <span class="number">0.6</span>, <span class="number">0.8</span>])):</span><br><span class="line">    ax.fill_between(ma.index, <span class="number">0</span>, <span class="number">1</span>, where=state==i,</span><br><span class="line">                   facecolor=color, transform=trans)</span><br><span class="line">ax.axhline(vix.mean(), linestyle=<span class="string">'dashed'</span>, color=<span class="string">'xkcd:dark grey'</span>,</span><br><span class="line">          alpha=<span class="number">0.6</span>, label=<span class="string">'Full-period mean'</span>, marker=<span class="string">''</span>)</span><br><span class="line">ax.legend(loc=<span class="string">'upper center'</span>)</span><br></pre></td></tr></table></figure>
+<img src="/amberwest.github.io/2018/12/11/matplotlib：使用matplotlib进行python绘图（指南）/图片5.png">
+<p>上面的例子中有一些点需要了解一下：</p>
+<ol>
+<li>ma是VIX指数的90天移动平均线，衡量近期股市波动的市场预期。state是将移动平均线分类为不同的state。高VIX被表示市场中恐惧程度加剧。</li>
+<li>cmap是color map，matplotlib对象。它实质上是浮点数到RGBA颜色的映射。’_r是颜色反转。</li>
+<li>pandas调用ma.plot()，也就是调用了plt.plot()。因此为了继承面向对象，需要通过ax=plt.gca()来显示引用当前的Axes对象。</li>
+<li>最后一段代码是创建了与每个状态对应的颜色填充块。cmap([0.2, 0.4, 0.6, 0.8])是指沿着color map的光谱，在20%，40%，60%，80%的位置获取RGBA序列。使用enumerate()将每个RGBA颜色跟state一一对应。</li>
+</ol>
+<p>原文最后还给出了很多不错的链接推荐，值得学习。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/amberwest.github.io/tags/matplotlib-画图/" rel="tag"># matplotlib, 画图</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/amberwest.github.io/2018/11/29/pandas：获取前k个数据/" rel="next" title="pandas：获取前k个数据">
+                <i class="fa fa-chevron-left"></i> pandas：获取前k个数据
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/amberwest.github.io/2018/12/12/matplotlib：annotate注释/" rel="prev" title="matplotlib：annotate标注">
+                matplotlib：annotate标注 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">amberwest</p>
+              <p class="site-description motion-element" itemprop="description">学习笔记</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/amberwest.github.io/archives/">
+                
+                    <span class="site-state-item-count">61</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/amberwest.github.io/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">7</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/amberwest.github.io/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">93</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:1006441720@qq.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-globe"></i>E-Mail</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#matplotlib对象的层次结果"><span class="nav-number">1.</span> <span class="nav-text">matplotlib对象的层次结果</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#stateful和stateless"><span class="nav-number">2.</span> <span class="nav-text">stateful和stateless</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#理解plt-subplots"><span class="nav-number">3.</span> <span class="nav-text">理解plt.subplots()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#屏幕后面的“Figures”"><span class="nav-number">4.</span> <span class="nav-text">屏幕后面的“Figures”</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#imshow和matshow"><span class="nav-number">5.</span> <span class="nav-text">imshow和matshow</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#pandas中的绘图"><span class="nav-number">6.</span> <span class="nav-text">pandas中的绘图</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">amberwest</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/theme-next/hexo-theme-next">NexT.Mist</a> v6.2.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/amberwest.github.io/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/amberwest.github.io/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/amberwest.github.io/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/amberwest.github.io/js/src/utils.js?v=6.2.0"></script>
+
+  <script type="text/javascript" src="/amberwest.github.io/js/src/motion.js?v=6.2.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/amberwest.github.io/js/src/scrollspy.js?v=6.2.0"></script>
+<script type="text/javascript" src="/amberwest.github.io/js/src/post-details.js?v=6.2.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/amberwest.github.io/js/src/bootstrap.js?v=6.2.0"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/amberwest.github.io/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('-1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
