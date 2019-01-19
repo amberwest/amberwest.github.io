@@ -110,7 +110,7 @@
 <meta property="og:site_name" content="Amberwest&#39;s Note">
 <meta property="og:description" content="关于matplotlib中文显示的问题，最常见的解决方法就是： 12plt.rcParams[&apos;font.sans-serif&apos;]=[&apos;SimHei&apos;]plt.rcParams[&apos;axes.unicode_minus&apos;]=False 但是每次都要写这两句话也是挺麻烦的。最惨的是，如果使用pyenv进行版本管理，上面那两句话也不管用了，因为不同版本的python下可能没有字体文件。所以，我参考知乎上">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-01-18T08:12:57.926Z">
+<meta property="og:updated_time" content="2019-01-19T02:27:08.058Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="解决matplotlib中文乱码">
 <meta name="twitter:description" content="关于matplotlib中文显示的问题，最常见的解决方法就是： 12plt.rcParams[&apos;font.sans-serif&apos;]=[&apos;SimHei&apos;]plt.rcParams[&apos;axes.unicode_minus&apos;]=False 但是每次都要写这两句话也是挺麻烦的。最惨的是，如果使用pyenv进行版本管理，上面那两句话也不管用了，因为不同版本的python下可能没有字体文件。所以，我参考知乎上">
@@ -367,16 +367,46 @@
                 
               
 
-              <time title="Created: 2019-01-18 15:14:41 / Modified: 16:12:57" itemprop="dateCreated datePublished" datetime="2019-01-18T15:14:41+08:00">2019-01-18</time>
+              <time title="Created: 2019-01-18 15:14:41" itemprop="dateCreated datePublished" datetime="2019-01-18T15:14:41+08:00">2019-01-18</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2019-01-19 10:27:08" itemprop="dateModified" datetime="2019-01-19T10:27:08+08:00">2019-01-19</time>
               
             
           </span>
 
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/amberwest.github.io/categories/matplotlib/" itemprop="url" rel="index"><span itemprop="name">matplotlib</span></a></span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -416,7 +446,7 @@
 <ol start="2">
 <li>查看所使用的版本</li>
 </ol>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;</span><span class="bash">&gt;pyenv activate <span class="built_in">test</span>(<span class="built_in">test</span>是所创建的虚拟环境)</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash">&gt;<span class="built_in">which</span> python</span></span><br><span class="line">/Users/test/.pyenv/shims/python（在这个路径下找到matplotlib对应的字体文件夹）</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;</span>&gt;pyenv activate test(test是所创建的虚拟环境)</span><br><span class="line"><span class="meta">&gt;</span>&gt;which python</span><br><span class="line">/Users/test/.pyenv/shims/python（在这个路径下找到matplotlib对应的字体文件夹）</span><br></pre></td></tr></table></figure>
 <ol start="3">
 <li>将字体文件放在<code>matplotlib/mpl-data/fonts/ttf/</code>下</li>
 </ol>
@@ -476,6 +506,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/amberwest.github.io/2019/01/18/如何去除pandas-groupby每个分组最大最小值再求描述性统计/" rel="prev" title="如何去除pandas groupby每个分组最大最小值再求描述性统计">
+                如何去除pandas groupby每个分组最大最小值再求描述性统计 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -540,7 +574,7 @@
                 
                   <a href="/amberwest.github.io/archives/">
                 
-                    <span class="site-state-item-count">61</span>
+                    <span class="site-state-item-count">62</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -766,7 +800,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">93</span>
+                      
+                    
+                    <span class="site-state-item-count">94</span>
                     <span class="site-state-item-name">tags</span>
                   </a>
                 </div>
