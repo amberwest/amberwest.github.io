@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[【今天你学pandas了吗】如何用pandas对列重命名]]></title>
+    <url>%2Famberwest.github.io%2F2019%2F02%2F21%2F%E5%A6%82%E4%BD%95%E7%94%A8pandas%E5%AF%B9%E5%88%97%E9%87%8D%E5%90%8D%2F</url>
+    <content type="text"><![CDATA[这是系列文章，我会按照stackoverflow上pandas相关问题投票数排序进行翻译，答案会根据实际情况进行改动。不学习是会变咸鱼的～ 根据问题描述，需要对已有的DataFrame的列重新命名，去掉前面的$符号。 123import pandas as pddf = pd.DataFrame([&#123;'$a':1, '$b':2, '$c':3&#125;]) 方法一，不适用于有很多列的或者只修改个别列名的DataFrame 1df.columns = ['a', 'b', 'c'] # 直接在原始数据上进行修改 方法二，rename方法适用于只修改个别列名或者列名有一定规律的DataFrame 1234567df2=df.rename(columns=&#123;'$a':'a', '$b':'b'&#125;) # 不修改原始数据df.rename(columns=&#123;'$a':'a', '$b':'b'&#125;, inplace=True) # 修改原始数据df.rename(&#123;'$a':'a', '$b':'b'&#125;, axis='columns', inplace=True) # pandas 0.21的新方法，指定axis='coloumns'或者1# 列名有规律，方法可以有很多df.rename(columns=lambda x: x[1:], inplace=True)df.rename(columns=lambda x: x.lstrip('$'), inplace=Tru) 方法三，str方法 1df.columns = df.columns.str.replace('$','')]]></content>
+      <categories>
+        <category>今天你学pandas了吗</category>
+      </categories>
+      <tags>
+        <tag>pandas</tag>
+        <tag>重命名</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[如何去除pandas groupby每个分组最大最小值再求描述性统计]]></title>
     <url>%2Famberwest.github.io%2F2019%2F01%2F18%2F%E5%A6%82%E4%BD%95%E5%8E%BB%E9%99%A4pandas-groupby%E6%AF%8F%E4%B8%AA%E5%88%86%E7%BB%84%E6%9C%80%E5%A4%A7%E6%9C%80%E5%B0%8F%E5%80%BC%E5%86%8D%E6%B1%82%E6%8F%8F%E8%BF%B0%E6%80%A7%E7%BB%9F%E8%AE%A1%2F</url>
     <content type="text"><![CDATA[如题，之前在处理数据的时候，一直想不到好的方法。有人建议将数据导入mysql再做处理，嗯，导入之后，发现我很少用mysql，也不是很清楚要怎么做😢最后直接上stackoverflow发问。这真是个良心网站啊～ 原始数据如下： 123456789101112data = &#123;'class': ['a', 'a', 'a', 'a', 'a', 'b', 'b', 'b', 'b', 'b'], 'num': [-10,18,12,15,50, 10,60,51,54,100]&#125;df = pd.DataFrame(data)df.groupby('class').describe()output：num count mean std min 25% 50% 75% maxclass a 5.0 17.0 21.494185 -10.0 12.0 15.0 18.0 50.0b 5.0 55.0 31.984371 10.0 51.0 54.0 60.0 100.0 做法1: 12mask = df['num'].ne(df['max'])&amp;df['num'].ne(df['min']) # DataFrame.ne() not equal吧，反正不符合条件的返回True，&amp;是并集，即返回同时不等于最大和最小值的True/Falsedf[mask].groupby('class')['num'].describe() # 这里简化了，df[mask]得到的就是符合条件的DataFrame 做法2： 12345df.groupby('class').apply(lambda x: x.drop([x['num'].idxmax(),x['num'].idxmin()])).rename_axis([None,None]).groupby('class').describe() # 原答案df.groupby('class').apply(lambda x: x.drop([x['num'].idxmax(), x['num'].idxmin()])['num']).groupby('class').describe() # 跟原答案不太一样df.groupby('class').apply(lambda x: x.drop([x['num'].idxmax(), x['num'].idxmin()])['num']).reset_index(level=0).groupby('class')['num'].describe() # 其实drop之后数据变成了以class为index，并且原本的rangeIndex还在 当时知道idxmax()方法，就是不知道要怎么跟groupby结合起来，处理之后的数据格式又会变成什么样？又要做何处理？说到底还是对pandas不熟。 更详细的做法可以参考原始答案]]></content>
@@ -181,8 +193,8 @@
       </categories>
       <tags>
         <tag>排序</tag>
-        <tag>冒泡排序</tag>
         <tag>插入排序</tag>
+        <tag>冒泡排序</tag>
         <tag>选择排序</tag>
       </tags>
   </entry>
@@ -252,8 +264,8 @@
     <url>%2Famberwest.github.io%2F2018%2F10%2F09%2Fcentos7%E5%AE%89%E8%A3%85scrapyd%E5%87%BA%E9%94%99%2F</url>
     <content type="text"><![CDATA[在centos7下安装scrapyd出现编译中断的错误 在网上找了一圈，基本都是说缺乏python依赖包，只需要执行yum install python-dev就可以。结果呢，我从python-dev一路试到了python3.6.1-dev，把系统里存在的版本都试了个遍，还是不行。在临要放弃的时候找到了正确的解决方法，请戳文章 首先，确实是依赖包的问题，但是要找到对应的版本 1yum search python | grep -i devel 找到版本之后就可以直接安装了 1sudo yum install python36-devel.x86_64 最后一步 1pip install scrapyd --user 看到这个输出，真的是激动到老泪纵横啊～～]]></content>
       <tags>
-        <tag>centos7</tag>
         <tag>安装</tag>
+        <tag>centos7</tag>
         <tag>scrapyd</tag>
       </tags>
   </entry>
@@ -614,8 +626,8 @@
     <url>%2Famberwest.github.io%2F2018%2F06%2F14%2Fmongodb%EF%BC%9A%E5%AE%89%E8%A3%85%2F</url>
     <content type="text"><![CDATA[在centos7上安装官网上有多种安装方式，这里只选择.rpm Package方式，也是官网推荐的。 1、配置yum安装所需要的包管理系统 1sudo vim /etc/yum.repos.d/mongodb-org-4.0.repo 然后在文件里写入以下内容 123456[mongodb-org-4.0]name=MongoDB Repositorybaseurl=https://repo.mongodb.org/yum/redhat/$releasever/mongodb-org/4.0/x86_64/gpgcheck=1enabled=1gpgkey=https://www.mongodb.org/static/pgp/server-4.0.asc 2、安装Mongo DB安装包 1sudo yum install -y mongodb-org 如果想要安装特定的版本，可以运行下面的命令 1sudo yum install -y mongodb-org-4.0.2 mongodb-org-server-4.0.2 mongodb-org-shell-4.0.2 mongodb-org-mongos-4.0.2 mongodb-org-tools-4.0.2 按理说，你可以指定任何可用的MongoDB版本。但是，一旦有可用的新版本，yum会自动升级软件包，所以为了防止意外，可以将下面的exclude指令添加到/etc/yum.conf文件中： 1exclude=mongodb-org,mongodb-org-server,mongodb-org-shell,mongodb-org-mongos,mongodb-org-tools 到这里就已经安装完成了，配置文件默认在/etc/mongod.conf。 mac下的安装使用brew直接安装12brew updatebrew install mongodb 在根目录下创建/data/db文件夹，用来保存mongodb的数据，并且给该目录设置权限12sudo mkdir -P /data/dbsudo chown -R user_name /data # user_name是电脑用户 在终端启动mongod1mongod 在新窗口连接数据库1mongo 退出时需要先进入admin数据库再退出123use admindb.shutdownServer()exit 将mongodb安装到指定路径下载并解压安装包12curl -o /path/to/download # 安装包下载路径tar -zxvf mongodb-linux-x86_64-3.4.1.tgz # 安装包名字 将解压后的文件拷贝到指定目标1mv mongodb-linux-x86_64-3.4.1 /Users/amber/opt/mongodb 添加mongodb的bin路径到环境变量PATH中1export PATH=/Users/amber/opt/mongodb/bin:$PATH 在mongodb/下创建存放数据的目录，新建conf，log文件夹123mkdir -p /data/dbmkdir confmkdir log 在conf下创建mongo.conf配置文件，添加如下内容：123456789101112131415# 默认端口号是27017port=28001 bind_ip=127.0.0.1logpath=/Users/amber/opt/mongodb/log/28001.loglogappend=Truedbpath=/Users/amber/opt/mongodb/data/28001/# 为每一个数据库安装数据库名建立文件夹存放directoryperdb=True# 进程文件，方便停止mongodb，我直接放到了存放数据的目录下pidfilepath=/Users/amber/opt/mongodb/data/28001/28001.pid# 以守护进程的方式启动mongodfork=TrueoplogSize=10240# 开启权限验证，没设置账号密码之前先注释掉auth=True 用配置文件启动mongod！！！1mongod -f /../mongodb/conf/mongo.conf # 具体路径根据所在目录决定 打开mongo1mongo 127.0.0.1:28001 退出mongodb123use admindb.shutdownServer()exit 参考文章Install MongoDB Community Edition on Red Hat Enterprise or CentOS Linux]]></content>
       <tags>
-        <tag>安装</tag>
         <tag>mongodb</tag>
+        <tag>安装</tag>
       </tags>
   </entry>
   <entry>
