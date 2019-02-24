@@ -102,18 +102,18 @@
 
 
 
-  <meta name="description" content="这是系列文章，我会按照stackoverflow上pandas相关问题投票数排序进行翻译，答案会根据实际情况进行改动。不学习是会变咸鱼的～ 根据问题描述，需要对已有的DataFrame的列重新命名，去掉前面的$符号。 123import pandas as pddf = pd.DataFrame([&amp;#123;&apos;$a&apos;:1, &apos;$b&apos;:2, &apos;$c&apos;:3&amp;#125;])">
+  <meta name="description" content="这是系列文章，我会按照stackoverflow上pandas相关问题投票数排序进行整理学习。不学习是会变咸鱼的～ 原问题：renaming columns in pandas，根据问题描述，需要对已有的DataFrame的列重新命名，去掉前面的$符号。 123import pandas as pddf = pd.DataFrame([&amp;#123;&apos;$a&apos;:1, &apos;$b&apos;:2, &apos;$c&apos;:3&amp;#1">
 <meta name="keywords" content="pandas,重命名">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【今天你学pandas了吗】如何用pandas对列重命名">
 <meta property="og:url" content="http://amberwest.github.io/2019/02/21/如何用pandas对列重名/index.html">
 <meta property="og:site_name" content="Amberwest&#39;s Note">
-<meta property="og:description" content="这是系列文章，我会按照stackoverflow上pandas相关问题投票数排序进行翻译，答案会根据实际情况进行改动。不学习是会变咸鱼的～ 根据问题描述，需要对已有的DataFrame的列重新命名，去掉前面的$符号。 123import pandas as pddf = pd.DataFrame([&amp;#123;&apos;$a&apos;:1, &apos;$b&apos;:2, &apos;$c&apos;:3&amp;#125;])">
+<meta property="og:description" content="这是系列文章，我会按照stackoverflow上pandas相关问题投票数排序进行整理学习。不学习是会变咸鱼的～ 原问题：renaming columns in pandas，根据问题描述，需要对已有的DataFrame的列重新命名，去掉前面的$符号。 123import pandas as pddf = pd.DataFrame([&amp;#123;&apos;$a&apos;:1, &apos;$b&apos;:2, &apos;$c&apos;:3&amp;#1">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-02-21T15:13:06.685Z">
+<meta property="og:updated_time" content="2019-02-24T03:15:53.957Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【今天你学pandas了吗】如何用pandas对列重命名">
-<meta name="twitter:description" content="这是系列文章，我会按照stackoverflow上pandas相关问题投票数排序进行翻译，答案会根据实际情况进行改动。不学习是会变咸鱼的～ 根据问题描述，需要对已有的DataFrame的列重新命名，去掉前面的$符号。 123import pandas as pddf = pd.DataFrame([&amp;#123;&apos;$a&apos;:1, &apos;$b&apos;:2, &apos;$c&apos;:3&amp;#125;])">
+<meta name="twitter:description" content="这是系列文章，我会按照stackoverflow上pandas相关问题投票数排序进行整理学习。不学习是会变咸鱼的～ 原问题：renaming columns in pandas，根据问题描述，需要对已有的DataFrame的列重新命名，去掉前面的$符号。 123import pandas as pddf = pd.DataFrame([&amp;#123;&apos;$a&apos;:1, &apos;$b&apos;:2, &apos;$c&apos;:3&amp;#1">
 
 
 
@@ -367,12 +367,24 @@
                 
               
 
-              <time title="Created: 2019-02-21 17:42:36 / Modified: 23:13:06" itemprop="dateCreated datePublished" datetime="2019-02-21T17:42:36+08:00">2019-02-21</time>
+              <time title="Created: 2019-02-21 17:42:36" itemprop="dateCreated datePublished" datetime="2019-02-21T17:42:36+08:00">2019-02-21</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2019-02-24 11:15:53" itemprop="dateModified" datetime="2019-02-24T11:15:53+08:00">2019-02-24</time>
               
             
           </span>
@@ -423,8 +435,8 @@
       
 
       
-        <p>这是系列文章，我会按照<a href="https://stackoverflow.com/" target="_blank" rel="noopener">stackoverflow</a>上pandas相关问题投票数排序进行翻译，答案会根据实际情况进行改动。不学习是会变咸鱼的～</p>
-<p>根据<a href="https://stackoverflow.com/questions/11346283/renaming-columns-in-pandas" target="_blank" rel="noopener">问题描述</a>，需要对已有的DataFrame的列重新命名，去掉前面的$符号。</p>
+        <p>这是系列文章，我会按照<a href="https://stackoverflow.com/" target="_blank" rel="noopener">stackoverflow</a>上pandas相关问题投票数排序进行整理学习。不学习是会变咸鱼的～</p>
+<p>原问题：<a href="https://stackoverflow.com/questions/11346283/renaming-columns-in-pandas" target="_blank" rel="noopener">renaming columns in pandas</a>，根据问题描述，需要对已有的DataFrame的列重新命名，去掉前面的$符号。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line">df = pd.DataFrame([&#123;<span class="string">'$a'</span>:<span class="number">1</span>, <span class="string">'$b'</span>:<span class="number">2</span>, <span class="string">'$c'</span>:<span class="number">3</span>&#125;])</span><br></pre></td></tr></table></figure>
 <a id="more"></a>
 <p>方法一，不适用于有很多列的或者只修改个别列名的DataFrame</p>
@@ -477,6 +489,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/amberwest.github.io/2019/02/23/使用pandas筛选出指定列值所对应的行/" rel="prev" title="【今天你学pandas了吗】使用pandas筛选出指定列值所对应的行">
+                【今天你学pandas了吗】使用pandas筛选出指定列值所对应的行 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -541,7 +557,7 @@
                 
                   <a href="/amberwest.github.io/archives/">
                 
-                    <span class="site-state-item-count">63</span>
+                    <span class="site-state-item-count">66</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -773,7 +789,19 @@
                     
                       
                     
-                    <span class="site-state-item-count">95</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">101</span>
                     <span class="site-state-item-name">tags</span>
                   </a>
                 </div>

@@ -324,7 +324,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://amberwest.github.io/amberwest.github.io/2019/02/21/如何用pandas对列重名/">
+    <link itemprop="mainEntityOfPage" href="http://amberwest.github.io/amberwest.github.io/2019/02/24/删除DataFrame中的列/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="amberwest">
@@ -343,8 +343,8 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/amberwest.github.io/2019/02/21/如何用pandas对列重名/" itemprop="url">
-                  【今天你学pandas了吗】如何用pandas对列重命名
+                <a class="post-title-link" href="/amberwest.github.io/2019/02/24/删除DataFrame中的列/" itemprop="url">
+                  【今天你学pandas了吗】删除DataFrame中的列
                 </a>
               
             
@@ -370,7 +370,7 @@
                 
               
 
-              <time title="Created: 2019-02-21 17:42:36 / Modified: 23:13:06" itemprop="dateCreated datePublished" datetime="2019-02-21T17:42:36+08:00">2019-02-21</time>
+              <time title="Created: 2019-02-24 17:09:54 / Modified: 17:56:57" itemprop="dateCreated datePublished" datetime="2019-02-24T17:09:54+08:00">2019-02-24</time>
             
 
             
@@ -427,8 +427,530 @@
 
       
         
-          <p>这是系列文章，我会按照<a href="https://stackoverflow.com/" target="_blank" rel="noopener">stackoverflow</a>上pandas相关问题投票数排序进行翻译，答案会根据实际情况进行改动。不学习是会变咸鱼的～</p>
-<p>根据<a href="https://stackoverflow.com/questions/11346283/renaming-columns-in-pandas" target="_blank" rel="noopener">问题描述</a>，需要对已有的DataFrame的列重新命名，去掉前面的$符号。</p>
+          <p>这是系列文章，我会按照<a href="https://stackoverflow.com/" target="_blank" rel="noopener">stackoverflow</a>上pandas相关问题投票数排序进行整理学习。不学习是会变咸鱼的～</p>
+<p>原题目：<a href="https://stackoverflow.com/questions/11346283/renaming-columns-in-pandas" target="_blank" rel="noopener">Delete column from Pandas</a>，题主用了<code>del df[&#39;name&#39;]</code>可以成功删除数据，但是<code>del df.name</code>却不能够，根据答案，这是因为python语法的限制，而且在pandas会引起混乱（column名字跟pandas已有属性相同的情况下），前者在python中相当于调用了<code>df.__delitem__(name)</code>。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/amberwest.github.io/2019/02/24/删除DataFrame中的列/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://amberwest.github.io/amberwest.github.io/2019/02/24/如何迭代DataFrame中的行/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="amberwest">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/amberwest.github.io/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Amberwest's Note">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/amberwest.github.io/2019/02/24/如何迭代DataFrame中的行/" itemprop="url">
+                  【今天你学pandas了吗】如何迭代DataFrame中的行
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-02-24 14:16:20 / Modified: 17:10:10" itemprop="dateCreated datePublished" datetime="2019-02-24T14:16:20+08:00">2019-02-24</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/amberwest.github.io/categories/今天你学pandas了吗/" itemprop="url" rel="index"><span itemprop="name">今天你学pandas了吗</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>这是系列文章，我会按照<a href="https://stackoverflow.com/" target="_blank" rel="noopener">stackoverflow</a>上pandas相关问题投票数排序进行整理学习。不学习是会变咸鱼的～</p>
+<p>原问题：<a href="https://stackoverflow.com/questions/16476924/how-to-iterate-over-rows-in-a-dataframe-in-pandas" target="_blank" rel="noopener">How to iterate over the columns in DataFrame in Pandas</a></p>
+<p>如题所示，就是对DataFrame的行进行迭代，可以用<code>DataFrame.iterrows()</code>或<code>DataFrame.itertuples()</code>。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/amberwest.github.io/2019/02/24/如何迭代DataFrame中的行/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://amberwest.github.io/amberwest.github.io/2019/02/23/使用pandas筛选出指定列值所对应的行/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="amberwest">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/amberwest.github.io/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Amberwest's Note">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/amberwest.github.io/2019/02/23/使用pandas筛选出指定列值所对应的行/" itemprop="url">
+                  【今天你学pandas了吗】使用pandas筛选出指定列值所对应的行
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-02-23 21:59:08" itemprop="dateCreated datePublished" datetime="2019-02-23T21:59:08+08:00">2019-02-23</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2019-02-24 12:57:44" itemprop="dateModified" datetime="2019-02-24T12:57:44+08:00">2019-02-24</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/amberwest.github.io/categories/今天你学pandas了吗/" itemprop="url" rel="index"><span itemprop="name">今天你学pandas了吗</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>这是系列文章，我会按照<a href="https://stackoverflow.com/" target="_blank" rel="noopener">stackoverflow</a>上pandas相关问题投票数排序进行整理学习。不学习是会变咸鱼的～</p>
+<p>原问题：<a href="https://stackoverflow.com/questions/17071871/select-rows-from-a-dataframe-based-on-values-in-a-column-in-pandas" target="_blank" rel="noopener">Select rows from a DataFrame based on values in a column in pandas</a>。根据问题描述，希望通过pandas实现类似mysql查找语句的功能：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from table where column_name = some_value;</span><br></pre></td></tr></table></figure>
+<p>pandas中获取数据的有以下几种方法：</p>
+<ul>
+<li>布尔索引</li>
+<li>位置索引</li>
+<li>标签索引</li>
+<li>使用API</li>
+</ul>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/amberwest.github.io/2019/02/23/使用pandas筛选出指定列值所对应的行/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://amberwest.github.io/amberwest.github.io/2019/02/21/如何用pandas对列重名/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="amberwest">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/amberwest.github.io/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Amberwest's Note">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/amberwest.github.io/2019/02/21/如何用pandas对列重名/" itemprop="url">
+                  【今天你学pandas了吗】如何用pandas对列重命名
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-02-21 17:42:36" itemprop="dateCreated datePublished" datetime="2019-02-21T17:42:36+08:00">2019-02-21</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2019-02-24 11:15:53" itemprop="dateModified" datetime="2019-02-24T11:15:53+08:00">2019-02-24</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/amberwest.github.io/categories/今天你学pandas了吗/" itemprop="url" rel="index"><span itemprop="name">今天你学pandas了吗</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>这是系列文章，我会按照<a href="https://stackoverflow.com/" target="_blank" rel="noopener">stackoverflow</a>上pandas相关问题投票数排序进行整理学习。不学习是会变咸鱼的～</p>
+<p>原问题：<a href="https://stackoverflow.com/questions/11346283/renaming-columns-in-pandas" target="_blank" rel="noopener">renaming columns in pandas</a>，根据问题描述，需要对已有的DataFrame的列重新命名，去掉前面的$符号。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line">df = pd.DataFrame([&#123;<span class="string">'$a'</span>:<span class="number">1</span>, <span class="string">'$b'</span>:<span class="number">2</span>, <span class="string">'$c'</span>:<span class="number">3</span>&#125;])</span><br></pre></td></tr></table></figure>
           <!--noindex-->
           <div class="post-button text-center">
@@ -1493,492 +2015,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://amberwest.github.io/amberwest.github.io/2018/11/29/pandas：获取前k个数据/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="amberwest">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/amberwest.github.io/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Amberwest's Note">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/amberwest.github.io/2018/11/29/pandas：获取前k个数据/" itemprop="url">
-                  pandas：获取前k个数据
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-
-              
-                
-              
-
-              <time title="Created: 2018-11-29 17:47:23" itemprop="dateCreated datePublished" datetime="2018-11-29T17:47:23+08:00">2018-11-29</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Edited on</span>
-                
-                <time title="Modified: 2019-01-19 10:42:01" itemprop="dateModified" datetime="2019-01-19T10:42:01+08:00">2019-01-19</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/amberwest.github.io/categories/pandas/" itemprop="url" rel="index"><span itemprop="name">pandas</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>最近在看SQL，什么每科成绩前三名，看得我好懵。pandas其实也有个nlargest方法可以简单实现这一需求</p>
-<p>nlargest有三个参数，<code>df.nlargest(n, columns, keep=&#39;first&#39;)</code>，返回columns前n项的数据，默认是降序。</p>
-<p>数据：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line">raw_df = &#123;</span><br><span class="line">    <span class="string">'subject'</span>: [<span class="string">'chinese'</span>, <span class="string">'chinese'</span>,<span class="string">'chinese'</span>,<span class="string">'chinese'</span>,<span class="string">'english'</span>,<span class="string">'english'</span>, <span class="string">'english'</span>, <span class="string">'english'</span>,<span class="string">'math'</span>,<span class="string">'math'</span>, <span class="string">'math'</span>, <span class="string">'math'</span>],</span><br><span class="line">    <span class="string">'grade'</span>: [<span class="string">'first'</span>, <span class="string">'first'</span>, <span class="string">'second'</span>, <span class="string">'second'</span>, <span class="string">'first'</span>, <span class="string">'first'</span>, <span class="string">'second'</span>, <span class="string">'second'</span>, <span class="string">'first'</span>, <span class="string">'first'</span>, <span class="string">'second'</span>, <span class="string">'second'</span>],</span><br><span class="line">    <span class="string">'teacher'</span>: [<span class="string">'a'</span>, <span class="string">'a'</span>, <span class="string">'a'</span>, <span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'b'</span>, <span class="string">'b'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>, <span class="string">'c'</span>, <span class="string">'c'</span>, <span class="string">'c'</span>],</span><br><span class="line">    <span class="string">'student'</span>: [<span class="number">10</span>, <span class="number">12</span>, <span class="number">14</span>, <span class="number">23</span>,<span class="number">10</span>, <span class="number">12</span>, <span class="number">14</span>, <span class="number">23</span>,<span class="number">10</span>, <span class="number">12</span>, <span class="number">14</span>, <span class="number">23</span>],</span><br><span class="line">    <span class="string">'avg_score'</span>: [<span class="number">56</span>, <span class="number">56</span>, <span class="number">45</span>, <span class="number">76</span>, <span class="number">77</span>, <span class="number">85</span>, <span class="number">68</span>, <span class="number">79</span>, <span class="number">73</span>, <span class="number">76</span>, <span class="number">70</span>, <span class="number">85</span>]</span><br><span class="line">&#125;</span><br><span class="line">df = pd.DataFrame(raw_df)</span><br><span class="line">df</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/amberwest.github.io/2018/11/29/pandas：获取前k个数据/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://amberwest.github.io/amberwest.github.io/2018/11/12/用pyinstall打包python项目为exe文件及其问题总结/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="amberwest">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/amberwest.github.io/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Amberwest's Note">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/amberwest.github.io/2018/11/12/用pyinstall打包python项目为exe文件及其问题总结/" itemprop="url">
-                  用pyinstall打包python项目为exe文件及其问题总结
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-
-              
-                
-              
-
-              <time title="Created: 2018-11-12 22:40:40 / Modified: 23:34:08" itemprop="dateCreated datePublished" datetime="2018-11-12T22:40:40+08:00">2018-11-12</time>
-            
-
-            
-              
-
-              
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/amberwest.github.io/categories/python/" itemprop="url" rel="index"><span itemprop="name">python</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>为了可以在没有安装python的环境下运行程序，我们需要将程序打包为可执行文件。这次用的pyinstall模块，操作方便（虽然前面也踩了好多坑），坑的一点就是，想要在什么平台下使用，就需要在对应的平台上进行打包。比如说这次吧，因为要在Windows系统下使用，我只能临时搭个Windows虚拟机进行打包。</p>
-<h5 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h5><p>安装很简单，直接用pip命令</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install pyinstall</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/amberwest.github.io/2018/11/12/用pyinstall打包python项目为exe文件及其问题总结/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://amberwest.github.io/amberwest.github.io/2018/11/06/mongodb-shell与mongodb-server版本不一致引起的问题/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="amberwest">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/amberwest.github.io/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Amberwest's Note">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/amberwest.github.io/2018/11/06/mongodb-shell与mongodb-server版本不一致引起的问题/" itemprop="url">
-                  mongodb shell与mongodb server版本不一致引起的问题
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-
-              
-                
-              
-
-              <time title="Created: 2018-11-06 21:29:30 / Modified: 22:09:45" itemprop="dateCreated datePublished" datetime="2018-11-06T21:29:30+08:00">2018-11-06</time>
-            
-
-            
-              
-
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>最近从服务器的mongodb导出数据时遇到问题<code>Unrecgonized field &#39;snapshot&#39;</code>，一开始以为是我把要提取的字段名给写错了，前前后后对了好几次，还是有错。具体错误提示看下图：</p>
-<img src="/amberwest.github.io/2018/11/06/mongodb-shell与mongodb-server版本不一致引起的问题/1.png">
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/amberwest.github.io/2018/11/06/mongodb-shell与mongodb-server版本不一致引起的问题/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2026,7 +2062,7 @@
                 
                   <a href="/amberwest.github.io/archives/">
                 
-                    <span class="site-state-item-count">63</span>
+                    <span class="site-state-item-count">66</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -2258,7 +2294,19 @@
                     
                       
                     
-                    <span class="site-state-item-count">95</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">101</span>
                     <span class="site-state-item-name">tags</span>
                   </a>
                 </div>
