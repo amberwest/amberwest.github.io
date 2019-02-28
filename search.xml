@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[【今天你学pandas了吗】在已有的DataFrame上增加新列]]></title>
+    <url>%2Famberwest.github.io%2F2019%2F02%2F26%2F%E5%9C%A8%E5%B7%B2%E6%9C%89%E7%9A%84DataFrame%E4%B8%8A%E5%A2%9E%E5%8A%A0%E6%96%B0%E5%88%97%2F</url>
+    <content type="text"><![CDATA[这是系列文章，我会按照stackoverflow上pandas相关问题投票数排序进行整理学习。不学习是会变咸鱼的～ 原问题：adding new column to existing DataFrame in Python pandas，添加新的列到原有数据中，我们可以分几种情况来看。 假设原始数据如下： 123456import pandas as pdimport numpy as npdf = pd.DataFrame(&#123;'num_legs': [4, 2], 'num_wings': [0, 2]&#125;, index=['dog', 'hawk'])slen = len(df['num_legs']) 1）直接赋值 123456789df['a'] = pd.Series(np.random.randn(slen), index=df.index) # index要记得添加df['b'] = None # 添加一列值为Nonedf['c'] = [2, 4] # 添加列表数据# c1和c3列的顺序是一样的， c2则与之相反，具体看下文df['c1'] = ['no', 'yes']df.index = [1, 0]df['c2'] = pd.Series(['no', 'yes'])df['c3'] = pd.Series(['no', 'yes'], index=df.index) 2）loc方法 12df.loc[:,'d'] = pd.Series(np.random.randn(slen), index=df.index)df.loc[:, 'd'] = [2, 4] 3）insert方法 insert方法使用的列名不能有重复值，连更新都不能 12df.insert(len(df.columns), 'e', pd.Series(np.random.randn(slen)), index=df.index)df.insert(len(df.columns), 'ee', [1,2]) 4）assign方法 assign方法参数可以是Series、标量、列表，还可以同时添加多列 12df = df.assign(f=df.num_wings.mean()) # 将num_wings这列的平均值作为新增列f的结果df = df.assign(A=df.num_wings.sum(), B=[1,2]) # 新增列A和B 5）concat方法 1pd.concat([df, pd.Series(['yes', 'yes']).rename('t')], axis=1) # 增加列t 注意点： 每个方法的参数都可以是Series、标量、列表 insert方法中新增的列名不能跟已有的一样，即使更新刚刚新增的列也会出错 df[&#39;a&#39;]=pd.Series([&#39;no&#39;, &#39;yes&#39;]的index顺序如果被修改，默认是以Series的index为准，可以通过index=df.index来指定按照原始DataFrame的index顺序]]></content>
+      <categories>
+        <category>今天你学pandas了吗</category>
+      </categories>
+      <tags>
+        <tag>pandas</tag>
+        <tag>column</tag>
+        <tag>assign</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[【今天你学pandas了吗】获取DataFrame列名的列表形式]]></title>
     <url>%2Famberwest.github.io%2F2019%2F02%2F26%2F%E8%8E%B7%E5%8F%96DataFrame%E5%88%97%E5%90%8D%E7%9A%84%E5%88%97%E8%A1%A8%E5%BD%A2%E5%BC%8F%2F</url>
     <content type="text"><![CDATA[这是系列文章，我会按照stackoverflow上pandas相关问题投票数排序进行整理学习。不学习是会变咸鱼的～ 原问题：get list from DataFrame column headers，具体方法有如下几种： 12345678910111213141516171819202122import pandas as pddf = pd.DataFrame(&#123;'num_legs': [4, 2], 'num_wings': [0, 2]&#125;, index=['dog', 'hawk']) # 1list(df)# 2list(df.columns.values)# 3 df.columns.values.tolist()# 4df.keys.tolist()# 5[c for c in df]# 6list(df.columns)]]></content>
@@ -9,8 +22,8 @@
       </categories>
       <tags>
         <tag>pandas</tag>
-        <tag>tolist</tag>
         <tag>column</tag>
+        <tag>tolist</tag>
       </tags>
   </entry>
   <entry>

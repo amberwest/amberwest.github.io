@@ -102,23 +102,25 @@
 
 
 
-  <meta name="description" content="学习笔记">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Amberwest&#39;s Note">
-<meta property="og:url" content="http://amberwest.github.io/categories/pandas/index.html">
+  <meta name="description" content="这是系列文章，我会按照stackoverflow上pandas相关问题投票数排序进行整理学习。不学习是会变咸鱼的～ 原问题：adding new column to existing DataFrame in Python pandas，添加新的列到原有数据中，我们可以分几种情况来看。 假设原始数据如下： 123456import pandas as pdimport numpy as npdf">
+<meta name="keywords" content="pandas,column,assign">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【今天你学pandas了吗】在已有的DataFrame上增加新列">
+<meta property="og:url" content="http://amberwest.github.io/2019/02/26/在已有的DataFrame上增加新列/index.html">
 <meta property="og:site_name" content="Amberwest&#39;s Note">
-<meta property="og:description" content="学习笔记">
+<meta property="og:description" content="这是系列文章，我会按照stackoverflow上pandas相关问题投票数排序进行整理学习。不学习是会变咸鱼的～ 原问题：adding new column to existing DataFrame in Python pandas，添加新的列到原有数据中，我们可以分几种情况来看。 假设原始数据如下： 123456import pandas as pdimport numpy as npdf">
 <meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-02-28T16:24:52.854Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Amberwest&#39;s Note">
-<meta name="twitter:description" content="学习笔记">
+<meta name="twitter:title" content="【今天你学pandas了吗】在已有的DataFrame上增加新列">
+<meta name="twitter:description" content="这是系列文章，我会按照stackoverflow上pandas相关问题投票数排序进行整理学习。不学习是会变咸鱼的～ 原问题：adding new column to existing DataFrame in Python pandas，添加新的列到原有数据中，我们可以分几种情况来看。 假设原始数据如下： 123456import pandas as pdimport numpy as npdf">
 
 
 
 
 
 
-  <link rel="canonical" href="http://amberwest.github.io/categories/pandas/"/>
+  <link rel="canonical" href="http://amberwest.github.io/2019/02/26/在已有的DataFrame上增加新列/"/>
 
 
 
@@ -128,7 +130,7 @@
   };
 </script>
 
-  <title>Category: pandas | Amberwest's Note</title>
+  <title>【今天你学pandas了吗】在已有的DataFrame上增加新列 | Amberwest's Note</title>
   
 
 
@@ -175,7 +177,7 @@
     
   
 
-  <div class="container sidebar-position-left ">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -231,7 +233,7 @@
         
         
           
-          <li class="menu-item menu-item-categories menu-item-active">
+          <li class="menu-item menu-item-categories">
     <a href="/amberwest.github.io/categories/" rel="section">
       <i class="menu-item-icon fa fa-fw fa-th"></i> <br />Categories</a>
   </li>
@@ -259,25 +261,6 @@
 
   
     
-
-    
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-    
-
-  
-
 
   
 
@@ -326,199 +309,229 @@
           <div id="content" class="content">
             
 
+  <div id="posts" class="posts-expand">
+    
+
+  
+
   
   
   
-  <div class="post-block category">
 
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h1>pandas<small>Category</small>
-        </h1>
-      </div>
-
-      
-        
+  
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://amberwest.github.io/amberwest.github.io/2019/02/26/在已有的DataFrame上增加新列/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="amberwest">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/amberwest.github.io/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Amberwest's Note">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/amberwest.github.io/2019/01/18/如何去除pandas-groupby每个分组最大最小值再求描述性统计/" itemprop="url">
-              
-                <span itemprop="name">如何去除pandas groupby每个分组最大最小值再求描述性统计</span>
-              
-            </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">【今天你学pandas了吗】在已有的DataFrame上增加新列
+              
+            
+          </h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2019-01-18T18:15:38+08:00"
-              content="2019-01-18" >
-          01-18
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
 
-    </header>
-  </article>
+            
+            
+            
 
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-02-26 23:15:26" itemprop="dateCreated datePublished" datetime="2019-02-26T23:15:26+08:00">2019-02-26</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2019-03-01 00:24:52" itemprop="dateModified" datetime="2019-03-01T00:24:52+08:00">2019-03-01</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/amberwest.github.io/categories/今天你学pandas了吗/" itemprop="url" rel="index"><span itemprop="name">今天你学pandas了吗</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/amberwest.github.io/2018/11/29/pandas：获取前k个数据/" itemprop="url">
-              
-                <span itemprop="name">pandas：获取前k个数据</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-11-29T17:47:23+08:00"
-              content="2018-11-29" >
-          11-29
-        </time>
-      </div>
-
-    </header>
-  </article>
-
+      
 
       
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/amberwest.github.io/2018/11/05/pandas-to-datetime的format参数不起作用/" itemprop="url">
-              
-                <span itemprop="name">pandas.to_datetime的format参数不起作用</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-11-05T23:07:18+08:00"
-              content="2018-11-05" >
-          11-05
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-      
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/amberwest.github.io/2018/06/20/pandas-reset-index和set-index用法/" itemprop="url">
-              
-                <span itemprop="name">pandas: reset_index和set_index用法</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-06-20T22:50:50+08:00"
-              content="2018-06-20" >
-          06-20
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-      
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/amberwest.github.io/2018/06/13/pandas：修改列名/" itemprop="url">
-              
-                <span itemprop="name">pandas：修改列名</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-06-13T20:52:00+08:00"
-              content="2018-06-13" >
-          06-13
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-      
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/amberwest.github.io/2018/06/12/pandas：列数据转为多列数据/" itemprop="url">
-              
-                <span itemprop="name">pandas：列数据转为多列数据</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-06-12T20:56:31+08:00"
-              content="2018-06-12" >
-          06-12
-        </time>
-      </div>
-
-    </header>
-  </article>
-
+        <p>这是系列文章，我会按照<a href="https://stackoverflow.com/" target="_blank" rel="noopener">stackoverflow</a>上pandas相关问题投票数排序进行整理学习。不学习是会变咸鱼的～</p>
+<p>原问题：<a href="https://stackoverflow.com/questions/12555323/adding-new-column-to-existing-dataframe-in-python-pandas" target="_blank" rel="noopener">adding new column to existing DataFrame in Python pandas</a>，添加新的列到原有数据中，我们可以分几种情况来看。</p>
+<p>假设原始数据如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line">df = pd.DataFrame(&#123;<span class="string">'num_legs'</span>: [<span class="number">4</span>, <span class="number">2</span>], <span class="string">'num_wings'</span>: [<span class="number">0</span>, <span class="number">2</span>]&#125;,</span><br><span class="line">                  index=[<span class="string">'dog'</span>, <span class="string">'hawk'</span>])</span><br><span class="line">slen = len(df[<span class="string">'num_legs'</span>])</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<p>1）直接赋值</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">df[<span class="string">'a'</span>] = pd.Series(np.random.randn(slen), index=df.index) <span class="comment"># index要记得添加</span></span><br><span class="line">df[<span class="string">'b'</span>] = <span class="keyword">None</span> <span class="comment"># 添加一列值为None</span></span><br><span class="line">df[<span class="string">'c'</span>] = [<span class="number">2</span>, <span class="number">4</span>] <span class="comment"># 添加列表数据</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># c1和c3列的顺序是一样的， c2则与之相反，具体看下文</span></span><br><span class="line">df[<span class="string">'c1'</span>] = [<span class="string">'no'</span>, <span class="string">'yes'</span>]</span><br><span class="line">df.index = [<span class="number">1</span>, <span class="number">0</span>]</span><br><span class="line">df[<span class="string">'c2'</span>] = pd.Series([<span class="string">'no'</span>, <span class="string">'yes'</span>])</span><br><span class="line">df[<span class="string">'c3'</span>] = pd.Series([<span class="string">'no'</span>, <span class="string">'yes'</span>], index=df.index)</span><br></pre></td></tr></table></figure>
+<p>2）loc方法</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">df.loc[:,<span class="string">'d'</span>] = pd.Series(np.random.randn(slen), index=df.index)</span><br><span class="line">df.loc[:, <span class="string">'d'</span>] = [<span class="number">2</span>, <span class="number">4</span>]</span><br></pre></td></tr></table></figure>
+<p>3）insert方法</p>
+<p><em>insert方法使用的列名不能有重复值，连更新都不能</em></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">df.insert(len(df.columns), <span class="string">'e'</span>, pd.Series(np.random.randn(slen)), index=df.index)</span><br><span class="line">df.insert(len(df.columns), <span class="string">'ee'</span>, [<span class="number">1</span>,<span class="number">2</span>])</span><br></pre></td></tr></table></figure>
+<p>4）assign方法</p>
+<p>assign方法参数可以是Series、标量、列表，还可以同时添加多列</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">df = df.assign(f=df.num_wings.mean())  <span class="comment"># 将num_wings这列的平均值作为新增列f的结果</span></span><br><span class="line">df = df.assign(A=df.num_wings.sum(), B=[<span class="number">1</span>,<span class="number">2</span>])  <span class="comment"># 新增列A和B</span></span><br></pre></td></tr></table></figure>
+<p>5）concat方法</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pd.concat([df, pd.Series([<span class="string">'yes'</span>, <span class="string">'yes'</span>]).rename(<span class="string">'t'</span>)], axis=<span class="number">1</span>) <span class="comment"># 增加列t</span></span><br></pre></td></tr></table></figure>
+<p>注意点：</p>
+<ul>
+<li>每个方法的参数都可以是Series、标量、列表</li>
+<li>insert方法中新增的列名不能跟已有的一样，即使更新刚刚新增的列也会出错</li>
+<li><code>df[&#39;a&#39;]=pd.Series([&#39;no&#39;, &#39;yes&#39;]</code>的index顺序如果被修改，默认是以Series的index为准，可以通过<code>index=df.index</code>来指定按照原始DataFrame的index顺序</li>
+</ul>
 
       
     </div>
 
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/amberwest.github.io/tags/pandas/" rel="tag"># pandas</a>
+          
+            <a href="/amberwest.github.io/tags/column/" rel="tag"># column</a>
+          
+            <a href="/amberwest.github.io/tags/assign/" rel="tag"># assign</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/amberwest.github.io/2019/02/26/获取DataFrame列名的列表形式/" rel="next" title="【今天你学pandas了吗】获取DataFrame列名的列表形式">
+                <i class="fa fa-chevron-left"></i> 【今天你学pandas了吗】获取DataFrame列名的列表形式
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
 
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
           
+
+  
+
+
 
         </div>
         
@@ -967,6 +980,10 @@
   
 
   
+  <script type="text/javascript" src="/amberwest.github.io/js/src/scrollspy.js?v=6.2.0"></script>
+<script type="text/javascript" src="/amberwest.github.io/js/src/post-details.js?v=6.2.0"></script>
+
+
 
   
 

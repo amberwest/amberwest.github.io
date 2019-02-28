@@ -324,6 +324,211 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://amberwest.github.io/amberwest.github.io/2018/06/14/mongodb常见错误/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="amberwest">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/amberwest.github.io/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Amberwest's Note">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/amberwest.github.io/2018/06/14/mongodb常见错误/" itemprop="url">
+                  mongodb常见错误
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2018-06-14 21:34:32" itemprop="dateCreated datePublished" datetime="2018-06-14T21:34:32+08:00">2018-06-14</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2018-10-09 20:06:56" itemprop="dateModified" datetime="2018-10-09T20:06:56+08:00">2018-10-09</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h5 id="code-exited-status-14"><a href="#code-exited-status-14" class="headerlink" title="(code=exited, status=14)"></a>(code=exited, status=14)</h5><p>不知道怎么就出现了这个问题。在网上找了好一番，才知道是因为Mongodb SOCK不属于mongodb group和user导致的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 错误信息，自己的忘记截图了，这是来自参考文章的信息</span><br><span class="line">mongod.service — High-performance, schema-free document-oriented database Loaded: loaded (/lib/systemd/system/mongod.service; disabled; vendor preset: enabled) Active: failed (Result: exit-code) since Wed 2016–12–07 03:43:00 UTC; 3min 9s ago Docs: https://docs.mongodb.org/manual Process: 24453 ExecStart=/usr/bin/mongod — quiet — config /etc/mongod.conf (code=exited, status=14) Main PID: 24453 (code=exited, status=14)</span><br></pre></td></tr></table></figure>
+<p>具体的解决方法：</p>
+<ul>
+<li>进入tmp目录</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd /tmp</span><br></pre></td></tr></table></figure>
+<ul>
+<li>查看是否有mongodb sock文件</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ls *.sock</span><br></pre></td></tr></table></figure>
+<ul>
+<li>修改user:group权限</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo chown mongodb:mognodb &lt;your_sock&gt;  # 这里我是mongod</span><br></pre></td></tr></table></figure>
+<ul>
+<li>重启mongodb</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo service mongod start</span><br></pre></td></tr></table></figure>
+<ul>
+<li>查看mongodb状态</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo service mongod status</span><br></pre></td></tr></table></figure>
+<h5 id="无法连接远程mongodb数据库"><a href="#无法连接远程mongodb数据库" class="headerlink" title="无法连接远程mongodb数据库"></a>无法连接远程mongodb数据库</h5><p>当我在本地尝试连接到远程服务器时，遇到<code>connection attempt failed</code>这个错误。</p>
+<img src="/amberwest.github.io/2018/06/14/mongodb常见错误/1.png">
+<p>一般遇到这种情况，要么是远程服务器没开启mongod服务，要么就是没开放端口。</p>
+<p>1、开启远程mongod服务</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ssh user@192.122.122.100  # 登录</span><br><span class="line">mongod --auth -f /etc/mongod.conf  # Linux中mongod的配置文件默认放在/etc下，auth是需要密码登录</span><br></pre></td></tr></table></figure>
+<p>然后就可以在本地尝试连接了</p>
+<p>2、开放mongod服务端口</p>
+<p>如果启动mongod服务之后还是不行，就需要检查一下防火墙。在centos7查看开放关闭端口都是用防火墙来控制的。</p>
+<ul>
+<li>关闭mongod服务</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo service mongod stop</span><br></pre></td></tr></table></figure>
+<ul>
+<li>查看已经开放的端口</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo firewall-cmd --list-ports</span><br></pre></td></tr></table></figure>
+<ul>
+<li>开启端口</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo firewall-cmd --zone-public --add-port=27017/tcp --permanent</span><br></pre></td></tr></table></figure>
+<ul>
+<li>重启防火墙</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">firewall-cmd --reload</span><br><span class="line">sudo service firewalld start</span><br></pre></td></tr></table></figure>
+<p>重新尝试连接</p>
+<h5 id="错误码1和错误100"><a href="#错误码1和错误100" class="headerlink" title="错误码1和错误100"></a>错误码1和错误100</h5><p>出现错误码1和100很可能因为上次mongodb没有正常关闭. </p>
+<p>1、如果是error number 100的话,一般找出之前的进程,然后kill就可以 </p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/amberwest.github.io/2018/06/14/mongodb常见错误/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://amberwest.github.io/amberwest.github.io/2018/06/14/pyenv简单使用/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1488,7 +1693,7 @@
                 
                   <a href="/amberwest.github.io/archives/">
                 
-                    <span class="site-state-item-count">67</span>
+                    <span class="site-state-item-count">68</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -1736,7 +1941,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">103</span>
+                      
+                    
+                    <span class="site-state-item-count">104</span>
                     <span class="site-state-item-name">tags</span>
                   </a>
                 </div>
