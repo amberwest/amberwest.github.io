@@ -1,6 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[【今天学pandas了吗】如何改变DataFrame列的顺序]]></title>
+    <url>%2Famberwest.github.io%2F2019%2F03%2F03%2F%E5%A6%82%E4%BD%95%E6%94%B9%E5%8F%98DataFrame%E5%88%97%E7%9A%84%E9%A1%BA%E5%BA%8F%2F</url>
+    <content type="text"><![CDATA[这是系列文章，我会按照stackoverflow上pandas相关问题投票数排序进行整理学习。不学习是会变咸鱼的～ 原问题：How to change the orders of DataFrame columns 还是用之前的数据： 12345import pandas as pddf = pd.DataFrame(&#123;'A': 'foo bar foo bar foo bar foo foo'.split(), 'B': 'one one two three two two one three'.split(), 'C': np.arange(8), 'D': np.arange(8) * 2&#125;) 解决思路很简单，就是改变原本DataFrame的列名的位置即可。 1）直接用改变列名位置的列表 1df1 = df[['C', 'A', 'B', 'D']] 2）使用columns方法，用列名下标来代替 12new_columns = [3, 2, 1, 0]df2 = df[df.columns[new_columns]] 3）使用insert方法 题主新增了一列数据，希望能够放到第一列的位置 1df.insert(0, 'new_column_name', df['D'].mean()) 4）使用reindex 1234df['new_column'] = df['D'].mean()df4 = df.reindex(['new_column'] + list(df.columns[:-1]), axis=1) # axis='columns'，如果没有axis参数，则必须在列表前加上columnsdf5 = df.reindex(columns=['new_column'] + list(df.columns[:-1]))]]></content>
+      <categories>
+        <category>今天学pandas了吗</category>
+      </categories>
+      <tags>
+        <tag>pandas</tag>
+        <tag>改变顺序</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[【今天你学pandas了吗】获取DataFrame的行数]]></title>
+    <url>%2Famberwest.github.io%2F2019%2F03%2F03%2F%E8%8E%B7%E5%8F%96DataFrame%E7%9A%84%E8%A1%8C%E6%95%B0%2F</url>
+    <content type="text"><![CDATA[这是系列文章，我会按照stackoverflow上pandas相关问题投票数排序进行整理学习。不学习是会变咸鱼的～ 原问题：How do I get a row count of a Pandas DataFrame 如下： 12345678910import pandas as pddf = pd.DataFrame(&#123;'A': 'foo bar foo bar foo bar foo foo'.split(), 'B': 'one one two three two two one three'.split(), 'C': np.arange(8), 'D': np.arange(8) * 2&#125;)# 方法一：使用shaperow_count, column_count = df.shape# 方法二：使用len函数row_count = len(df)]]></content>
+      <categories>
+        <category>今天你学pandas了吗</category>
+      </categories>
+      <tags>
+        <tag>pandas</tag>
+        <tag>行数</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[【今天你学pandas了吗】选择DataFrame中的多列数据]]></title>
+    <url>%2Famberwest.github.io%2F2019%2F03%2F03%2F%E9%80%89%E6%8B%A9DataFrame%E4%B8%AD%E7%9A%84%E5%A4%9A%E5%88%97%E6%95%B0%E6%8D%AE%2F</url>
+    <content type="text"><![CDATA[这是系列文章，我会按照stackoverflow上pandas相关问题投票数排序进行整理学习。不学习是会变咸鱼的～ 原问题：selecting multiple columns in pandas dataframe，如题，选择DataFrame中的多列数据。 假设原始数据如下： 123456import pandas as pdimport numpy as npdf = pd.DataFrame(&#123;'A': 'foo bar foo bar foo bar foo foo'.split(), 'B': 'one one two three two two one three'.split(), 'C': np.arange(8), 'D': np.arange(8) * 2&#125;) 1）传递包含列名的列表 注：要有[] 1df1 = df[['A','C']] 2）使用iloc方法 注：索引是从0开始，并且不包括最大值 1df2 = df.iloc[:, 0:2] # 取前两列数据 3）使用loc方法 12df3 = df.loc[:, 'A':'C'] #从A列到C列，总共取三列数据df3 = df.loc[0:4, ['A', 'B', 'C']] # 也可以直接写出所要的列名，注意要加上[]；0:4是取前四列，因为没有重新设置行索引，所以看起来像是直接用的索引，其实这里是索引的名字 4）使用columns 12df4 = df[df.columns[2:4]] # 取第3和4列rows = df.loc[df.index[:3]] # 类似的，使用index可以取整行数据，效果跟df[:3]一样]]></content>
+      <categories>
+        <category>今天你学pandas了吗</category>
+      </categories>
+      <tags>
+        <tag>pandas</tag>
+        <tag>筛选</tag>
+        <tag>column</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[【今天你学pandas了吗】在已有的DataFrame上增加新列]]></title>
     <url>%2Famberwest.github.io%2F2019%2F02%2F26%2F%E5%9C%A8%E5%B7%B2%E6%9C%89%E7%9A%84DataFrame%E4%B8%8A%E5%A2%9E%E5%8A%A0%E6%96%B0%E5%88%97%2F</url>
     <content type="text"><![CDATA[这是系列文章，我会按照stackoverflow上pandas相关问题投票数排序进行整理学习。不学习是会变咸鱼的～ 原问题：adding new column to existing DataFrame in Python pandas，添加新的列到原有数据中，我们可以分几种情况来看。 假设原始数据如下： 123456import pandas as pdimport numpy as npdf = pd.DataFrame(&#123;'num_legs': [4, 2], 'num_wings': [0, 2]&#125;, index=['dog', 'hawk'])slen = len(df['num_legs']) 1）直接赋值 123456789df['a'] = pd.Series(np.random.randn(slen), index=df.index) # index要记得添加df['b'] = None # 添加一列值为Nonedf['c'] = [2, 4] # 添加列表数据# c1和c3列的顺序是一样的， c2则与之相反，具体看下文df['c1'] = ['no', 'yes']df.index = [1, 0]df['c2'] = pd.Series(['no', 'yes'])df['c3'] = pd.Series(['no', 'yes'], index=df.index) 2）loc方法 12df.loc[:,'d'] = pd.Series(np.random.randn(slen), index=df.index)df.loc[:, 'd'] = [2, 4] 3）insert方法 insert方法使用的列名不能有重复值，连更新都不能 12df.insert(len(df.columns), 'e', pd.Series(np.random.randn(slen)), index=df.index)df.insert(len(df.columns), 'ee', [1,2]) 4）assign方法 assign方法参数可以是Series、标量、列表，还可以同时添加多列 12df = df.assign(f=df.num_wings.mean()) # 将num_wings这列的平均值作为新增列f的结果df = df.assign(A=df.num_wings.sum(), B=[1,2]) # 新增列A和B 5）concat方法 1pd.concat([df, pd.Series(['yes', 'yes']).rename('t')], axis=1) # 增加列t 注意点： 每个方法的参数都可以是Series、标量、列表 insert方法中新增的列名不能跟已有的一样，即使更新刚刚新增的列也会出错 df[&#39;a&#39;]=pd.Series([&#39;no&#39;, &#39;yes&#39;]的index顺序如果被修改，默认是以Series的index为准，可以通过index=df.index来指定按照原始DataFrame的index顺序]]></content>
@@ -258,8 +295,8 @@
       </categories>
       <tags>
         <tag>排序</tag>
-        <tag>冒泡排序</tag>
         <tag>插入排序</tag>
+        <tag>冒泡排序</tag>
         <tag>选择排序</tag>
       </tags>
   </entry>
