@@ -102,28 +102,25 @@
 
 
 
-  <meta name="description" content="之前用pandas处理日期之后，想要保存结果到excel，发现不管怎么设置，日期这一列数据总是带有time部分。">
-<meta name="keywords" content="pandas,格式">
+  <meta name="description" content="学习笔记">
+<meta name="keywords" content="pandas,添加行">
 <meta property="og:type" content="article">
-<meta property="og:title" content="pandas.to_datetime的format参数不起作用">
-<meta property="og:url" content="http://amberwest.github.io/2018/11/05/pandas-to-datetime的format参数不起作用/index.html">
+<meta property="og:title" content="【今天你学pandas了吗】添加一行数据到DataFrame">
+<meta property="og:url" content="http://amberwest.github.io/2019/03/04/添加一行数据到DataFrame/index.html">
 <meta property="og:site_name" content="Amberwest&#39;s Note">
-<meta property="og:description" content="之前用pandas处理日期之后，想要保存结果到excel，发现不管怎么设置，日期这一列数据总是带有time部分。">
+<meta property="og:description" content="学习笔记">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="http://amberwest.github.io/amberwest.github.io/2018/11/05/pandas-to-datetime的format参数不起作用/2.png">
-<meta property="og:image" content="http://amberwest.github.io/amberwest.github.io/2018/11/05/pandas-to-datetime的format参数不起作用/1.png">
-<meta property="og:updated_time" content="2019-01-19T02:41:46.149Z">
+<meta property="og:updated_time" content="2019-03-04T15:11:01.527Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="pandas.to_datetime的format参数不起作用">
-<meta name="twitter:description" content="之前用pandas处理日期之后，想要保存结果到excel，发现不管怎么设置，日期这一列数据总是带有time部分。">
-<meta name="twitter:image" content="http://amberwest.github.io/amberwest.github.io/2018/11/05/pandas-to-datetime的format参数不起作用/2.png">
+<meta name="twitter:title" content="【今天你学pandas了吗】添加一行数据到DataFrame">
+<meta name="twitter:description" content="学习笔记">
 
 
 
 
 
 
-  <link rel="canonical" href="http://amberwest.github.io/2018/11/05/pandas-to-datetime的format参数不起作用/"/>
+  <link rel="canonical" href="http://amberwest.github.io/2019/03/04/添加一行数据到DataFrame/"/>
 
 
 
@@ -133,7 +130,7 @@
   };
 </script>
 
-  <title>pandas.to_datetime的format参数不起作用 | Amberwest's Note</title>
+  <title>【今天你学pandas了吗】添加一行数据到DataFrame | Amberwest's Note</title>
   
 
 
@@ -328,7 +325,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://amberwest.github.io/amberwest.github.io/2018/11/05/pandas-to-datetime的format参数不起作用/">
+    <link itemprop="mainEntityOfPage" href="http://amberwest.github.io/amberwest.github.io/2019/03/04/添加一行数据到DataFrame/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="amberwest">
@@ -345,7 +342,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">pandas.to_datetime的format参数不起作用
+          <h1 class="post-title" itemprop="name headline">【今天你学pandas了吗】添加一行数据到DataFrame
               
             
           </h1>
@@ -370,24 +367,12 @@
                 
               
 
-              <time title="Created: 2018-11-05 23:07:18" itemprop="dateCreated datePublished" datetime="2018-11-05T23:07:18+08:00">2018-11-05</time>
+              <time title="Created: 2019-03-04 23:09:04 / Modified: 23:11:01" itemprop="dateCreated datePublished" datetime="2019-03-04T23:09:04+08:00">2019-03-04</time>
             
 
             
               
 
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Edited on</span>
-                
-                <time title="Modified: 2019-01-19 10:41:46" itemprop="dateModified" datetime="2019-01-19T10:41:46+08:00">2019-01-19</time>
               
             
           </span>
@@ -404,7 +389,7 @@
                 <span class="post-meta-item-text">In</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/amberwest.github.io/categories/pandas/" itemprop="url" rel="index"><span itemprop="name">pandas</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/amberwest.github.io/categories/今天你学pandas了吗/" itemprop="url" rel="index"><span itemprop="name">今天你学pandas了吗</span></a></span>
 
                 
                 
@@ -438,21 +423,7 @@
       
 
       
-        <p>之前用pandas处理日期之后，想要保存结果到excel，发现不管怎么设置，日期这一列数据总是带有time部分。</p>
-<img src="/amberwest.github.io/2018/11/05/pandas-to-datetime的format参数不起作用/2.png">
-<a id="more"></a>
-<p>在pyCharm或者Jupyter Notebook打印出来的结果都是正常的，但实际上并不是这样的：</p>
-<img src="/amberwest.github.io/2018/11/05/pandas-to-datetime的format参数不起作用/1.png">
-<p>具体原因我也没找到，好在有方法可以解决。  </p>
-<ul>
-<li><p>使用Series的dt方法</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">df[<span class="string">'日期'</span>] = pd.to_datetime(df[<span class="string">'日期'</span>], format=<span class="string">'%Y-%m-%d'</span>).dt.date</span><br><span class="line"></span><br><span class="line"><span class="comment"># 或者</span></span><br><span class="line">df[<span class="string">'日期'</span>] = df[<span class="string">'日期'</span>].dt.strftime(<span class="string">'%Y-%m-%d'</span>)</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>使用日期的date方法</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">df[<span class="string">'日期'</span>] = pd.to_datetime(df[<span class="string">'日期'</span>], format=<span class="string">'%Y-%m-%d'</span>)</span><br><span class="line">df[<span class="string">'日期'</span>] = [time.date() <span class="keyword">for</span> time <span class="keyword">in</span> df[<span class="string">'日期'</span>]]</span><br><span class="line"><span class="comment"># 获取时间部分则是用time()</span></span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-
+        
       
     </div>
 
@@ -474,7 +445,7 @@
           
             <a href="/amberwest.github.io/tags/pandas/" rel="tag"># pandas</a>
           
-            <a href="/amberwest.github.io/tags/格式/" rel="tag"># 格式</a>
+            <a href="/amberwest.github.io/tags/添加行/" rel="tag"># 添加行</a>
           
         </div>
       
@@ -487,8 +458,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/amberwest.github.io/2018/10/25/celery多队列/" rel="next" title="celery多队列">
-                <i class="fa fa-chevron-left"></i> celery多队列
+              <a href="/amberwest.github.io/2019/03/03/如何改变DataFrame列的顺序/" rel="next" title="【今天你学pandas了吗】如何改变DataFrame列的顺序">
+                <i class="fa fa-chevron-left"></i> 【今天你学pandas了吗】如何改变DataFrame列的顺序
               </a>
             
           </div>
@@ -496,10 +467,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/amberwest.github.io/2018/11/06/Jupyterlab不能调用asyncio-event-loop/" rel="prev" title="Jupyterlab不能调用asyncio event loop">
-                Jupyterlab不能调用asyncio event loop <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>

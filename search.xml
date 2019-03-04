@@ -1,11 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title><![CDATA[【今天学pandas了吗】如何改变DataFrame列的顺序]]></title>
+    <title><![CDATA[【今天你学pandas了吗】添加一行数据到DataFrame]]></title>
+    <url>%2Famberwest.github.io%2F2019%2F03%2F04%2F%E6%B7%BB%E5%8A%A0%E4%B8%80%E8%A1%8C%E6%95%B0%E6%8D%AE%E5%88%B0DataFrame%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>今天你学pandas了吗</category>
+      </categories>
+      <tags>
+        <tag>pandas</tag>
+        <tag>添加行</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[【今天你学pandas了吗】如何改变DataFrame列的顺序]]></title>
     <url>%2Famberwest.github.io%2F2019%2F03%2F03%2F%E5%A6%82%E4%BD%95%E6%94%B9%E5%8F%98DataFrame%E5%88%97%E7%9A%84%E9%A1%BA%E5%BA%8F%2F</url>
     <content type="text"><![CDATA[这是系列文章，我会按照stackoverflow上pandas相关问题投票数排序进行整理学习。不学习是会变咸鱼的～ 原问题：How to change the orders of DataFrame columns 还是用之前的数据： 12345import pandas as pddf = pd.DataFrame(&#123;'A': 'foo bar foo bar foo bar foo foo'.split(), 'B': 'one one two three two two one three'.split(), 'C': np.arange(8), 'D': np.arange(8) * 2&#125;) 解决思路很简单，就是改变原本DataFrame的列名的位置即可。 1）直接用改变列名位置的列表 1df1 = df[['C', 'A', 'B', 'D']] 2）使用columns方法，用列名下标来代替 12new_columns = [3, 2, 1, 0]df2 = df[df.columns[new_columns]] 3）使用insert方法 题主新增了一列数据，希望能够放到第一列的位置 1df.insert(0, 'new_column_name', df['D'].mean()) 4）使用reindex 1234df['new_column'] = df['D'].mean()df4 = df.reindex(['new_column'] + list(df.columns[:-1]), axis=1) # axis='columns'，如果没有axis参数，则必须在列表前加上columnsdf5 = df.reindex(columns=['new_column'] + list(df.columns[:-1]))]]></content>
       <categories>
-        <category>今天学pandas了吗</category>
+        <category>今天你学pandas了吗</category>
       </categories>
       <tags>
         <tag>pandas</tag>
@@ -295,8 +307,8 @@
       </categories>
       <tags>
         <tag>排序</tag>
-        <tag>插入排序</tag>
         <tag>冒泡排序</tag>
+        <tag>插入排序</tag>
         <tag>选择排序</tag>
       </tags>
   </entry>
