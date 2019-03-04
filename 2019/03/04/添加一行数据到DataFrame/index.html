@@ -102,18 +102,18 @@
 
 
 
-  <meta name="description" content="学习笔记">
+  <meta name="description" content="这是系列文章，我会按照stackoverflow上pandas相关问题投票数排序进行整理学习。不学习是会变咸鱼的～ 原问题：Add one row to pandas DataFrame，要求一行一行地添加数据到已有的空白DataFrame中。 12345import pandas as pdimport numpy as np# 创建空白DataFramedf = pd.DataFrame(co">
 <meta name="keywords" content="pandas,添加行">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【今天你学pandas了吗】添加一行数据到DataFrame">
 <meta property="og:url" content="http://amberwest.github.io/2019/03/04/添加一行数据到DataFrame/index.html">
 <meta property="og:site_name" content="Amberwest&#39;s Note">
-<meta property="og:description" content="学习笔记">
+<meta property="og:description" content="这是系列文章，我会按照stackoverflow上pandas相关问题投票数排序进行整理学习。不学习是会变咸鱼的～ 原问题：Add one row to pandas DataFrame，要求一行一行地添加数据到已有的空白DataFrame中。 12345import pandas as pdimport numpy as np# 创建空白DataFramedf = pd.DataFrame(co">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-03-04T15:14:25.296Z">
+<meta property="og:updated_time" content="2019-03-04T15:46:26.840Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【今天你学pandas了吗】添加一行数据到DataFrame">
-<meta name="twitter:description" content="学习笔记">
+<meta name="twitter:description" content="这是系列文章，我会按照stackoverflow上pandas相关问题投票数排序进行整理学习。不学习是会变咸鱼的～ 原问题：Add one row to pandas DataFrame，要求一行一行地添加数据到已有的空白DataFrame中。 12345import pandas as pdimport numpy as np# 创建空白DataFramedf = pd.DataFrame(co">
 
 
 
@@ -367,7 +367,7 @@
                 
               
 
-              <time title="Created: 2019-03-04 23:09:04 / Modified: 23:14:25" itemprop="dateCreated datePublished" datetime="2019-03-04T23:09:04+08:00">2019-03-04</time>
+              <time title="Created: 2019-03-04 23:09:04 / Modified: 23:46:26" itemprop="dateCreated datePublished" datetime="2019-03-04T23:09:04+08:00">2019-03-04</time>
             
 
             
@@ -423,7 +423,18 @@
       
 
       
-        
+        <p>这是系列文章，我会按照<a href="https://stackoverflow.com/" target="_blank" rel="noopener">stackoverflow</a>上pandas相关问题投票数排序进行整理学习。不学习是会变咸鱼的～</p>
+<p>原问题：<a href="https://stackoverflow.com/questions/10715965/add-one-row-to-pandas-dataframe" target="_blank" rel="noopener">Add one row to pandas DataFrame</a>，要求一行一行地添加数据到已有的空白DataFrame中。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建空白DataFrame</span></span><br><span class="line">df = pd.DataFrame(columns=[<span class="string">'lib'</span>, <span class="string">'qty1'</span>, <span class="string">'qty2'</span>])</span><br></pre></td></tr></table></figure>
+<p>1）使用loc</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">4</span>):</span><br><span class="line">    df.loc[i] = [np.random.randint(<span class="number">-1</span>, <span class="number">1</span>) <span class="keyword">for</span> n <span class="keyword">in</span> range(<span class="number">3</span>)]</span><br><span class="line">    <span class="comment"># df.loc[i] = 5 添加一条数据都为5的记录</span></span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<p>2）使用append</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">df.append(&#123;<span class="string">'lib'</span>: <span class="number">2</span>, <span class="string">'qty1'</span>: <span class="number">3</span>, <span class="string">'qty2'</span>: <span class="number">4</span>&#125;, ignore_index=<span class="keyword">True</span>) </span><br><span class="line"></span><br><span class="line"><span class="comment"># append也可以直接添加DataFrame</span></span><br><span class="line">df2 = pd.DataFrame([[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>], [<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>]], columns=[<span class="string">'lib'</span>, <span class="string">'qty1'</span>, <span class="string">'qty2'</span>])</span><br><span class="line">df.append(df2, ignore_index=<span class="keyword">True</span>)  <span class="comment"># ignore_index设置为True，index将会忽略df2的index</span></span><br></pre></td></tr></table></figure>
+<p>3）重新生成DataFrame</p>
+<p>循环将要添加的数据以字典的形式保存到一个列表中，在用列表创建出DataFrame</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">row_list = [] </span><br><span class="line">input_rows = [[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>], [<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>]] <span class="comment"># 待插入数据</span></span><br><span class="line"><span class="keyword">for</span> row <span class="keyword">in</span> input_rows:</span><br><span class="line">    dict1 = dict(lib=row[<span class="number">0</span>], qty1=row[<span class="number">1</span>], qty2=row[<span class="number">2</span>]) <span class="comment"># 将数据转为字典</span></span><br><span class="line">    row_list.append(dict1) <span class="comment"># 保存到列表中</span></span><br><span class="line">df = pd.DataFrame(row_list)</span><br></pre></td></tr></table></figure>
+
       
     </div>
 
