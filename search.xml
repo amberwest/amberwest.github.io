@@ -344,9 +344,9 @@
         <category>python</category>
       </categories>
       <tags>
-        <tag>scrapyd-client</tag>
         <tag>分布式</tag>
         <tag>部署</tag>
+        <tag>scrapyd-client</tag>
       </tags>
   </entry>
   <entry>
