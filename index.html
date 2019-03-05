@@ -324,6 +324,183 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://amberwest.github.io/amberwest.github.io/2019/03/05/删除DataFrame中某列值为NaN的记录-行/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="amberwest">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/amberwest.github.io/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Amberwest's Note">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/amberwest.github.io/2019/03/05/删除DataFrame中某列值为NaN的记录-行/" itemprop="url">
+                  【今天你学pandas了吗】删除DataFrame中某列值为NaN的记录/行
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-03-05 23:17:06" itemprop="dateCreated datePublished" datetime="2019-03-05T23:17:06+08:00">2019-03-05</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2019-03-06 00:01:17" itemprop="dateModified" datetime="2019-03-06T00:01:17+08:00">2019-03-06</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/amberwest.github.io/categories/今天你学pandas了吗/" itemprop="url" rel="index"><span itemprop="name">今天你学pandas了吗</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>这是系列文章，我会按照<a href="https://stackoverflow.com/" target="_blank" rel="noopener">stackoverflow</a>上pandas相关问题投票数排序进行整理学习。不学习是会变咸鱼的～</p>
+<p>原问题：<a href="https://stackoverflow.com/questions/13413590/how-to-drop-rows-of-pandas-dataframe-whose-value-in-certain-columns-is-nan" target="_blank" rel="noopener">How to drop row of Pandas DataFrame whose value in certain columns is NaN</a></p>
+<p>如题。我们先创建数据</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line">input_rows = [[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>], [<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>], [np.nan, <span class="number">2</span>, np.nan, <span class="number">5</span>], [np.nan, <span class="number">5</span>, <span class="number">7</span>]]</span><br><span class="line">df = pd.DataFrame(input_rows, columns=[<span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>, <span class="string">'d'</span>])</span><br><span class="line"></span><br><span class="line">out:	a	b	c	d</span><br><span class="line">	<span class="number">0</span>	<span class="number">1.0</span>	<span class="number">2</span>	<span class="number">3.0</span>	NaN</span><br><span class="line">	<span class="number">1</span>	<span class="number">2.0</span>	<span class="number">3</span>	<span class="number">4.0</span>	NaN</span><br><span class="line">	<span class="number">2</span>	NaN	<span class="number">2</span>	NaN	<span class="number">5.0</span></span><br><span class="line">	<span class="number">3</span>	NaN	<span class="number">5</span>	<span class="number">7.0</span>	NaN</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/amberwest.github.io/2019/03/05/删除DataFrame中某列值为NaN的记录-行/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://amberwest.github.io/amberwest.github.io/2019/03/04/添加一行数据到DataFrame/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -370,7 +547,7 @@
                 
               
 
-              <time title="Created: 2019-03-04 23:09:04 / Modified: 23:46:26" itemprop="dateCreated datePublished" datetime="2019-03-04T23:09:04+08:00">2019-03-04</time>
+              <time title="Created: 2019-03-04 23:09:04 / Modified: 23:51:50" itemprop="dateCreated datePublished" datetime="2019-03-04T23:09:04+08:00">2019-03-04</time>
             
 
             
@@ -553,7 +730,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2019-03-04 23:14:21" itemprop="dateModified" datetime="2019-03-04T23:14:21+08:00">2019-03-04</time>
+                <time title="Modified: 2019-03-04 23:16:48" itemprop="dateModified" datetime="2019-03-04T23:16:48+08:00">2019-03-04</time>
               
             
           </span>
@@ -1232,12 +1409,24 @@
                 
               
 
-              <time title="Created: 2019-02-26 22:44:35 / Modified: 23:15:32" itemprop="dateCreated datePublished" datetime="2019-02-26T22:44:35+08:00">2019-02-26</time>
+              <time title="Created: 2019-02-26 22:44:35" itemprop="dateCreated datePublished" datetime="2019-02-26T22:44:35+08:00">2019-02-26</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2019-03-05 16:06:50" itemprop="dateModified" datetime="2019-03-05T16:06:50+08:00">2019-03-05</time>
               
             
           </span>
@@ -1293,6 +1482,7 @@
             <p>这是系列文章，我会按照<a href="https://stackoverflow.com/" target="_blank" rel="noopener">stackoverflow</a>上pandas相关问题投票数排序进行整理学习。不学习是会变咸鱼的～</p>
 <p>原问题：<a href="https://stackoverflow.com/questions/19482970/get-list-from-pandas-dataframe-column-headers" target="_blank" rel="noopener">get list from DataFrame column headers</a>，具体方法有如下几种：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line">df = pd.DataFrame(&#123;<span class="string">'num_legs'</span>: [<span class="number">4</span>, <span class="number">2</span>], <span class="string">'num_wings'</span>: [<span class="number">0</span>, <span class="number">2</span>]&#125;,</span><br><span class="line">                  index=[<span class="string">'dog'</span>, <span class="string">'hawk'</span>])</span><br><span class="line">                  </span><br><span class="line"><span class="comment"># 1</span></span><br><span class="line">list(df)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2</span></span><br><span class="line">list(df.columns.values)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 3 </span></span><br><span class="line">df.columns.values.tolist()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 4</span></span><br><span class="line">df.keys.tolist()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 5</span></span><br><span class="line">[c <span class="keyword">for</span> c <span class="keyword">in</span> df]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 6</span></span><br><span class="line">list(df.columns)</span><br></pre></td></tr></table></figure>
+
           
         
       
@@ -1735,7 +1925,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2019-02-25 22:14:30" itemprop="dateModified" datetime="2019-02-25T22:14:30+08:00">2019-02-25</time>
+                <time title="Modified: 2019-03-06 00:03:15" itemprop="dateModified" datetime="2019-03-06T00:03:15+08:00">2019-03-06</time>
               
             
           </span>
@@ -1840,182 +2030,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://amberwest.github.io/amberwest.github.io/2019/02/21/如何用pandas对列重名/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="amberwest">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/amberwest.github.io/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Amberwest's Note">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/amberwest.github.io/2019/02/21/如何用pandas对列重名/" itemprop="url">
-                  【今天你学pandas了吗】如何用pandas对列重命名
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-
-              
-                
-              
-
-              <time title="Created: 2019-02-21 17:42:36" itemprop="dateCreated datePublished" datetime="2019-02-21T17:42:36+08:00">2019-02-21</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Edited on</span>
-                
-                <time title="Modified: 2019-02-24 11:15:53" itemprop="dateModified" datetime="2019-02-24T11:15:53+08:00">2019-02-24</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/amberwest.github.io/categories/今天你学pandas了吗/" itemprop="url" rel="index"><span itemprop="name">今天你学pandas了吗</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>这是系列文章，我会按照<a href="https://stackoverflow.com/" target="_blank" rel="noopener">stackoverflow</a>上pandas相关问题投票数排序进行整理学习。不学习是会变咸鱼的～</p>
-<p>原问题：<a href="https://stackoverflow.com/questions/11346283/renaming-columns-in-pandas" target="_blank" rel="noopener">renaming columns in pandas</a>，根据问题描述，需要对已有的DataFrame的列重新命名，去掉前面的$符号。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line">df = pd.DataFrame([&#123;<span class="string">'$a'</span>:<span class="number">1</span>, <span class="string">'$b'</span>:<span class="number">2</span>, <span class="string">'$c'</span>:<span class="number">3</span>&#125;])</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/amberwest.github.io/2019/02/21/如何用pandas对列重名/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2063,7 +2077,7 @@
                 
                   <a href="/amberwest.github.io/archives/">
                 
-                    <span class="site-state-item-count">72</span>
+                    <span class="site-state-item-count">73</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -2319,7 +2333,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">107</span>
+                      
+                    
+                    <span class="site-state-item-count">108</span>
                     <span class="site-state-item-name">tags</span>
                   </a>
                 </div>

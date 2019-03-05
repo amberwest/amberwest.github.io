@@ -110,7 +110,7 @@
 <meta property="og:site_name" content="Amberwest&#39;s Note">
 <meta property="og:description" content="这是系列文章，我会按照stackoverflow上pandas相关问题投票数排序进行整理学习。不学习是会变咸鱼的～ 原问题：Select rows from a DataFrame based on values in a column in pandas。根据问题描述，希望通过pandas实现类似mysql查找语句的功能： 1select * from table where column_na">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-02-25T14:14:30.424Z">
+<meta property="og:updated_time" content="2019-03-05T16:03:15.651Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【今天你学pandas了吗】使用pandas筛选出指定列值所对应的行">
 <meta name="twitter:description" content="这是系列文章，我会按照stackoverflow上pandas相关问题投票数排序进行整理学习。不学习是会变咸鱼的～ 原问题：Select rows from a DataFrame based on values in a column in pandas。根据问题描述，希望通过pandas实现类似mysql查找语句的功能： 1select * from table where column_na">
@@ -384,7 +384,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2019-02-25 22:14:30" itemprop="dateModified" datetime="2019-02-25T22:14:30+08:00">2019-02-25</time>
+                <time title="Modified: 2019-03-06 00:03:15" itemprop="dateModified" datetime="2019-03-06T00:03:15+08:00">2019-03-06</time>
               
             
           </span>
@@ -472,6 +472,7 @@
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df.loc[(df[<span class="string">'column_name'</span>] &gt;= A) &amp; (df[<span class="string">'column_name'</span>] &lt;= B)]</span><br></pre></td></tr></table></figure>
 <p>4、筛选出列值不等于某个/些值的行</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">df.loc[df[<span class="string">'column_name'</span>] != <span class="string">'some_value'</span>]</span><br><span class="line"></span><br><span class="line">df.loc[~df[<span class="string">'column_name'</span>].isin(<span class="string">'some_values'</span>)] <span class="comment">#~取反</span></span><br></pre></td></tr></table></figure>
+
       
     </div>
 
@@ -592,7 +593,7 @@
                 
                   <a href="/amberwest.github.io/archives/">
                 
-                    <span class="site-state-item-count">72</span>
+                    <span class="site-state-item-count">73</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -848,7 +849,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">107</span>
+                      
+                    
+                    <span class="site-state-item-count">108</span>
                     <span class="site-state-item-name">tags</span>
                   </a>
                 </div>

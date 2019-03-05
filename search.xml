@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[【今天你学pandas了吗】删除DataFrame中某列值为NaN的记录/行]]></title>
+    <url>%2Famberwest.github.io%2F2019%2F03%2F05%2F%E5%88%A0%E9%99%A4DataFrame%E4%B8%AD%E6%9F%90%E5%88%97%E5%80%BC%E4%B8%BANaN%E7%9A%84%E8%AE%B0%E5%BD%95-%E8%A1%8C%2F</url>
+    <content type="text"><![CDATA[这是系列文章，我会按照stackoverflow上pandas相关问题投票数排序进行整理学习。不学习是会变咸鱼的～ 原问题：How to drop row of Pandas DataFrame whose value in certain columns is NaN 如题。我们先创建数据 1234567891011import pandas as pdimport numpy as npinput_rows = [[1,2,3], [2,3,4], [np.nan, 2, np.nan, 5], [np.nan, 5, 7]]df = pd.DataFrame(input_rows, columns=['a', 'b', 'c', 'd'])out: a b c d 0 1.0 2 3.0 NaN 1 2.0 3 4.0 NaN 2 NaN 2 NaN 5.0 3 NaN 5 7.0 NaN 1）DataFrame.dropna 12# 删除所有带有NaN的行df.dropna() 关于dropna(axis=0, how=&#39;any&#39;, thresh=None, subset=None, inplace=False)参数的说明： axis：默认是0，即删除行。1或者columns则是删除列 how：删除方式。any删除至少有一个NaN的行/列；all删除全部都是NaN的行/列 thresh：阈值。int，删除的行/列至少有n个NaN值 subset：列表。columns或者index，只删除指定列/行 2）pandas.notnull 1df = df[pd.notnull(df['a'])] 3）pandas.isnull 1df = df[~pd.isnull(df['d'])] 4）numpy.isnan 1df = df[~np.isnan(df['a'])] 5）query 1df = df.query('a == a')]]></content>
+      <categories>
+        <category>今天你学pandas了吗</category>
+      </categories>
+      <tags>
+        <tag>pandas</tag>
+        <tag>drop</tag>
+        <tag>删除</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[【今天你学pandas了吗】添加一行数据到DataFrame]]></title>
     <url>%2Famberwest.github.io%2F2019%2F03%2F04%2F%E6%B7%BB%E5%8A%A0%E4%B8%80%E8%A1%8C%E6%95%B0%E6%8D%AE%E5%88%B0DataFrame%2F</url>
     <content type="text"><![CDATA[这是系列文章，我会按照stackoverflow上pandas相关问题投票数排序进行整理学习。不学习是会变咸鱼的～ 原问题：Add one row to pandas DataFrame，要求一行一行地添加数据到已有的空白DataFrame中。 12345import pandas as pdimport numpy as np# 创建空白DataFramedf = pd.DataFrame(columns=['lib', 'qty1', 'qty2']) 1）使用loc 123for i in range(4): df.loc[i] = [np.random.randint(-1, 1) for n in range(3)] # df.loc[i] = 5 添加一条数据都为5的记录 2）使用append 12345df.append(&#123;'lib': 2, 'qty1': 3, 'qty2': 4&#125;, ignore_index=True) # append也可以直接添加DataFramedf2 = pd.DataFrame([[1,2,3], [2,3,4]], columns=['lib', 'qty1', 'qty2'])df.append(df2, ignore_index=True) # ignore_index设置为True，index将会忽略df2的index 3）重新生成DataFrame 循环将要添加的数据以字典的形式保存到一个列表中，在用列表创建出DataFrame 123456row_list = [] input_rows = [[1,2,3], [2,3,4]] # 待插入数据for row in input_rows: dict1 = dict(lib=row[0], qty1=row[1], qty2=row[2]) # 将数据转为字典 row_list.append(dict1) # 保存到列表中df = pd.DataFrame(row_list)]]></content>
