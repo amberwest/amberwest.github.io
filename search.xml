@@ -1,7 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title><![CDATA[【今天你学pandas了吗】删除DataFrame中某列值为NaN的记录/行]]></title>
+    <title><![CDATA[保存DataFrame到csv文件]]></title>
+    <url>%2Famberwest.github.io%2F2019%2F03%2F06%2F%E4%BF%9D%E5%AD%98DataFrame%E5%88%B0csv%E6%96%87%E4%BB%B6%2F</url>
+    <content type="text"><![CDATA[这是系列文章，我会按照stackoverflow上pandas相关问题投票数排序进行整理学习。不学习是会变咸鱼的～ 原问题：Pandas writing dataframe to csv file，如题，将dataframe写入到csv文件可以使用to_csv方法。 123df.to_csv( [&apos;path_or_buf=None&apos;, &quot;sep=&apos;,&apos;&quot;, &quot;na_rep=&apos;&apos;&quot;, &apos;float_format=None&apos;, &apos;columns=None&apos;, &apos;header=True&apos;, &apos;index=True&apos;, &apos;index_label=None&apos;, &quot;mode=&apos;w&apos;&quot;, &apos;encoding=None&apos;, &apos;compression=None&apos;, &apos;quoting=None&apos;, &apos;quotechar=\&apos;&quot;\&apos;&apos;, &quot;line_terminator=&apos;\\n&apos;&quot;, &apos;chunksize=None&apos;, &apos;tupleize_cols=None&apos;, &apos;date_format=None&apos;, &apos;doublequote=True&apos;, &apos;escapechar=None&apos;, &quot;decimal=&apos;.&apos;&quot;],) 解释几个常用的参数，相信信息查看官方文档： path_or_buf：路径，string类型。df保存为csv文件的路径，相对路径或者绝对路径。 sep：分隔符，默认是“，”，可以自由设置。 na_rep：空值替换，默认为空字符串。 float_format：float类型数字的格式设置。如float_format=”%.2f”。 columns：序列。选择要写入的列。 header：默认为True（Series默认为False），可以是string和list。列名。 index：默认True，即行名。 mode：默认为w，即写模式。 encoding：编码方式。 chunksize：一次写入行数。 例子如下： 1234567891011121314151617181920import pandas as pdimport numpy as npdf = pd.DataFrame(&#123;'A': 'foo bar foo bar foo bar foo foo'.split(), 'B': 'one one two one two two one one'.split(), 'C': np.arange(8), 'D': np.arange(8) * 2&#125;)df""" A B C D0 foo one 0 01 bar one 1 22 foo two 2 43 bar one 3 64 foo two 4 85 bar two 5 106 foo one 6 127 foo one 7 14"""# 直接保存df.to_csv('out.csv', sep='\t', encoding='utf-8', index=False)]]></content>
+      <categories>
+        <category>今天你学pandas了吗</category>
+      </categories>
+      <tags>
+        <tag>pandas</tag>
+        <tag>csv</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[删除DataFrame中某列值为NaN的记录/行]]></title>
     <url>%2Famberwest.github.io%2F2019%2F03%2F05%2F%E5%88%A0%E9%99%A4DataFrame%E4%B8%AD%E6%9F%90%E5%88%97%E5%80%BC%E4%B8%BANaN%E7%9A%84%E8%AE%B0%E5%BD%95-%E8%A1%8C%2F</url>
     <content type="text"><![CDATA[这是系列文章，我会按照stackoverflow上pandas相关问题投票数排序进行整理学习。不学习是会变咸鱼的～ 原问题：How to drop row of Pandas DataFrame whose value in certain columns is NaN 如题。我们先创建数据 1234567891011import pandas as pdimport numpy as npinput_rows = [[1,2,3], [2,3,4], [np.nan, 2, np.nan, 5], [np.nan, 5, 7]]df = pd.DataFrame(input_rows, columns=['a', 'b', 'c', 'd'])out: a b c d 0 1.0 2 3.0 NaN 1 2.0 3 4.0 NaN 2 NaN 2 NaN 5.0 3 NaN 5 7.0 NaN 1）DataFrame.dropna 12# 删除所有带有NaN的行df.dropna() 关于dropna(axis=0, how=&#39;any&#39;, thresh=None, subset=None, inplace=False)参数的说明： axis：默认是0，即删除行。1或者columns则是删除列 how：删除方式。any删除至少有一个NaN的行/列；all删除全部都是NaN的行/列 thresh：阈值。int，删除的行/列至少有n个NaN值 subset：列表。columns或者index，只删除指定列/行 2）pandas.notnull 1df = df[pd.notnull(df['a'])] 3）pandas.isnull 1df = df[~pd.isnull(df['d'])] 4）numpy.isnan 1df = df[~np.isnan(df['a'])] 5）query 1df = df.query('a == a')]]></content>
       <categories>
@@ -14,7 +26,22 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[【今天你学pandas了吗】添加一行数据到DataFrame]]></title>
+    <title><![CDATA[改变pandas中列的数据类型]]></title>
+    <url>%2Famberwest.github.io%2F2019%2F03%2F05%2F%E6%94%B9%E5%8F%98pandas%E4%B8%AD%E5%88%97%E7%9A%84%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%2F</url>
+    <content type="text"><![CDATA[这是系列文章，我会按照stackoverflow上pandas相关问题投票数排序进行整理学习。不学习是会变咸鱼的～ 原问题：change data type of columns in pandas，如何将列的数据转为合适的类型，如将下例中数字从string类型转为float。 1234567891011121314151617181920import pandas as pda = [['a', '1.2', '4.2'], ['b', '70', '0.03'], ['x', '5', '0']]df = pd.DataFrame(a, columns=['aa', 'bb', 'cc'])# df''' aa bb cc0 a 1.2 4.21 b 70 0.032 x 5 0'''df.dtypes'''aa objectbb objectcc objectdtype: object''' 1）pd.to_numeric方法 12# 不改变原本的数据df['bb'] = pd.to_numeric(df['bb']) pd.to_numeric()方法不能对DataFrame格式的数据直接转换，所以如果有多个column需要转换，可以使用apply方法。 12# apply返回处理之后的结果，并不改变原本的数据，所以需要赋值df[['bb', 'cc']] = df[['bb', 'cc']].apply(pd.to_numeric) pd.to_numeric(arg, errors=&#39;raise&#39;, downcast=None)的参数说明： arg：list、tuple、一维数组、Series errors：{‘ignore’, ‘raise’, ‘coerce’}，默认是raise，有错误直接抛出。ignore将返回不能被转换的原始数据；coerce将不能被转换为数字类型的数据设置为NaN downcast：{‘integer’, ‘signed’, ‘unsigned’, ‘float’} , 默认是none。如果设置了某一类型的数据，那么pandas会将原始数据转为能存储的最小子型态。如float的子型态有float16，float32，float64，所以设置了downcast=float，则会将数据转为能够以较少bytes去存储一个浮点数的float16。另外，downcast参数和errors参数是分开的，如果downcast过程中出错，即使errors设置为ignore也会抛出异常。 关于downcast参数用法，例子如下： 123456789# 这个例子是用concat方法将处理之后float类型数据块和非float类型的数据块合并# 也就是只对data中float类型的数据进行处理data = pd.concat( [ data.select_dtypes( include=['float'] ) .apply( pd.to_numeric, downcast='float' ), # apply中接收downcast参数传递给to_numeric data.select_dtypes( exclude=['float'] ) ], axis=1 ) 2）astype()方法 astype是pandas对象的方法，可以将DataFrame和Series转为指定的类型。 1234567891011# 以下例子不以上面数据为例# 将全部的列都转为intdf = df.astype(int)# 将不同类型的列用字典分别设置df = df.astype(&#123;'a': int, 'b': complex&#125;)# 转换Series的类型s = s.astype(np.float16)# 转换Series为python string类型s = s.astype(str) # 转换Series为序列类型s = s.astype('category') astype也会转换出错：s.astype(np.unit8) 3）infer_objects()方法 该方法不接受任何参数，尝试将object类型的数据转为更合适的格式。不能被转换的数据则保持原样。 123456789df = df.infer_objects()# 只成功修改了bb列df.dtypes'''aa objectbb float64cc objectdtype: object''']]></content>
+      <categories>
+        <category>今天你学pandas了吗</category>
+      </categories>
+      <tags>
+        <tag>pandas</tag>
+        <tag>数据类型</tag>
+        <tag>data type</tag>
+        <tag>astype</tag>
+        <tag>to_numeric</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[添加一行数据到DataFrame]]></title>
     <url>%2Famberwest.github.io%2F2019%2F03%2F04%2F%E6%B7%BB%E5%8A%A0%E4%B8%80%E8%A1%8C%E6%95%B0%E6%8D%AE%E5%88%B0DataFrame%2F</url>
     <content type="text"><![CDATA[这是系列文章，我会按照stackoverflow上pandas相关问题投票数排序进行整理学习。不学习是会变咸鱼的～ 原问题：Add one row to pandas DataFrame，要求一行一行地添加数据到已有的空白DataFrame中。 12345import pandas as pdimport numpy as np# 创建空白DataFramedf = pd.DataFrame(columns=['lib', 'qty1', 'qty2']) 1）使用loc 123for i in range(4): df.loc[i] = [np.random.randint(-1, 1) for n in range(3)] # df.loc[i] = 5 添加一条数据都为5的记录 2）使用append 12345df.append(&#123;'lib': 2, 'qty1': 3, 'qty2': 4&#125;, ignore_index=True) # append也可以直接添加DataFramedf2 = pd.DataFrame([[1,2,3], [2,3,4]], columns=['lib', 'qty1', 'qty2'])df.append(df2, ignore_index=True) # ignore_index设置为True，index将会忽略df2的index 3）重新生成DataFrame 循环将要添加的数据以字典的形式保存到一个列表中，在用列表创建出DataFrame 123456row_list = [] input_rows = [[1,2,3], [2,3,4]] # 待插入数据for row in input_rows: dict1 = dict(lib=row[0], qty1=row[1], qty2=row[2]) # 将数据转为字典 row_list.append(dict1) # 保存到列表中df = pd.DataFrame(row_list)]]></content>
       <categories>
@@ -26,7 +53,7 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[【今天你学pandas了吗】如何改变DataFrame列的顺序]]></title>
+    <title><![CDATA[如何改变DataFrame列的顺序]]></title>
     <url>%2Famberwest.github.io%2F2019%2F03%2F03%2F%E5%A6%82%E4%BD%95%E6%94%B9%E5%8F%98DataFrame%E5%88%97%E7%9A%84%E9%A1%BA%E5%BA%8F%2F</url>
     <content type="text"><![CDATA[这是系列文章，我会按照stackoverflow上pandas相关问题投票数排序进行整理学习。不学习是会变咸鱼的～ 原问题：How to change the orders of DataFrame columns 还是用之前的数据： 12345import pandas as pddf = pd.DataFrame(&#123;'A': 'foo bar foo bar foo bar foo foo'.split(), 'B': 'one one two three two two one three'.split(), 'C': np.arange(8), 'D': np.arange(8) * 2&#125;) 解决思路很简单，就是改变原本DataFrame的列名的位置即可。 1）直接用改变列名位置的列表 1df1 = df[['C', 'A', 'B', 'D']] 2）使用columns方法，用列名下标来代替 12new_columns = [3, 2, 1, 0]df2 = df[df.columns[new_columns]] 3）使用insert方法 题主新增了一列数据，希望能够放到第一列的位置 1df.insert(0, 'new_column_name', df['D'].mean()) 4）使用reindex 1234df['new_column'] = df['D'].mean()df4 = df.reindex(['new_column'] + list(df.columns[:-1]), axis=1) # axis='columns'，如果没有axis参数，则必须在列表前加上columnsdf5 = df.reindex(columns=['new_column'] + list(df.columns[:-1]))]]></content>
       <categories>
@@ -38,7 +65,7 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[【今天你学pandas了吗】获取DataFrame的行数]]></title>
+    <title><![CDATA[获取DataFrame的行数]]></title>
     <url>%2Famberwest.github.io%2F2019%2F03%2F03%2F%E8%8E%B7%E5%8F%96DataFrame%E7%9A%84%E8%A1%8C%E6%95%B0%2F</url>
     <content type="text"><![CDATA[这是系列文章，我会按照stackoverflow上pandas相关问题投票数排序进行整理学习。不学习是会变咸鱼的～ 原问题：How do I get a row count of a Pandas DataFrame 如下： 12345678910import pandas as pddf = pd.DataFrame(&#123;'A': 'foo bar foo bar foo bar foo foo'.split(), 'B': 'one one two three two two one three'.split(), 'C': np.arange(8), 'D': np.arange(8) * 2&#125;)# 方法一：使用shaperow_count, column_count = df.shape# 方法二：使用len函数row_count = len(df)]]></content>
       <categories>
@@ -50,7 +77,7 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[【今天你学pandas了吗】选择DataFrame中的多列数据]]></title>
+    <title><![CDATA[选择DataFrame中的多列数据]]></title>
     <url>%2Famberwest.github.io%2F2019%2F03%2F03%2F%E9%80%89%E6%8B%A9DataFrame%E4%B8%AD%E7%9A%84%E5%A4%9A%E5%88%97%E6%95%B0%E6%8D%AE%2F</url>
     <content type="text"><![CDATA[这是系列文章，我会按照stackoverflow上pandas相关问题投票数排序进行整理学习。不学习是会变咸鱼的～ 原问题：selecting multiple columns in pandas dataframe，如题，选择DataFrame中的多列数据。 假设原始数据如下： 123456import pandas as pdimport numpy as npdf = pd.DataFrame(&#123;'A': 'foo bar foo bar foo bar foo foo'.split(), 'B': 'one one two three two two one three'.split(), 'C': np.arange(8), 'D': np.arange(8) * 2&#125;) 1）传递包含列名的列表 注：要有[] 1df1 = df[['A','C']] 2）使用iloc方法 注：索引是从0开始，并且不包括最大值 1df2 = df.iloc[:, 0:2] # 取前两列数据 3）使用loc方法 12df3 = df.loc[:, 'A':'C'] #从A列到C列，总共取三列数据df3 = df.loc[0:4, ['A', 'B', 'C']] # 也可以直接写出所要的列名，注意要加上[]；0:4是取前四列，因为没有重新设置行索引，所以看起来像是直接用的索引，其实这里是索引的名字 4）使用columns 12df4 = df[df.columns[2:4]] # 取第3和4列rows = df.loc[df.index[:3]] # 类似的，使用index可以取整行数据，效果跟df[:3]一样]]></content>
       <categories>
@@ -63,7 +90,7 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[【今天你学pandas了吗】在已有的DataFrame上增加新列]]></title>
+    <title><![CDATA[在已有的DataFrame上增加新列]]></title>
     <url>%2Famberwest.github.io%2F2019%2F02%2F26%2F%E5%9C%A8%E5%B7%B2%E6%9C%89%E7%9A%84DataFrame%E4%B8%8A%E5%A2%9E%E5%8A%A0%E6%96%B0%E5%88%97%2F</url>
     <content type="text"><![CDATA[这是系列文章，我会按照stackoverflow上pandas相关问题投票数排序进行整理学习。不学习是会变咸鱼的～ 原问题：adding new column to existing DataFrame in Python pandas，添加新的列到原有数据中，我们可以分几种情况来看。 假设原始数据如下： 123456import pandas as pdimport numpy as npdf = pd.DataFrame(&#123;'num_legs': [4, 2], 'num_wings': [0, 2]&#125;, index=['dog', 'hawk'])slen = len(df['num_legs']) 1）直接赋值 123456789df['a'] = pd.Series(np.random.randn(slen), index=df.index) # index要记得添加df['b'] = None # 添加一列值为Nonedf['c'] = [2, 4] # 添加列表数据# c1和c3列的顺序是一样的， c2则与之相反，具体看下文df['c1'] = ['no', 'yes']df.index = [1, 0]df['c2'] = pd.Series(['no', 'yes'])df['c3'] = pd.Series(['no', 'yes'], index=df.index) 2）loc方法 12df.loc[:,'d'] = pd.Series(np.random.randn(slen), index=df.index)df.loc[:, 'd'] = [2, 4] 3）insert方法 insert方法使用的列名不能有重复值，连更新都不能 12df.insert(len(df.columns), 'e', pd.Series(np.random.randn(slen)), index=df.index)df.insert(len(df.columns), 'ee', [1,2]) 4）assign方法 assign方法参数可以是Series、标量、列表，还可以同时添加多列 12df = df.assign(f=df.num_wings.mean()) # 将num_wings这列的平均值作为新增列f的结果df = df.assign(A=df.num_wings.sum(), B=[1,2]) # 新增列A和B 5）concat方法 1pd.concat([df, pd.Series(['yes', 'yes']).rename('t')], axis=1) # 增加列t 注意点： 每个方法的参数都可以是Series、标量、列表 insert方法中新增的列名不能跟已有的一样，即使更新刚刚新增的列也会出错 df[&#39;a&#39;]=pd.Series([&#39;no&#39;, &#39;yes&#39;]的index顺序如果被修改，默认是以Series的index为准，可以通过index=df.index来指定按照原始DataFrame的index顺序]]></content>
       <categories>
@@ -76,7 +103,7 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[【今天你学pandas了吗】获取DataFrame列名的列表形式]]></title>
+    <title><![CDATA[获取DataFrame列名的列表形式]]></title>
     <url>%2Famberwest.github.io%2F2019%2F02%2F26%2F%E8%8E%B7%E5%8F%96DataFrame%E5%88%97%E5%90%8D%E7%9A%84%E5%88%97%E8%A1%A8%E5%BD%A2%E5%BC%8F%2F</url>
     <content type="text"><![CDATA[这是系列文章，我会按照stackoverflow上pandas相关问题投票数排序进行整理学习。不学习是会变咸鱼的～ 原问题：get list from DataFrame column headers，具体方法有如下几种： 12345678910111213141516171819202122import pandas as pddf = pd.DataFrame(&#123;'num_legs': [4, 2], 'num_wings': [0, 2]&#125;, index=['dog', 'hawk']) # 1list(df)# 2list(df.columns.values)# 3 df.columns.values.tolist()# 4df.keys.tolist()# 5[c for c in df]# 6list(df.columns)]]></content>
       <categories>
@@ -89,7 +116,7 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[【今天你学pandas了吗】删除DataFrame中的列]]></title>
+    <title><![CDATA[删除DataFrame中的列]]></title>
     <url>%2Famberwest.github.io%2F2019%2F02%2F24%2F%E5%88%A0%E9%99%A4DataFrame%E4%B8%AD%E7%9A%84%E5%88%97%2F</url>
     <content type="text"><![CDATA[这是系列文章，我会按照stackoverflow上pandas相关问题投票数排序进行整理学习。不学习是会变咸鱼的～ 原题目：Delete column from Pandas，题主用了del df[&#39;name&#39;]可以成功删除数据，但是del df.name却不能够，根据答案，这是因为python语法的限制，而且在pandas会引起混乱（column名字跟pandas已有属性相同的情况下），前者在python中相当于调用了df.__delitem__(name)。 我们可以用drop方法来实现。 123456import pandas as pddf = pd.DataFrame(&#123;'num_legs': [4, 2], 'num_wings': [0, 2]&#125;, index=['dog', 'hawk'])new_df = df.drop(labels='num_legs', axis='columns') 关于drop方法参数的说明： 1df.drop([&apos;labels=None&apos;, &apos;axis=0&apos;, &apos;index=None&apos;, &apos;columns=None&apos;, &apos;level=None&apos;, &apos;inplace=False&apos;, &quot;errors=&apos;raise&apos;&quot;]) lables：所要删除的行/列，可以是字符串，也可以是列表，依axis而定 axis：指定要删除的方向。0或index删除的是行，1或columns删除列 index：制定要删除行的索引 columns：指定要删除的列，有这个参数不需要再设置axis level：多重索引下使用]]></content>
       <categories>
@@ -101,7 +128,7 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[【今天你学pandas了吗】如何迭代DataFrame中的行]]></title>
+    <title><![CDATA[如何迭代DataFrame中的行]]></title>
     <url>%2Famberwest.github.io%2F2019%2F02%2F24%2F%E5%A6%82%E4%BD%95%E8%BF%AD%E4%BB%A3DataFrame%E4%B8%AD%E7%9A%84%E8%A1%8C%2F</url>
     <content type="text"><![CDATA[这是系列文章，我会按照stackoverflow上pandas相关问题投票数排序进行整理学习。不学习是会变咸鱼的～ 原问题：How to iterate over the columns in DataFrame in Pandas 如题所示，就是对DataFrame的行进行迭代，可以用DataFrame.iterrows()或DataFrame.itertuples()。 12345678910111213141516import pandas as pdimport numpy as npdf = pd.DataFrame(&#123;'num_legs': [4, 2], 'num_wings': [0, 2]&#125;, index=['dog', 'hawk'])# row是Seriesfor index, row in df.iterrows(): print(row) print(row['num_legs'])# index=False则index不作为tuple的第一个元素返回for row in df.itertuples(index=False): print(row) print(getattr(row, 'num_legs')) # row[0] 或 row.num_legs print(np.asarray(row)) # 将nametupled转为列表 类似的，对DataFrame的列进行迭代则可以用DataFrame.iteritems()方法。三者的区别如下： DataFrame.iteritems()不接受任何参数，返回结果是元组(column name, Series) DataFrame.iterrows()也不接受任何参数，返回结果也是元组(index, Series) DataFrame.itertuples(index=True, name=&#39;Pandas&#39;)以nametupled的形式迭代返回DataFrame的行。效率比DataFrame.iterrows()快一些]]></content>
       <categories>
@@ -116,7 +143,7 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[【今天你学pandas了吗】使用pandas筛选出指定列值所对应的行]]></title>
+    <title><![CDATA[使用pandas筛选出指定列值所对应的行]]></title>
     <url>%2Famberwest.github.io%2F2019%2F02%2F23%2F%E4%BD%BF%E7%94%A8pandas%E7%AD%9B%E9%80%89%E5%87%BA%E6%8C%87%E5%AE%9A%E5%88%97%E5%80%BC%E6%89%80%E5%AF%B9%E5%BA%94%E7%9A%84%E8%A1%8C%2F</url>
     <content type="text"><![CDATA[这是系列文章，我会按照stackoverflow上pandas相关问题投票数排序进行整理学习。不学习是会变咸鱼的～ 原问题：Select rows from a DataFrame based on values in a column in pandas。根据问题描述，希望通过pandas实现类似mysql查找语句的功能： 1select * from table where column_name = some_value; pandas中获取数据的有以下几种方法： 布尔索引 位置索引 标签索引 使用API 假设数据如下: 123456import pandas as pdimport numpy as npdf = pd.DataFrame(&#123;'A': 'foo bar foo bar foo bar foo foo'.split(), 'B': 'one one two three two two one three'.split(), 'C': np.arange(8), 'D': np.arange(8) * 2&#125;) 布尔索引该方法其实就是找出每一行中符合条件的真值(true value)，如找出列A中所有值等于foo 1df[df['A'] == 'foo'] # 判断等式是否成立 位置索引使用iloc方法，根据索引的位置来查找数据的。这个例子需要先找出符合条件的行所在位置 123456mask = df['A'] == 'foo'pos = np.flatnonzero(mask) # 返回的是array([0, 2, 4, 6, 7])df.iloc[pos]#常见的iloc用法df.iloc[:3,1:3] 标签索引如何DataFrame的行列都是有标签的，那么使用loc方法就非常合适了。 12345678df.set_index('A', append=True, drop=False).xs('foo', level=1) # xs方法适用于多重索引DataFrame的数据筛选# 更直观点的做法df.index=df['A'] # 将A列作为DataFrame的行索引df.loc['foo', :]# 使用布尔df.loc[df['A']=='foo'] 关于loc和iloc的区别，官网是这么说的： DataFrame.loc Access a group of rows and columns by label(s) or a boolean array. DataFrame.iloc Purely integer-location based indexing for selection by position. 使用APIpd.DataFrame.query方法在数据量大的时候，效率比常规的方法更高效。 1234df.query('A=="foo"')# 多条件df.query('A=="foo" | A=="bar"') 数据提取不止前面提到的情况，第一个答案就给出了以下几种常见情况： 1、筛选出列值等于标量的行，用== 1df.loc[df['column_name'] == some_value] 2、筛选出列值属于某个范围内的行，用isin 1df.loc[df['column_name'].isin(some_values)] # some_values是可迭代对象 3、多种条件限制时使用&amp;，&amp;的优先级高于&gt;=或&lt;=，所以要注意括号的使用 1df.loc[(df['column_name'] &gt;= A) &amp; (df['column_name'] &lt;= B)] 4、筛选出列值不等于某个/些值的行 123df.loc[df['column_name'] != 'some_value']df.loc[~df['column_name'].isin('some_values')] #~取反]]></content>
       <categories>
@@ -128,7 +155,7 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[【今天你学pandas了吗】如何用pandas对列重命名]]></title>
+    <title><![CDATA[如何用pandas对列重命名]]></title>
     <url>%2Famberwest.github.io%2F2019%2F02%2F21%2F%E5%A6%82%E4%BD%95%E7%94%A8pandas%E5%AF%B9%E5%88%97%E9%87%8D%E5%90%8D%2F</url>
     <content type="text"><![CDATA[这是系列文章，我会按照stackoverflow上pandas相关问题投票数排序进行整理学习。不学习是会变咸鱼的～ 原问题：renaming columns in pandas，根据问题描述，需要对已有的DataFrame的列重新命名，去掉前面的$符号。 123import pandas as pddf = pd.DataFrame([&#123;'$a':1, '$b':2, '$c':3&#125;]) 方法一，不适用于有很多列的或者只修改个别列名的DataFrame 1df.columns = ['a', 'b', 'c'] # 直接在原始数据上进行修改 方法二，rename方法适用于只修改个别列名或者列名有一定规律的DataFrame 1234567df2=df.rename(columns=&#123;'$a':'a', '$b':'b'&#125;) # 不修改原始数据df.rename(columns=&#123;'$a':'a', '$b':'b'&#125;, inplace=True) # 修改原始数据df.rename(&#123;'$a':'a', '$b':'b'&#125;, axis='columns', inplace=True) # pandas 0.21的新方法，指定axis='coloumns'或者1# 列名有规律，方法可以有很多df.rename(columns=lambda x: x[1:], inplace=True)df.rename(columns=lambda x: x.lstrip('$'), inplace=Tru) 方法三，str方法 1df.columns = df.columns.str.replace('$','')]]></content>
       <categories>
@@ -210,7 +237,7 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[pandas：获取前k个数据]]></title>
+    <title><![CDATA[利用pandas获取前k个数据]]></title>
     <url>%2Famberwest.github.io%2F2018%2F11%2F29%2Fpandas%EF%BC%9A%E8%8E%B7%E5%8F%96%E5%89%8Dk%E4%B8%AA%E6%95%B0%E6%8D%AE%2F</url>
     <content type="text"><![CDATA[最近在看SQL，什么每科成绩前三名，看得我好懵。pandas其实也有个nlargest方法可以简单实现这一需求 nlargest有三个参数，df.nlargest(n, columns, keep=&#39;first&#39;)，返回columns前n项的数据，默认是降序。 数据： 12345678910import pandas as pdraw_df = &#123; 'subject': ['chinese', 'chinese','chinese','chinese','english','english', 'english', 'english','math','math', 'math', 'math'], 'grade': ['first', 'first', 'second', 'second', 'first', 'first', 'second', 'second', 'first', 'first', 'second', 'second'], 'teacher': ['a', 'a', 'a', 'a', 'b', 'b', 'b', 'b', 'c', 'c', 'c', 'c'], 'student': [10, 12, 14, 23,10, 12, 14, 23,10, 12, 14, 23], 'avg_score': [56, 56, 45, 76, 77, 85, 68, 79, 73, 76, 70, 85]&#125;df = pd.DataFrame(raw_df)df 获取平均分最高的前三项： 因为nlargest函数没有逆序，如果要取平均分最低的三项，可以借助辅助项，axis=1是在列方向上删除多余的项 如果想要获得每个科目的最高分，直接用groupby，然后再取最大值即可。groupby中有个as_index=True设置为False，那么分组的列就作为普通的列，而不是index。 如果想要取得每个科目的平均分的前2名，再分组之后可以使用apply方法将nlargest应用到每个小组 如果还想在此基础上计算其他的，比如求和啊，求平均值啊，只要继续修改一下就可以 关于groupby之后的情况 groupby的相关参数 1Signature: df.groupby(by=None, axis=0, level=None, as_index=True, sort=True, group_keys=True, squeeze=False, observed=False, **kwargs)]]></content>
       <categories>
@@ -357,9 +384,9 @@
         <category>python</category>
       </categories>
       <tags>
+        <tag>scrapyd-client</tag>
         <tag>分布式</tag>
         <tag>部署</tag>
-        <tag>scrapyd-client</tag>
       </tags>
   </entry>
   <entry>
@@ -700,7 +727,7 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[pandas: reset_index和set_index用法]]></title>
+    <title><![CDATA[pandas中reset_index和set_index用法]]></title>
     <url>%2Famberwest.github.io%2F2018%2F06%2F20%2Fpandas-reset-index%E5%92%8Cset-index%E7%94%A8%E6%B3%95%2F</url>
     <content type="text"><![CDATA[在处理数据的时候，经常需要将抓取到的数据和运营提供的数据进行一个匹配更新，大多数情况下都是以商品的链接作为index进行匹配，所以在读数据的时候我都会使用index_col来指定。这样的话，能解决抓取数据和原始数据的匹配问题，但是呢，抓取数据就少了urls这一项（已作为index），最后更新完数据还是需要将商品链接给补上。使用reset_index()函数就可以轻松解决这个问题。 reset_index()该函数能够将行索引转为列。 1DataFrame.reset_index(level=None, drop=False, inplace=False, col_level=0, col_fill=”) drop为False则索引会被还原为普通列，否则会丢失。 对于单索引问题，使用level=0跟level=‘index_name’的作用是一样的，也可以不提供level参数。 1dataframe.reset_index(level=0) 对于多级索引，情况稍微有点不同。 123456import pandas as pdimport numpy as npindex = pd.MultiIndex.from_product([['TX', 'FL', 'CA'], ['North', 'South']], names=['State', 'Direction'])df = pd.DataFrame(index=index, data=np.random.randint(0, 10, (6,4)), columns=list('abcd')) 直接调用reset_index()，默认是将全部级别的行索引都转为列数据，并使用一个RangeInddex来作为新索引。 1df.reset_index() 使用level参数可以选择指定的行索引。 123df.reset_index(level=1) # or df.reset_index(level=‘Direction’) 需要转换多个行索引时使用列表。 1df.reset_index(level=[‘State’,’Direction’]) 另外，我们将数据关于某个字段进行分组之后，groupby的键将会作为结果的index，如果不想要这样，可以在分组时设置as_index=False，就可以将groupby的键仍然作为列数据。 123df2 = df.reset_index()# 这里的first()是取每个分组的第一条记录df2.groupby('Direction', as_index=False).first() set_index()set_index()则与之相反 ，该函数用来设置行索引。 1DataFrame.set_index(keys, drop=True, append=False, inplace=False, verify_integrity=False) 参数说明： 设置索引的参数是keys append添加新索引 drop为False时，成功设置了index，同时列数据中仍然保存着index字段 inplace为True时，修改了原始数据 单索引直接传入字符串即可。 1df2.set_index('State') 复合索引则输入列表。 1df2.set_index(keys=['State', 'Direction']) 可以很自由的设置复合索引的level，不过在这个例子没有体现出来 1df2.set_index(keys=['Direction', 'State']) 参考链接：How to convert pandas index in a dataframe to a column?]]></content>
       <categories>
@@ -713,7 +740,7 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[pandas：根据指定list进行排序]]></title>
+    <title><![CDATA[pandas中根据指定list进行排序]]></title>
     <url>%2Famberwest.github.io%2F2018%2F06%2F20%2Fpandas%EF%BC%9A%E6%A0%B9%E6%8D%AE%E6%8C%87%E5%AE%9Alist%E8%BF%9B%E8%A1%8C%E6%8E%92%E5%BA%8F%2F</url>
     <content type="text"><![CDATA[在实际操作中，经常需要根据指定的list对数据排序，而不单单是根据行索引，所以就需要将数据类型转为category。 注：作为类别的列表元素必须具有唯一性 原数据如下： 12345import pandas as pddata = &#123;'name': ['li', 'wang', 'zhang', 'hua'], 'grade': ['good', 'good', 'bad', 'excellent']&#125;df = pd.DataFrame(data) 现在，将学生按成绩等级从bad good excellent进行排序 将某一列数据转为category（dtype） 将该列按照给定的类别重新归类 12345df['grade'] = df['grade'].astype('category')list_custom = ['bad', 'good', 'excellent']df['grade'].cat.reorder_categories(list_custom, inplace=True)# inplace=True在原数据上生效df.sort_values('grade', inplace=True) 如果要将结果保存到新的变量上，可以省略inplace参数 1new_df = df.sort_values(‘grade') 另一种方法如下： 直接构建类别c 将某一列的dtype转为c 123456from pandas.api.types import CategoricalDtypelist_custom = ['bad', 'good', 'excellent']order = CategoricalDtype(list_custom, ordered=True)df['grade'] = df.grade.astype(order)df.sort_values('grade') 这两种方法，从逻辑上来讲，还是后者比较好理解。]]></content>
       <tags>
@@ -767,7 +794,7 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[pandas：修改列名]]></title>
+    <title><![CDATA[pandas修改列名]]></title>
     <url>%2Famberwest.github.io%2F2018%2F06%2F13%2Fpandas%EF%BC%9A%E4%BF%AE%E6%94%B9%E5%88%97%E5%90%8D%2F</url>
     <content type="text"><![CDATA[修改数据的列名，用到的方法是rename()。123import pandas as pddf=pd.DataFrame(&#123;0:['apple', 'orange', 'peach'],1:['red', 'yellow', 'pink'], 'total': [10, 11, 12]&#125;) 我们可以有以下几种方法将total这个列名变为大写： 12345678# old waydf.rename(columns=&#123;'total': 'TOTAL'&#125;)# new waydf.rename(&#123;'total': 'TOTAL'&#125;, axis=1)# tricky way, 这里不适用！！!df.rename(str.upper, axis='columns') 需要注意： 以上方法修改列名并不改变原始数据，可以将修改结果重新赋值给变量，或者使用参数inplace=True直接在原始数据上修改 如果要修改多个列名，也可以用这些方法 axis可以是1，也可以直接用columns 第三种方式是对所有列名都改为大写，如果列名中出现非string类型就会报错 如果数据有很多列，手动写出全部的列名就太费劲了。所以可以先获取原始列名，接着使用dict和zip创建对应的列名字典。123col = df.columnsnew_col = dict(zip(col, ['fruit', 'color', 'total']))df.rename(columns=new_col, inplace=True)]]></content>
       <categories>
@@ -779,7 +806,7 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[pandas：列数据转为多列数据]]></title>
+    <title><![CDATA[pandas中将一列数据转为多列数据]]></title>
     <url>%2Famberwest.github.io%2F2018%2F06%2F12%2Fpandas%EF%BC%9A%E5%88%97%E6%95%B0%E6%8D%AE%E8%BD%AC%E4%B8%BA%E5%A4%9A%E5%88%97%E6%95%B0%E6%8D%AE%2F</url>
     <content type="text"><![CDATA[在工作中，有时候需要将同一个单元格里的数据进行拆分成多列数据，然后进行统计、分类等其他操作，这时候get_dummies()方法就可以派上用场了。 pandas和pandas.Series都有各自的get_dummies()方法，名字虽然相同，但是结果并不一样。Series的get_dummies()接受一个sep参数，默认是|，根据该分隔符将string进行切分，返回Dataframe。1Series.str.get_dummies(sep=&apos;|&apos;) 在下面两个例子中，可以看到DataFrame也使用了Series的get_dummies()，但是只返回拆分之后的DataFrame，需要再使用concat方法将原始数据合并。12345678910# Series中使用from pandas import SeriesSeries(['a|b', 'a', 'a|c']).str.get_dummies()# 在DataFrame中使用import pandas as pddf = pd.DataFrame(&#123;'id': [1,2,3], 'labels' : ["a,b,c", "c,a", "d,a,b",]&#125;)df['labels'].str.get_dummies(sep=',') 如果使用str.split()方法，也能拆分，但是并不能自动分列。1df2=pd.DataFrame(df['labels'].str.split(',').tolist()) pandas的get_dummies()方法：1pandas.get_dummies(data, prefix=None, prefix_sep='_', dummy_na=False, columns=None, sparse=False, drop_first=False, dtype=None) 参数说明： data：原始数据prefix：拆分后新列列名的前缀prefix_sep：前缀和原始字段的连接符dummy_na：是否忽略NAN列columns：指定拆分的列名，list.不指定列时,默认是对所有可分的列都进行拆分。sparse：Series和全部列拆分时返回“稀疏”Dataframedrop_first：是否移除拆分后的第一列数据 该方法并不会将列数据string进行分割，而是将指定列的数据的所有可能取值都作为列。 例子如下：1234import pandas as pddf = pd.DataFrame(&#123;'id': [1,2,3], "sex": ['male', 'female', 'male']&#125;)pd.get_dummies(df, columns=['sex']) 如果需要拆分的列数据是字典时，使用str.values。这里使用了pop方法，直接将这一列数据给删除了，也可以直接使用df[‘lables’]来处理之后再删掉多余列。最后一点，需要完整的数据可以使用concat之类的方法将其与原始df进行合并。1234import pandas as pddf = pd.DataFrame(&#123;'id': [1,2], 'labels' : [&#123;'a':11,'b':22&#125;, &#123;'c':33&#125;]&#125;)pd.DataFrame(df.pop('labels').values.tolist())]]></content>
       <categories>
