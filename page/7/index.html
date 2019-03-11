@@ -324,6 +324,151 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://amberwest.github.io/amberwest.github.io/2018/07/08/多个spider写入csv时数据丢失/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="amberwest">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/amberwest.github.io/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Amberwest's Note">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/amberwest.github.io/2018/07/08/多个spider写入csv时数据丢失/" itemprop="url">
+                  多个spider写入csv时数据丢失
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2018-07-08 17:05:54 / Modified: 17:28:33" itemprop="dateCreated datePublished" datetime="2018-07-08T17:05:54+08:00">2018-07-08</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>最近遇到一个问题，需要将多个spider抓取到的数据保存到同一个csv文件，但是数据会丢失。在测试的时候，发现数据不仅经常性丢失，而且每个spider写入数据前都会先写入列名，尝试通过判断文件是否存在来决定是否写入header，都不能解决问题。但是呢，分别写入不同的csv文件却不会出现数据丢失的情况，有点懵，看来对scrapy的运行机制的理解还是不够，目前还没找到问题所在。</p>
+<p>在同事的帮助下，终于找到解决方法了：</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/amberwest.github.io/2018/07/08/多个spider写入csv时数据丢失/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://amberwest.github.io/amberwest.github.io/2018/07/08/scrapy：pipeline写入数据的方法/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1764,162 +1909,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://amberwest.github.io/amberwest.github.io/2018/06/14/mongodb：设置并使用账号密码登录/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="amberwest">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/amberwest.github.io/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Amberwest's Note">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/amberwest.github.io/2018/06/14/mongodb：设置并使用账号密码登录/" itemprop="url">
-                  mongodb：设置并使用账号密码登录
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-
-              
-                
-              
-
-              <time title="Created: 2018-06-14 15:46:38" itemprop="dateCreated datePublished" datetime="2018-06-14T15:46:38+08:00">2018-06-14</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Edited on</span>
-                
-                <time title="Modified: 2018-07-29 09:22:37" itemprop="dateModified" datetime="2018-07-29T09:22:37+08:00">2018-07-29</time>
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h4 id="登录mongodb"><a href="#登录mongodb" class="headerlink" title="登录mongodb"></a>登录mongodb</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mongod -f /../mongodb/conf/mongo.conf  <span class="comment"># 具体路径根据所在目录决定</span></span><br><span class="line">mongo 127.0.0.1:28001</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/amberwest.github.io/2018/06/14/mongodb：设置并使用账号密码登录/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1967,7 +1956,7 @@
                 
                   <a href="/amberwest.github.io/archives/">
                 
-                    <span class="site-state-item-count">75</span>
+                    <span class="site-state-item-count">76</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -2235,7 +2224,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">113</span>
+                      
+                    
+                    <span class="site-state-item-count">114</span>
                     <span class="site-state-item-name">tags</span>
                   </a>
                 </div>

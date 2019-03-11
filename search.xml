@@ -1,9 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[通过值列表选择pandas DataFrame中的行]]></title>
+    <url>%2Famberwest.github.io%2F2019%2F03%2F11%2F%E9%80%9A%E8%BF%87%E5%80%BC%E5%88%97%E8%A1%A8%E9%80%89%E6%8B%A9pandas-DataFrame%E4%B8%AD%E7%9A%84%E8%A1%8C%2F</url>
+    <content type="text"><![CDATA[这是系列文章，我会按照stackoverflow上pandas相关问题投票数排序进行整理学习。不学习是会变咸鱼的～ 原问题：Use a list of values to select rows from a pandas dataframe [duplicate] 如下： 123456789101112import pandas as pddf = pd.DataFrame(&#123;'A' : [5,6,3,4], 'B' : [1,2,3, 5]&#125;)df""" A B0 5 11 6 22 3 33 4 5""" 现在根据列表[3,6]从df中选择出对应的行，可以使用isin： 1234567df1 = df[df['A'].isin([3,6])]df1""" A B1 6 22 3 3""" 如果是根据特定的值来筛选行记录，则是： 123456df2 = d[d['A']==3]df2""" A B2 3 3"""]]></content>
+      <categories>
+        <category>今天你学pandas了吗</category>
+      </categories>
+      <tags>
+        <tag>pandas</tag>
+        <tag>select</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[保存DataFrame到csv文件]]></title>
     <url>%2Famberwest.github.io%2F2019%2F03%2F06%2F%E4%BF%9D%E5%AD%98DataFrame%E5%88%B0csv%E6%96%87%E4%BB%B6%2F</url>
-    <content type="text"><![CDATA[这是系列文章，我会按照stackoverflow上pandas相关问题投票数排序进行整理学习。不学习是会变咸鱼的～ 原问题：Pandas writing dataframe to csv file，如题，将dataframe写入到csv文件可以使用to_csv方法。 123df.to_csv( [&apos;path_or_buf=None&apos;, &quot;sep=&apos;,&apos;&quot;, &quot;na_rep=&apos;&apos;&quot;, &apos;float_format=None&apos;, &apos;columns=None&apos;, &apos;header=True&apos;, &apos;index=True&apos;, &apos;index_label=None&apos;, &quot;mode=&apos;w&apos;&quot;, &apos;encoding=None&apos;, &apos;compression=None&apos;, &apos;quoting=None&apos;, &apos;quotechar=\&apos;&quot;\&apos;&apos;, &quot;line_terminator=&apos;\\n&apos;&quot;, &apos;chunksize=None&apos;, &apos;tupleize_cols=None&apos;, &apos;date_format=None&apos;, &apos;doublequote=True&apos;, &apos;escapechar=None&apos;, &quot;decimal=&apos;.&apos;&quot;],) 解释几个常用的参数，相信信息查看官方文档： path_or_buf：路径，string类型。df保存为csv文件的路径，相对路径或者绝对路径。 sep：分隔符，默认是“，”，可以自由设置。 na_rep：空值替换，默认为空字符串。 float_format：float类型数字的格式设置。如float_format=”%.2f”。 columns：序列。选择要写入的列。 header：默认为True（Series默认为False），可以是string和list。列名。 index：默认True，即行名。 mode：默认为w，即写模式。 encoding：编码方式。 chunksize：一次写入行数。 例子如下： 1234567891011121314151617181920import pandas as pdimport numpy as npdf = pd.DataFrame(&#123;'A': 'foo bar foo bar foo bar foo foo'.split(), 'B': 'one one two one two two one one'.split(), 'C': np.arange(8), 'D': np.arange(8) * 2&#125;)df""" A B C D0 foo one 0 01 bar one 1 22 foo two 2 43 bar one 3 64 foo two 4 85 bar two 5 106 foo one 6 127 foo one 7 14"""# 直接保存df.to_csv('out.csv', sep='\t', encoding='utf-8', index=False)]]></content>
+    <content type="text"><![CDATA[这是系列文章，我会按照stackoverflow上pandas相关问题投票数排序进行整理学习。不学习是会变咸鱼的～ 原问题：Pandas writing dataframe to csv file，如题，将dataframe写入到csv文件可以使用to_csv方法。 123df.to_csv( [&apos;path_or_buf=None&apos;, &quot;sep=&apos;,&apos;&quot;, &quot;na_rep=&apos;&apos;&quot;, &apos;float_format=None&apos;, &apos;columns=None&apos;, &apos;header=True&apos;, &apos;index=True&apos;, &apos;index_label=None&apos;, &quot;mode=&apos;w&apos;&quot;, &apos;encoding=None&apos;, &apos;compression=None&apos;, &apos;quoting=None&apos;, &apos;quotechar=\&apos;&quot;\&apos;&apos;, &quot;line_terminator=&apos;\\n&apos;&quot;, &apos;chunksize=None&apos;, &apos;tupleize_cols=None&apos;, &apos;date_format=None&apos;, &apos;doublequote=True&apos;, &apos;escapechar=None&apos;, &quot;decimal=&apos;.&apos;&quot;],) 解释几个常用的参数，详细信息查看官方文档： path_or_buf：路径，string类型。df保存为csv文件的路径，相对路径或者绝对路径。 sep：分隔符，默认是“，”，可以自由设置。 na_rep：空值替换，默认为空字符串。 float_format：float类型数字的格式设置。如float_format=”%.2f”。 columns：序列。选择要写入的列。 header：默认为True（Series默认为False），可以是string和list。列名。 index：默认True，即行名。 mode：默认为w，即写模式。 encoding：编码方式。 chunksize：一次写入行数。 例子如下： 1234567891011121314151617181920import pandas as pdimport numpy as npdf = pd.DataFrame(&#123;'A': 'foo bar foo bar foo bar foo foo'.split(), 'B': 'one one two one two two one one'.split(), 'C': np.arange(8), 'D': np.arange(8) * 2&#125;)df""" A B C D0 foo one 0 01 bar one 1 22 foo two 2 43 bar one 3 64 foo two 4 85 bar two 5 106 foo one 6 127 foo one 7 14"""# 直接保存df.to_csv('out.csv', sep='\t', encoding='utf-8', index=False)]]></content>
       <categories>
         <category>今天你学pandas了吗</category>
       </categories>
@@ -347,8 +359,8 @@
       </categories>
       <tags>
         <tag>排序</tag>
-        <tag>冒泡排序</tag>
         <tag>插入排序</tag>
+        <tag>冒泡排序</tag>
         <tag>选择排序</tag>
       </tags>
   </entry>
