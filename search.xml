@@ -2,7 +2,7 @@
 <search>
   <entry>
     <title><![CDATA[通过值列表选择pandas DataFrame中的行]]></title>
-    <url>%2Famberwest.github.io%2F2019%2F03%2F11%2F%E9%80%9A%E8%BF%87%E5%80%BC%E5%88%97%E8%A1%A8%E9%80%89%E6%8B%A9pandas-DataFrame%E4%B8%AD%E7%9A%84%E8%A1%8C%2F</url>
+    <url>%2Famberwest.github.io%2F2019%2F03%2F07%2F%E9%80%9A%E8%BF%87%E5%80%BC%E5%88%97%E8%A1%A8%E9%80%89%E6%8B%A9pandas-DataFrame%E4%B8%AD%E7%9A%84%E8%A1%8C%2F</url>
     <content type="text"><![CDATA[这是系列文章，我会按照stackoverflow上pandas相关问题投票数排序进行整理学习。不学习是会变咸鱼的～ 原问题：Use a list of values to select rows from a pandas dataframe [duplicate] 如下： 123456789101112import pandas as pddf = pd.DataFrame(&#123;'A' : [5,6,3,4], 'B' : [1,2,3, 5]&#125;)df""" A B0 5 11 6 22 3 33 4 5""" 现在根据列表[3,6]从df中选择出对应的行，可以使用isin： 1234567df1 = df[df['A'].isin([3,6])]df1""" A B1 6 22 3 3""" 如果是根据特定的值来筛选行记录，则是： 123456df2 = d[d['A']==3]df2""" A B2 3 3"""]]></content>
       <categories>
         <category>今天你学pandas了吗</category>
@@ -359,8 +359,8 @@
       </categories>
       <tags>
         <tag>排序</tag>
-        <tag>插入排序</tag>
         <tag>冒泡排序</tag>
+        <tag>插入排序</tag>
         <tag>选择排序</tag>
       </tags>
   </entry>
