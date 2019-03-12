@@ -1,6 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[mysql中的isnull、ifnull和nullif]]></title>
+    <url>%2Famberwest.github.io%2F2019%2F03%2F10%2Fmysql%E4%B8%AD%E7%9A%84isnull%E3%80%81ifnull%E5%92%8Cnullif%2F</url>
+    <content type="text"><![CDATA[关于ifnull和nullif两个函数刚看的时候有点混淆，所以记录一下。 IFNULL(*expr1*,*expr2*)：如果expr1不为NULL则返回expr1，否则返回expr2。 12345678select ifnull(1, &apos;yes&apos;);&gt; 1select ifnull(0, &apos;yes&apos;);&gt; 0select ifnull(null, &apos;yes&apos;);&gt; yesselect ifnull(1/0, &apos;yes&apos;);&gt; yes NULLIF(*expr1*,*expr2*)：如果expr1=expr2时返回NULL，否则返回expr1。 1234select nullif(1, 1);&gt; NULLselect nullif(1, 0);&gt; 1 isnull(expr)：如果expr为NULL返回1，否则返回0。 1234select isnull(null);&gt; 1select isnull(1);&gt; 0 最后用员工表将这三个函数都利用起来：判断员工是否有获得奖金，没有获得奖金的员工可以得到100元的安慰奖金。在ifnull函数中还使用了nullif函数，直接用ifnull(comm,100)的话，员工TURNER的奖金为0元将不能获得安慰金。 12345678910111213141516171819select ename, comm, isnull(comm), nullif(comm, 0), ifnull(nullif(comm, 0), 100) from emp;&gt;&gt;&gt;+--------+---------+--------------+-----------------+------------------------------+| ename | comm | isnull(comm) | nullif(comm, 0) | ifnull(nullif(comm, 0), 100) |+--------+---------+--------------+-----------------+------------------------------+| SMITH | NULL | 1 | NULL | 100.00 || ALLEN | 300.00 | 0 | 300.00 | 300.00 || WARD | 500.00 | 0 | 500.00 | 500.00 || JOENS | NULL | 1 | NULL | 100.00 || MARTIN | 1400.00 | 0 | 1400.00 | 1400.00 || BLAKE | NULL | 1 | NULL | 100.00 || CLARK | NULL | 1 | NULL | 100.00 || SCOTT | NULL | 1 | NULL | 100.00 || TURNER | 0.00 | 0 | NULL | 100.00 || ADAMS | NULL | 1 | NULL | 100.00 || JAMES | NULL | 1 | NULL | 100.00 || FORD | NULL | 1 | NULL | 100.00 || MILLER | NULL | 1 | NULL | 100.00 |+--------+---------+--------------+-----------------+------------------------------+ 参考资料： control flow functions isull]]></content>
+      <categories>
+        <category>数据库</category>
+      </categories>
+      <tags>
+        <tag>mysql</tag>
+        <tag>isnull</tag>
+        <tag>ifnull</tag>
+        <tag>nullif</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[通过值列表选择pandas DataFrame中的行]]></title>
     <url>%2Famberwest.github.io%2F2019%2F03%2F07%2F%E9%80%9A%E8%BF%87%E5%80%BC%E5%88%97%E8%A1%A8%E9%80%89%E6%8B%A9pandas-DataFrame%E4%B8%AD%E7%9A%84%E8%A1%8C%2F</url>
     <content type="text"><![CDATA[这是系列文章，我会按照stackoverflow上pandas相关问题投票数排序进行整理学习。不学习是会变咸鱼的～ 原问题：Use a list of values to select rows from a pandas dataframe [duplicate] 如下： 123456789101112import pandas as pddf = pd.DataFrame(&#123;'A' : [5,6,3,4], 'B' : [1,2,3, 5]&#125;)df""" A B0 5 11 6 22 3 33 4 5""" 现在根据列表[3,6]从df中选择出对应的行，可以使用isin： 1234567df1 = df[df['A'].isin([3,6])]df1""" A B1 6 22 3 3""" 如果是根据特定的值来筛选行记录，则是： 123456df2 = d[d['A']==3]df2""" A B2 3 3"""]]></content>

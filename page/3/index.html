@@ -324,6 +324,171 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://amberwest.github.io/amberwest.github.io/2018/12/11/matplotlib：使用matplotlib进行python绘图（指南）/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="amberwest">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/amberwest.github.io/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Amberwest's Note">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/amberwest.github.io/2018/12/11/matplotlib：使用matplotlib进行python绘图（指南）/" itemprop="url">
+                  【转】matplotlib：使用matplotlib进行python绘图（指南）
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2018-12-11 14:56:39 / Modified: 22:45:58" itemprop="dateCreated datePublished" datetime="2018-12-11T14:56:39+08:00">2018-12-11</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/amberwest.github.io/categories/matplotlib/" itemprop="url" rel="index"><span itemprop="name">matplotlib</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>在python中画图肯定少不了matplotlib库，几行代码就可以将画出基本图来，但是大部分时候还是要去查阅文档或者去stackover flow查找，因为这个库真的太庞大了。最近刚好看到一篇<a href="https://realpython.com/python-matplotlib-guide/" target="_blank" rel="noopener">文章</a>，对matplotlib的一些概念解释的很好，也有对应的例子，所以根据文章做个简化版翻译，更详细的内容可以查看原文。</p>
+<h4 id="matplotlib对象的层次结果"><a href="#matplotlib对象的层次结果" class="headerlink" title="matplotlib对象的层次结果"></a>matplotlib对象的层次结果</h4><p>使用过matplotlib，应该都用过这行代码<code>plt.plot([1,2,3])</code>。这一行隐藏了一个事实：一个plot实际上是嵌套python对象的层次结果，也就是说每个图下面都有一个matplotlib对象的树形结构。</p>
+<p>如下图所示，一个Figure对象是matplotlib图像最外层的一个容器，可以包含一个或多个Axes对象(实际绘图的盒状容器)。容易引起混淆的一个原因：Axes实际上是一个独立的plot或者graph，而不是我们所认为的axis/轴的复数。Axes对象之下就是图表的“元素”，例如：刻度线、线条、图例、文本框、刻度、标签等，都是Axes对象可操作的python对象。</p>
+<img src="/amberwest.github.io/2018/12/11/matplotlib：使用matplotlib进行python绘图（指南）/figure.png">
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/amberwest.github.io/2018/12/11/matplotlib：使用matplotlib进行python绘图（指南）/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://amberwest.github.io/amberwest.github.io/2018/11/29/pandas：获取前k个数据/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1795,183 +1960,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://amberwest.github.io/amberwest.github.io/2018/10/15/排序/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="amberwest">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/amberwest.github.io/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Amberwest's Note">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/amberwest.github.io/2018/10/15/排序/" itemprop="url">
-                  【数据结构与算法笔记七】排序（上）
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-
-              
-                
-              
-
-              <time title="Created: 2018-10-15 22:31:17" itemprop="dateCreated datePublished" datetime="2018-10-15T22:31:17+08:00">2018-10-15</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Edited on</span>
-                
-                <time title="Modified: 2018-10-18 14:14:53" itemprop="dateModified" datetime="2018-10-18T14:14:53+08:00">2018-10-18</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/amberwest.github.io/categories/数据结构与算法/" itemprop="url" rel="index"><span itemprop="name">数据结构与算法</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h4 id="如何分析一个“算法”"><a href="#如何分析一个“算法”" class="headerlink" title="如何分析一个“算法”"></a>如何分析一个“算法”</h4><h5 id="排序算法的执行效率"><a href="#排序算法的执行效率" class="headerlink" title="排序算法的执行效率"></a>排序算法的执行效率</h5><p>1）最好情况、最坏情况、平均情况时间复杂度</p>
-<p>在分析排序算法的时候，要分别给出最好情况、最坏情况、平均情况下的时间复杂度，以及对应情况下要排序的原始数据是什么样的（有序或者无序）。</p>
-<p>2）时间复杂度的系数、常数、低阶</p>
-<p>实际开发中，需要排序的数据可能是10个、100个、1000个这种小规模的数据，所以需要将时间复杂度的系数、常数、低阶都考虑到。<br>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/amberwest.github.io/2018/10/15/排序/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2019,7 +2007,7 @@
                 
                   <a href="/amberwest.github.io/archives/">
                 
-                    <span class="site-state-item-count">76</span>
+                    <span class="site-state-item-count">77</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -2289,7 +2277,13 @@
                     
                       
                     
-                    <span class="site-state-item-count">114</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">117</span>
                     <span class="site-state-item-name">tags</span>
                   </a>
                 </div>

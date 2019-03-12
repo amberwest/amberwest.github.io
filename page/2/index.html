@@ -324,6 +324,178 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://amberwest.github.io/amberwest.github.io/2019/02/26/获取DataFrame列名的列表形式/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="amberwest">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/amberwest.github.io/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Amberwest's Note">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/amberwest.github.io/2019/02/26/获取DataFrame列名的列表形式/" itemprop="url">
+                  获取DataFrame列名的列表形式
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-02-26 22:44:35" itemprop="dateCreated datePublished" datetime="2019-02-26T22:44:35+08:00">2019-02-26</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2019-03-10 21:27:06" itemprop="dateModified" datetime="2019-03-10T21:27:06+08:00">2019-03-10</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/amberwest.github.io/categories/今天你学pandas了吗/" itemprop="url" rel="index"><span itemprop="name">今天你学pandas了吗</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>这是系列文章，我会按照<a href="https://stackoverflow.com/" target="_blank" rel="noopener">stackoverflow</a>上pandas相关问题投票数排序进行整理学习。不学习是会变咸鱼的～</p>
+<p>原问题：<a href="https://stackoverflow.com/questions/19482970/get-list-from-pandas-dataframe-column-headers" target="_blank" rel="noopener">get list from DataFrame column headers</a>，具体方法有如下几种：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line">df = pd.DataFrame(&#123;<span class="string">'num_legs'</span>: [<span class="number">4</span>, <span class="number">2</span>], <span class="string">'num_wings'</span>: [<span class="number">0</span>, <span class="number">2</span>]&#125;,</span><br><span class="line">                  index=[<span class="string">'dog'</span>, <span class="string">'hawk'</span>])</span><br><span class="line">                  </span><br><span class="line"><span class="comment"># 1</span></span><br><span class="line">list(df)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2</span></span><br><span class="line">list(df.columns.values)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 3 </span></span><br><span class="line">df.columns.values.tolist()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 4</span></span><br><span class="line">df.keys.tolist()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 5</span></span><br><span class="line">[c <span class="keyword">for</span> c <span class="keyword">in</span> df]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 6</span></span><br><span class="line">list(df.columns)</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://amberwest.github.io/amberwest.github.io/2019/02/24/删除DataFrame中的列/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1874,171 +2046,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://amberwest.github.io/amberwest.github.io/2018/12/11/matplotlib：使用matplotlib进行python绘图（指南）/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="amberwest">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/amberwest.github.io/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Amberwest's Note">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/amberwest.github.io/2018/12/11/matplotlib：使用matplotlib进行python绘图（指南）/" itemprop="url">
-                  【转】matplotlib：使用matplotlib进行python绘图（指南）
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-
-              
-                
-              
-
-              <time title="Created: 2018-12-11 14:56:39 / Modified: 22:45:58" itemprop="dateCreated datePublished" datetime="2018-12-11T14:56:39+08:00">2018-12-11</time>
-            
-
-            
-              
-
-              
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/amberwest.github.io/categories/matplotlib/" itemprop="url" rel="index"><span itemprop="name">matplotlib</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>在python中画图肯定少不了matplotlib库，几行代码就可以将画出基本图来，但是大部分时候还是要去查阅文档或者去stackover flow查找，因为这个库真的太庞大了。最近刚好看到一篇<a href="https://realpython.com/python-matplotlib-guide/" target="_blank" rel="noopener">文章</a>，对matplotlib的一些概念解释的很好，也有对应的例子，所以根据文章做个简化版翻译，更详细的内容可以查看原文。</p>
-<h4 id="matplotlib对象的层次结果"><a href="#matplotlib对象的层次结果" class="headerlink" title="matplotlib对象的层次结果"></a>matplotlib对象的层次结果</h4><p>使用过matplotlib，应该都用过这行代码<code>plt.plot([1,2,3])</code>。这一行隐藏了一个事实：一个plot实际上是嵌套python对象的层次结果，也就是说每个图下面都有一个matplotlib对象的树形结构。</p>
-<p>如下图所示，一个Figure对象是matplotlib图像最外层的一个容器，可以包含一个或多个Axes对象(实际绘图的盒状容器)。容易引起混淆的一个原因：Axes实际上是一个独立的plot或者graph，而不是我们所认为的axis/轴的复数。Axes对象之下就是图表的“元素”，例如：刻度线、线条、图例、文本框、刻度、标签等，都是Axes对象可操作的python对象。</p>
-<img src="/amberwest.github.io/2018/12/11/matplotlib：使用matplotlib进行python绘图（指南）/figure.png">
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/amberwest.github.io/2018/12/11/matplotlib：使用matplotlib进行python绘图（指南）/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2086,7 +2093,7 @@
                 
                   <a href="/amberwest.github.io/archives/">
                 
-                    <span class="site-state-item-count">76</span>
+                    <span class="site-state-item-count">77</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -2356,7 +2363,13 @@
                     
                       
                     
-                    <span class="site-state-item-count">114</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">117</span>
                     <span class="site-state-item-name">tags</span>
                   </a>
                 </div>
