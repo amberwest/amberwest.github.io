@@ -110,7 +110,7 @@
 <meta property="og:site_name" content="Amberwest&#39;s Note">
 <meta property="og:description" content="关于ifnull和nullif两个函数刚看的时候有点混淆，所以记录一下。 IFNULL(*expr1*,*expr2*)：如果expr1不为NULL则返回expr1，否则返回expr2。 12345678select ifnull(1, &amp;apos;yes&amp;apos;);&amp;gt; 1select ifnull(0, &amp;apos;yes&amp;apos;);&amp;gt; 0select ifnull(null">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-03-12T01:47:42.366Z">
+<meta property="og:updated_time" content="2019-03-12T01:56:56.880Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="mysql中的isnull、ifnull和nullif">
 <meta name="twitter:description" content="关于ifnull和nullif两个函数刚看的时候有点混淆，所以记录一下。 IFNULL(*expr1*,*expr2*)：如果expr1不为NULL则返回expr1，否则返回expr2。 12345678select ifnull(1, &amp;apos;yes&amp;apos;);&amp;gt; 1select ifnull(0, &amp;apos;yes&amp;apos;);&amp;gt; 0select ifnull(null">
@@ -384,7 +384,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2019-03-12 09:47:42" itemprop="dateModified" datetime="2019-03-12T09:47:42+08:00">2019-03-12</time>
+                <time title="Modified: 2019-03-12 09:56:56" itemprop="dateModified" datetime="2019-03-12T09:56:56+08:00">2019-03-12</time>
               
             
           </span>
@@ -447,7 +447,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">select ename, comm, isnull(comm), nullif(comm, 0), ifnull(nullif(comm, 0), 100) from emp;</span><br><span class="line">&gt;&gt;&gt;</span><br><span class="line">+--------+---------+--------------+-----------------+------------------------------+</span><br><span class="line">| ename  | comm    | isnull(comm) | nullif(comm, 0) | ifnull(nullif(comm, 0), 100) |</span><br><span class="line">+--------+---------+--------------+-----------------+------------------------------+</span><br><span class="line">| SMITH  |    NULL |            1 |            NULL |                       100.00 |</span><br><span class="line">| ALLEN  |  300.00 |            0 |          300.00 |                       300.00 |</span><br><span class="line">| WARD   |  500.00 |            0 |          500.00 |                       500.00 |</span><br><span class="line">| JOENS  |    NULL |            1 |            NULL |                       100.00 |</span><br><span class="line">| MARTIN | 1400.00 |            0 |         1400.00 |                      1400.00 |</span><br><span class="line">| BLAKE  |    NULL |            1 |            NULL |                       100.00 |</span><br><span class="line">| CLARK  |    NULL |            1 |            NULL |                       100.00 |</span><br><span class="line">| SCOTT  |    NULL |            1 |            NULL |                       100.00 |</span><br><span class="line">| TURNER |    0.00 |            0 |            NULL |                       100.00 |</span><br><span class="line">| ADAMS  |    NULL |            1 |            NULL |                       100.00 |</span><br><span class="line">| JAMES  |    NULL |            1 |            NULL |                       100.00 |</span><br><span class="line">| FORD   |    NULL |            1 |            NULL |                       100.00 |</span><br><span class="line">| MILLER |    NULL |            1 |            NULL |                       100.00 |</span><br><span class="line">+--------+---------+--------------+-----------------+------------------------------+</span><br></pre></td></tr></table></figure>
 <p>参考资料：</p>
 <p><a href="https://dev.mysql.com/doc/refman/8.0/en/control-flow-functions.html" target="_blank" rel="noopener">control flow functions</a></p>
-<p><a href="https://dev.mysql.com/doc/refman/8.0/en/comparison-operators.html#function_isnull" target="_blank" rel="noopener">isull</a></p>
+<p><a href="https://dev.mysql.com/doc/refman/8.0/en/comparison-operators.html#function_isnull" target="_blank" rel="noopener">Comparison Functions and Operators</a></p>
 
       
     </div>
