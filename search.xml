@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[oracle序列]]></title>
+    <url>%2Famberwest.github.io%2F2019%2F04%2F14%2Foracle%E5%BA%8F%E5%88%97%E7%9A%84%E5%88%9B%E5%BB%BA%2F</url>
+    <content type="text"><![CDATA[创建序列oracle可以用sequence关键字创建序列，语法如下： 12345678create sequence [user.]sequence_nameincrement by nstart with nmaxvalue | nomaxvalueminvalue | nominvaluecycle | nocyclecache | nocacheorder | noorader 参数说明： user：也就是schema，如果没有表明，则默认是用当前的 increment：默认1，即每次增加的步长。-1则是减少 start with：开始的数字。如果有设定最小值minvalue，初始值一定不能小于minvalue maxvalue：为序列指定可生成的最大值 minvalue：指定序列的最小值 nocycle：一直累加，不循环 cache：预分配，可以加快访问速度。参数可接受最小值为2。在循环序列中，cache值必须小于cycle的值。cache最大值要小于(ceil(maxvalue-minvalue))/abs(increment) 1234567create sequence seqminvalue 1maxvalue 10000start with 1increment by 1nocyclecache 10; 获取序列的时候使用nextval，需要注意的是，第一次返回的其实是初始值，之后返回的是每次完成increment后的值。如： 1select seq.nextval from dual; 修改序列修改序列还是用alter，不过呢，并不能修改start参数，需要想要修改start值，需要删除序列再重新创建。 1alter sequence [user.]sequence_name; 删除序列删除自然用drop 1drop sequence sequence_name; 参考文章create sequence]]></content>
+      <categories>
+        <category>数据库</category>
+      </categories>
+      <tags>
+        <tag>oracle</tag>
+        <tag>sequence</tag>
+        <tag>序列</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[mysql中的isnull、ifnull和nullif]]></title>
     <url>%2Famberwest.github.io%2F2019%2F03%2F10%2Fmysql%E4%B8%AD%E7%9A%84isnull%E3%80%81ifnull%E5%92%8Cnullif%2F</url>
     <content type="text"><![CDATA[关于ifnull和nullif两个函数刚看的时候有点混淆，所以记录一下。 IFNULL(*expr1*,*expr2*)：如果expr1不为NULL则返回expr1，否则返回expr2。 12345678select ifnull(1, &apos;yes&apos;);&gt; 1select ifnull(0, &apos;yes&apos;);&gt; 0select ifnull(null, &apos;yes&apos;);&gt; yesselect ifnull(1/0, &apos;yes&apos;);&gt; yes NULLIF(*expr1*,*expr2*)：如果expr1=expr2时返回NULL，否则返回expr1。 1234select nullif(1, 1);&gt; NULLselect nullif(1, 0);&gt; 1 isnull(expr)：如果expr为NULL返回1，否则返回0。 1234select isnull(null);&gt; 1select isnull(1);&gt; 0 最后用员工表将这三个函数都利用起来：判断员工是否有获得奖金，没有获得奖金的员工可以得到100元的安慰奖金。在ifnull函数中还使用了nullif函数，直接用ifnull(comm,100)的话，员工TURNER的奖金为0元将不能获得安慰金。 12345678910111213141516171819select ename, comm, isnull(comm), nullif(comm, 0), ifnull(nullif(comm, 0), 100) from emp;&gt;&gt;&gt;+--------+---------+--------------+-----------------+------------------------------+| ename | comm | isnull(comm) | nullif(comm, 0) | ifnull(nullif(comm, 0), 100) |+--------+---------+--------------+-----------------+------------------------------+| SMITH | NULL | 1 | NULL | 100.00 || ALLEN | 300.00 | 0 | 300.00 | 300.00 || WARD | 500.00 | 0 | 500.00 | 500.00 || JOENS | NULL | 1 | NULL | 100.00 || MARTIN | 1400.00 | 0 | 1400.00 | 1400.00 || BLAKE | NULL | 1 | NULL | 100.00 || CLARK | NULL | 1 | NULL | 100.00 || SCOTT | NULL | 1 | NULL | 100.00 || TURNER | 0.00 | 0 | NULL | 100.00 || ADAMS | NULL | 1 | NULL | 100.00 || JAMES | NULL | 1 | NULL | 100.00 || FORD | NULL | 1 | NULL | 100.00 || MILLER | NULL | 1 | NULL | 100.00 |+--------+---------+--------------+-----------------+------------------------------+ 参考资料： control flow functions Comparison Functions and Operators]]></content>
